@@ -1,0 +1,124 @@
+                      +-------------------------------------+
+                      |        FOOD DELIVERY APP            |
+                      +-------------------------------------+
+                                         |
+                                         |
+             +---------------------------+
+             |                           |                           
+             |                           |                           
+   +------------------+       +-----------------------+
+   | CLASS: App       |       | CLASS: Hotel          |
+   +------------------+       +-----------------------+
+   | - customers<>    |       | - hotelId             |
+   | - hotels<>       |       | - name                |
+   | - deliveryAgents<>|      | - location            |
+   | - allOrders<>    |       | - menu:List           |
+   | - Admins:List<Admin>|    | - hotelOrders         |
+   | - loadData()     |       |                       |
+   | - saveData()     |       | + addFoodItem()       |
+   +------------------+       | + removeFoodItem()    |
+                              | + updateFoodItem()    |
+                              | + viewOrders()        |
+                              | + acceptOrder()       |
+                              | + rejectOrder()       |
+                              | + updateOrderStatus() |
+                              +-----------------------+
+                                         |
+                                         |
+                                         +
+                              +------------------------+
+                              | CLASS:     Item        |
+                              +------------------------+
+                              | - itemId               |
+                              | - name                 |
+                              | - price                |
+                              | - category             |
+                              | - description          |
+                              |                        |
+                              | + displayItemInfo()    |
+                              +------------------------+
+
+
+
+
+                        +--------------------------------+
+                        |      LOGIN / SIGNUP MENU       |
+                        +--------------------------------+
+                                         |
+                                         +
+                             +-------------------------+
+                             | CLASS: Person (Base)    |
+                             +-------------------------+
+                             | - name:String           |
+                             | - password:String       |
+                             | - phone:String          |
+                             | - email:String          |
+                             | - location:String       |
+                             | - role:String           |
+                             | + login()               |
+                             | + logout()              |
+                             | + viewProfile()         |
+                             +-------------------------+
+                                         ^
+                                         |
+              +--------------------------+-------------+------------------------------------------+
+              |                                        |                                          |
+   +----------------------+               +---------------------+                       +----------------------+
+   | CLASS: Customer      |               | CLASS: DeliveryAgent|                       | CLASS: Admin         |
+   +----------------------+               +---------------------+                       +----------------------+
+   | Inherits from Person |               | Inherits from Person|                       | Inherits from Person |
+   +----------------------+               +---------------------+                       +----------------------+
+   | - customerId         |               | - agentId           |                       | - adminId            |
+   | - address            |               | - isAvailable       |                       |                      |
+   | - cart:List<Item>    |               | - assignedOrders    |                       | + addHotel()         |
+   | - orderHistory:List<Order>|          | - totalEarnings     |                       | + removeHotel()      |
+   | + viewHotels()       |               | + viewAssignedOrders()|                     | + addDeliveryAgent() |
+   | + viewMenu()         |               | + acceptOrder()      |                      | + viewAllUsers()     |
+   | + addToCart()        |               | + updateDeliveryStatus()|                   | + viewAllHotels()    |
+   | + placeOrder()       |               | + calculateEarnings()  |                    | + removeUser()       |
+   | + viewOrderHistory() |               +---------------------+                       +----------------------+
+   | + trackOrder()       |                                                             
+   +----------------------+
+
+                                            |
+                                            +
+                              +------------------------------+
+                              | CLASS: Order                 |
+                              +------------------------------+
+                              | - orderId                    |
+                              | - customer:Customer          |
+                              | - hotel:Hotel                |
+                              | - items:List<FoodItem>       |
+                              | - deliveryAgent:DeliveryAgent|
+                              | - totalAmount:double         |
+                              | - status:String              |
+                              | + calculateTotal()           |
+                              | + updateStatus()             |
+                              +------------------------------+
+
+
+
+
+
++------------------------------------------------+
+|                CLASS: FileSaver                |
++------------------------------------------------+
+| - customerFile : String                        |
+| - hotelFile : String                           |
+| - deliveryAgentFile : String                   |
+| - adminFile : String                           |
+| - orderFile : String                           |
+|                                                |
+| + getCustomers() : List<Customer>              |
+| + getHotels() : List<Hotel>                    |
+| + getDeliveryAgents() : List<DeliveryAgent>    |
+| + getAdmins() : List<Admin>                    |
+| + getOrders() : List<Order>                    |
+|                                                |
+| + saveCustomers(customers: List<Customer>)     |
+| + saveHotels(hotels: List<Hotel>)              |
+| + saveDeliveryAgents(agents:List<DeliveryAgent>)|
+| + saveAdmins(admins: List<Admin>)              |
+| + saveOrders(orders: List<Order>)              |
+|                                                |
++------------------------------------------------+
