@@ -135,6 +135,7 @@ public final class Customer extends Person {
                     updateItem = true;
                     i.quantity += qty;
                     i.itemPrice = item.itemPrice;
+                    break;
                }
 
                if(updateItem){
@@ -146,7 +147,6 @@ public final class Customer extends Person {
 
           Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
           orderedItem.quantity = qty;
-          orderedItem.itemPrice = item.itemPrice;
 
           cart.add(orderedItem);
           // System.out.println(cart.size());

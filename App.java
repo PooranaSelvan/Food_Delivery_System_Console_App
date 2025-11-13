@@ -115,11 +115,6 @@ public class App {
                                    System.out.print("Enter the Email : ");
                                    email = input.nextLine();
 
-                                   if(!app.isValidEmail(email)){
-                                        System.out.println(app.redColor+"Minimum 13 Letters Required for Email!"+app.resetColor);
-                                        continue;
-                                   }
-
                                    break;
                               } catch (InputMismatchException e) {
                                    System.out.println(app.invalidInputMessage);
@@ -130,7 +125,7 @@ public class App {
                          while (true) {
                               try {
                                    System.out.print("Enter the Password : ");
-                                   password = System.console().readPassword().toString();
+                                   password = input.nextLine();
 
                                    break;
                               } catch (InputMismatchException e) {
@@ -1133,7 +1128,7 @@ public class App {
                          while (true) {
                               try {
                                    System.out.print("Enter the Password : ");
-                                   dPass = System.console().readPassword().toString();
+                                   dPass = input.nextLine();
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -1391,20 +1386,28 @@ public class App {
 
      // Saving All data
      public void loadAllData(){
-          customers = db.getCustomers();
-          hotels = db.getHotels();
-          deliveryAgents = db.getDeliveryAgents();
-          orders = db.getOrders(customers, hotels, deliveryAgents);
-          admins = db.getAdmins();
-          users = db.getUsers();
+          try {
+               customers = db.getCustomers();
+               hotels = db.getHotels();
+               deliveryAgents = db.getDeliveryAgents();
+               orders = db.getOrders(customers, hotels, deliveryAgents);
+               admins = db.getAdmins();
+               users = db.getUsers();
+          } catch (Exception e) {
+               System.out.println(e.getMessage());
+          }
      }
      public void saveAllData(){
-          db.saveCustomers(customers);
-          db.saveDeliveryAgents(deliveryAgents);
-          db.saveHotels(hotels);
-          db.saveOrders(orders);
-          db.saveUsers(users);
-          db.saveAdmins(admins);
+          try {
+               db.saveCustomers(customers);
+               db.saveDeliveryAgents(deliveryAgents);
+               db.saveHotels(hotels);
+               db.saveOrders(orders);
+               db.saveUsers(users);
+               db.saveAdmins(admins);
+          } catch (Exception e) {
+               System.out.println(e.getMessage());
+          }
      }
 
 

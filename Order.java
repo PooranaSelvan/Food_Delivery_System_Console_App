@@ -24,7 +24,7 @@ public class Order {
 
      public void calculateTotal(){
           for (Item item : items) {
-               totalAmount += item.itemPrice;
+               totalAmount += item.itemPrice * item.quantity;
           }
      }
 
