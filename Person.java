@@ -20,11 +20,6 @@ public sealed class Person permits Admin, Customer, DeliveryAgent {
           return this.email.equalsIgnoreCase(email) && this.password.equalsIgnoreCase(password);
      }
 
-     public boolean logout(){
-          System.out.println("Successfully Logged Out!");
-          return true;
-     }
-
      public String viewProfile(){
           return "| Name : "+name+" | Email : "+email+" | Phone : "+phone+" | Location : "+location+" | Role : "+role+" |";
      }

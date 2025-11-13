@@ -12,8 +12,10 @@ public final class Customer extends Person {
      Hotel hotel;
 
      // Text Formatting & Decorations
-     String redColor = "\u001B[91m";
-     String resetColor = "\u001B[0m";
+     String redColor = "\n\u001B[91m";
+     String resetColor = "\u001B[0m\n";
+     String cyanColor = "\n\u001B[96m";
+     String greenColor = "\n\u001B[92m";
      String textBold = "\u001B[1m";
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
@@ -26,18 +28,18 @@ public final class Customer extends Person {
 
      public void viewHotels(ArrayList<Hotel> hotels){
           if (hotels == null || hotels.isEmpty()) {
-               System.out.println("No hotels available!");
+               System.out.println(redColor+"No hotels available!"+resetColor);
                return;
           }
 
-          System.out.println("\n=====================================================");
-          System.out.println("All Hotels : ");
+          System.out.println("\n=============================================================================");
+          System.out.println(greenColor+textBold+"All Hotels : "+resetColor);
           for(int i = 0; i < hotels.size(); i++){
                if(hotels.get(i) != null){
                     System.out.println(hotels.get(i).getHotelDetails());
                }
           }
-          System.out.println("=====================================================\n");
+          System.out.println("\n=============================================================================");
      }
 
      public void viewMenu(Hotel hotel){
@@ -46,35 +48,35 @@ public final class Customer extends Person {
                return;
           }
 
-          System.out.println("Welcome to Hotel : "+hotel.hotelName);
+          System.out.println(greenColor+"Welcome to Hotel : "+hotel.hotelName+resetColor);
 
           hotel.displayMenu();
      }
 
      public void viewCart(){
           if(cart.isEmpty()){
-               System.out.println("There is No Items In the Cart!");
+               System.out.println(redColor+"There is No Items In the Cart!"+resetColor);
                return;
           }
 
 
-          System.out.println("\n=====================================");
-          System.out.println("Your Cart Items : ");
+          System.out.println("\n==========================================");
+          System.out.println(greenColor+"Your Cart Items : "+resetColor);
           for(int i = 0; i < cart.size(); i++){
                if(cart.get(i) != null){
                     System.out.println(cart.get(i).displayItemInfo());
                }
           }
-          System.out.println("=====================================\n");
+          System.out.println("==========================================\n");
      }
 
-     public void addToCart(Item item, Hotel hotel){
+     public void addToCart(Item item, Hotel hotel, App app){
           if(cart.isEmpty()){
                this.hotel = hotel;
           }
 
-          if(!cart.isEmpty() && this.hotel.hotelId != hotel.hotelId){
-               System.out.println("You can Only able to Order from One Hotel!");
+          if(!cart.isEmpty() && this.hotel.hotelId != hotel.hotelId && this.hotel != null){
+               System.out.println(redColor+"You can Only able to Order from One Hotel!"+resetColor);
 
                while (true) {
                     String userChoice;
@@ -95,7 +97,7 @@ public final class Customer extends Person {
                          this.hotel = hotel;
                          break;
                     } else if(userChoice.equalsIgnoreCase("n")) {
-                         System.out.println("Item Is Not Added to Cart!");
+                         System.out.println(redColor+"Item Is Not Added to Cart!"+resetColor);
                          return;
                     } else {
                          System.out.println(invalidInputMessage);
@@ -112,7 +114,7 @@ public final class Customer extends Person {
                          qty = input.nextInt();
                          
                          if(qty < 1){
-                              System.out.println("Enter the Valid Quantity!");
+                              System.out.println(redColor+"Enter the Valid Quantity!"+resetColor);
                               continue;
                          }
                          break;
@@ -126,38 +128,75 @@ public final class Customer extends Person {
           }
           input.nextLine();
 
+          // Updating if Already Have
+          boolean updateItem = false;
+          for (Item i : cart) {
+               if(i.itemName.equalsIgnoreCase(item.itemName)){
+                    updateItem = true;
+                    i.quantity += qty;
+                    i.itemPrice = item.itemPrice;
+               }
+
+               if(updateItem){
+                    System.out.println(greenColor+item.itemName+(qty > 1 ? "×"+qty : "")+" has been Added to Cart!"+resetColor);
+                    return;
+               }
+          }
+
 
           Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
           orderedItem.quantity = qty;
           orderedItem.itemPrice = item.itemPrice;
 
           cart.add(orderedItem);
+          // System.out.println(cart.size());
 
-          System.out.println(item.itemName+(item.quantity > 1 ? "*"+qty : "")+" has been Added to Cart!");
+          System.out.println(greenColor+item.itemName+(item.quantity > 1 ? "*"+qty : "")+" has been Added to Cart!"+resetColor);
      }
 
      public void placeOrder(App app){
           if(cart.isEmpty()){
-               System.out.println("Your Cart Is Empty!");
+               System.out.println(redColor+"Your Cart Is Empty!"+resetColor);
                return;
           }
 
+          if(this.hotel == null){
+               System.out.println(redColor+"No hotel selected for this order!"+resetColor);
+               return;
+          }
+
+          System.out.println(this.hotel.hotelName != null ? this.hotel.hotelName : null);
           Order order = new Order(this, this.hotel, cart);
           order.calculateTotal();
+          order.orderStatus = "Order Placed";
           orderHistory.add(order);
           app.orders.add(order);
 
-          System.out.println("Order Has Been Placed Successfully!");
-          System.out.println("Your Total Amount is : "+order.totalAmount);
+          System.out.println(greenColor+"Order Has Been Placed Successfully!");
+          System.out.println("Your Total Amount is : "+order.totalAmount+resetColor);
+
+          app.saveAllData();
 
           cart.clear();
           this.hotel = null;
      }
 
-     public void trackOrder(){
+     public void trackOrder(App app){
           String orderRes = "";
+
+          app.loadAllData();
+
+
+          this.orderHistory.clear();
+          for (Order order : app.orders) {
+               if (order.customer != null && order.customer.customerId == this.customerId) {
+                   this.orderHistory.add(order);
+               }
+          }
+
+
           if(orderHistory.isEmpty()){
-               System.out.println("\nNo Orders Found\nStart Your First Order\n");
+               System.out.println(redColor+"\nNo Orders Found\nStart Your First Order\n"+resetColor);
                return;
           }
 
@@ -172,15 +211,25 @@ public final class Customer extends Person {
           }
 
           if(orderRes.length() < 1){
-               System.out.println("All Your Orders Has been Delivered!\nCheck Order History");
+               System.out.println(greenColor+"All Your Orders Has been Delivered!\nCheck Order History"+resetColor);
           } else {
                System.out.println(orderRes);
           }
      }
 
-     public void viewOrderHistory(){
+     public void viewOrderHistory(App app){
+
+          System.out.println(greenColor+"Order History : "+resetColor);
+
+          this.orderHistory.clear();
+          for (Order order : app.orders) {
+               if (order.customer != null && order.customer.customerId == this.customerId) {
+                   this.orderHistory.add(order);
+               }
+          }
+
           if(orderHistory.isEmpty()){
-               System.out.println("\nNo Orders Found\nStart Your First Order\n");
+               System.out.println(redColor+"\nNo Orders Found\nStart Your First Order\n"+resetColor);
                return;
           }
 
@@ -189,5 +238,9 @@ public final class Customer extends Person {
                     System.out.println(orderHistory.get(i).orderDetails());
                }
           }
+     }
+
+     public String displayCustomerDetails(){
+          return "Customer Id : "+customerId+" "+this.viewProfile();
      }
 }

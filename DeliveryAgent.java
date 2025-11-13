@@ -8,6 +8,16 @@ public final class DeliveryAgent extends Person {
      ArrayList<Order> orders = new ArrayList<>();
      ArrayList<Order> comppletedOrders = new ArrayList<>();
 
+     // Text Formatting & Decorations
+     String redColor = "\n\u001B[91m";
+     String resetColor = "\u001B[0m\n";
+     String cyanColor = "\n\u001B[96m";
+     String greenColor = "\n\u001B[92m";
+     String textBold = "\u001B[1m";
+
+     // Error Messages
+     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
+
      DeliveryAgent(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location, "deliveryagent");
           this.deliveryAgentId = globalId++;
@@ -17,52 +27,54 @@ public final class DeliveryAgent extends Person {
 
 
      public void getUnassignedOrders(App app){
+          app.loadAllData();
+
           if(app.orders.isEmpty()){
-               System.out.println("No Orders Found!");
+               System.out.println(redColor+"No Orders Found!"+resetColor);
                return;
           }
 
+          boolean isNotAssigned = false;
           for(int i = 0; i < app.orders.size(); i++){
                Order order = app.orders.get(i);
 
-               if(order.deliveryAgent == null){
+               if(order.deliveryAgent == null && order.orderStatus.equalsIgnoreCase("Order Placed")){
                     System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+order.customer.name+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    isNotAssigned = true;
                }
+          }
+
+          if(!isNotAssigned){
+               System.out.println(redColor+"There is Not UnAssigned Orders!"+resetColor);
           }
      }
 
      public void getAssignedOrders(){
 
           if(orders.isEmpty()){
-               System.out.println("No Orders Found!");
+               System.out.println(redColor+"No Orders Found!"+resetColor);
                return;
           }
           
+          boolean isAssigned = false;
           for(int i = 0; i < orders.size(); i++){
                Order order = orders.get(i);
 
-               if(order.orderStatus.equalsIgnoreCase("Order Placed")){
+               if(!order.orderStatus.equalsIgnoreCase("delivered")){
                     System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+order.customer.name+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    isAssigned = true;
                }
           }
-     }
 
-     public void acceptOrder(Order order){
-
-          if(!orders.contains(order)){
-               System.out.println("This order Is Not Assigned For You!");
-               return;
+          if(!isAssigned){
+               System.out.println("There is No Assigned Orders!");
           }
-
-          orders.add(order);
-          isAvailable = false;
-          order.updateOrderStatus("Order Assigned to Delivery Agent!");
      }
 
-     public void updateDeliveryStatus(Order order, String orderStatus){
+     public void updateDeliveryStatus(Order order, String orderStatus, App app){
 
           if(order.orderStatus.equalsIgnoreCase("delivered")){
-               System.out.println("This Order is Already Delivered!");
+               System.out.println(greenColor+"This Order is Already Delivered!"+resetColor);
                return;
           }
 
@@ -74,16 +86,21 @@ public final class DeliveryAgent extends Person {
 
                orders.remove(order);
                comppletedOrders.add(order);
-               System.out.println("Order has Been Successfully Delivered and You have Earned total "+order.totalAmount);
+               System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
+
+               app.saveAllData();
+
                return;
           }
 
-          System.out.println("Your Order Has Been Updated Successfully!");
+          System.out.println(greenColor+"Your Order Has Been Updated Successfully!"+resetColor);
+
+          app.saveAllData();
      }
 
      public void checkCompletedOrders(){
           if(comppletedOrders.isEmpty()){
-               System.out.println("There is no Orders You Completed!");
+               System.out.println(redColor+"There is no Orders You Completed!"+resetColor);
                return;
           }
 
@@ -93,6 +110,6 @@ public final class DeliveryAgent extends Person {
      }
 
      public String getTotalEarnings(){
-          return this.viewProfile()+" Total Earnings : "+totalEarnings;
+          return "Agent Id : "+deliveryAgentId+" "+this.viewProfile()+" Total Earnings : "+totalEarnings;
      }
 }

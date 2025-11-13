@@ -249,14 +249,28 @@ public class DataBase {
                BufferedReader br = new BufferedReader(fr);
                String line = br.readLine();
 
+               int globalId = 0;
+
                while (line != null) {
                     String arr[] = line.split(",");
-                    // System.out.println(arr[0]+" "+arr[1]+" "+arr[2]);
-                    Hotel h = new Hotel(arr[1], arr[2]);
+                    int hotelId = Integer.parseInt(arr[0]);
+                    String hotelName = arr[1];
+                    String location = arr[2];
+
+
+                    Hotel h = new Hotel(hotelName, location);
+                    h.hotelId = hotelId;
+
+                    if(hotelId > globalId){
+                         globalId = hotelId;
+                    }
+
                     hotels.add(h);
 
                     line = br.readLine();
                }
+
+               Hotel.globalId = globalId + 1;
 
                getHotelItems(hotels);
 
@@ -327,7 +341,7 @@ public class DataBase {
                     items.add(item);
 
                     for (Hotel h : hotels) {
-                         if(h.hotelId == hotelId){
+                         if(h != null && h.hotelId == hotelId){
                               if (h.menu == null) {
                                    h.menu = new ArrayList<>();
                               }

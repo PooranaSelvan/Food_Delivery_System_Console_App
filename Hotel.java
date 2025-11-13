@@ -12,8 +12,10 @@ public class Hotel {
      Scanner input = new Scanner(System.in);
 
      // Text Formatting & Decorations
-     String redColor = "\u001B[91m";
-     String resetColor = "\u001B[0m";
+     String redColor = "\n\u001B[91m";
+     String resetColor = "\u001B[0m\n";
+     String cyanColor = "\n\u001B[96m";
+     String greenColor = "\n\u001B[92m";
      String textBold = "\u001B[1m";
 
      // Error Messages
@@ -27,12 +29,12 @@ public class Hotel {
      }
      
      public void displayMenu(){
-          System.out.println("\n==================================================");
-          System.out.println("Menu Of Hotel : "+hotelName);
+          System.out.println("\n=====================================================");
+          System.out.println(greenColor+"Menu Of Hotel : "+hotelName+resetColor);
           for(int i = 0; i < menu.size(); i++){
                System.out.println(menu.get(i).displayItemInfo());
           }
-          System.out.println("==================================================\n");
+          System.out.println("=====================================================\n");
      }
 
      public void addFoodItem(Item item){
@@ -78,9 +80,9 @@ public class Hotel {
                     item.itemName = name;
 
 
-                    System.out.println("\n==========================");
+                    System.out.println(greenColor+"\n==========================");
                     System.out.println("Name Changed Successfully!");
-                    System.out.println("==========================\n");
+                    System.out.println("==========================\n"+resetColor);
                     break;
                case 2:
                     System.out.println();
@@ -99,9 +101,9 @@ public class Hotel {
                     item.itemPrice = price;
 
 
-                    System.out.println("\n===========================");
+                    System.out.println(greenColor+"\n===========================");
                     System.out.println("Price Changed Successfully!");
-                    System.out.println("===========================\n");
+                    System.out.println("===========================\n"+resetColor);
                     break;
                case 3:
                     System.out.println();
@@ -120,9 +122,9 @@ public class Hotel {
                     item.itemCategory = categoryName;
 
 
-                    System.out.println("\n====================================");
+                    System.out.println(greenColor+"\n====================================");
                     System.out.println("Category Name Changed Successfully!");
-                    System.out.println("====================================\n");
+                    System.out.println("====================================\n"+resetColor);
                     break;
                case 4:
                     System.out.println();
@@ -141,33 +143,21 @@ public class Hotel {
                     item.description = description;
 
 
-                    System.out.println("\n==================================");
+                    System.out.println(greenColor+"\n==================================");
                     System.out.println("Description Changed Successfully!");
-                    System.out.println("==================================\n");
+                    System.out.println("==================================\n"+resetColor);
                     break;
                default:
                     System.out.println("\nEnter the Valid Option Number!\n");
           }
 
-          System.out.println("After Changed");
+          System.out.println(greenColor+"After Changed"+resetColor);
           System.out.println("===================================================");
           System.out.println(item.displayItemInfo());
           System.out.println("===================================================");
      }
 
-     public void acceptOrder(Order order){
-          order.updateOrderStatus("Order Accepted!");
-     }
-
-     public void rejectOrder(Order order){
-          order.updateOrderStatus("Order Rejected!");
-     }
-
      public String getHotelDetails(){
           return "| Hotel Id : "+hotelId+" | Hotel Name : "+hotelName+" | Location : "+location+" |";
-     }
-
-     public void updateOrderStatus(Order order, String orderStatus){
-          order.updateOrderStatus(orderStatus);
      }
 }

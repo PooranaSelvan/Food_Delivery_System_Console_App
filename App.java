@@ -14,9 +14,10 @@ public class App {
      DataBase db = new DataBase();
 
      // Text Formatting & Decorations
-     String redColor = "\u001B[91m";
-     String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
+     String redColor = "\n\u001B[91m";
+     String resetColor = "\u001B[0m\n";
+     String cyanColor = "\n\u001B[96m";
+     String greenColor = "\n\u001B[92m";
      String topLine = "┌──────────────────────────────────────────────────┐";
      String bottomLine = "└──────────────────────────────────────────────────┘";
      String sideLine = "│";
@@ -31,12 +32,7 @@ public class App {
 
 
           // Load Users
-          app.customers = app.db.getCustomers();
-          app.hotels = app.db.getHotels();
-          app.deliveryAgents = app.db.getDeliveryAgents();
-          app.orders = app.db.getOrders(app.customers, app.hotels, app.deliveryAgents);
-          app.admins = app.db.getAdmins();
-          app.users = app.db.getUsers();
+          app.loadAllData();
 
           if (app.users.isEmpty()) {
                // Users
@@ -90,7 +86,9 @@ public class App {
                System.out.println();
                while (true) {
                     try {
-                         System.out.print("1. SignUp\n2. Login\n3. Exit\nEnter your Choice : ");
+                         System.out.print(app.cyanColor+"┌───────────────────────────────┐"+"\n│         1. Login              │\n│         2. SignUp             │\n│         3. Exit               │\n");
+                         System.out.println("└───────────────────────────────┘"+app.resetColor);
+                         System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
 
                          break;
@@ -106,131 +104,22 @@ public class App {
                switch (userChoice) {
                     case 1:
                          System.out.println();
-                         String cusName;
-                         String cusPassword;
-                         String cusPhoneNum;
-                         String cusEmail;
-                         String cusLocation;
-                         String cusAddress;
-
-                         while (true) {
-                              try {
-                                   System.out.print("Enter your Name : ");
-                                   cusName = input.nextLine();
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         while (true) {
-                              try {
-                                   System.out.print("Enter the Password : ");
-                                   cusPassword = input.nextLine();
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         while (true) {
-                              try {
-                                   System.out.print("Enter the Phone Number : ");
-                                   cusPhoneNum = input.nextLine();
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         while (true) {
-                              try {
-                                   emailCheckLoop:
-                                   while (true) {
-                                        System.out.print("Enter the Email : ");
-                                        cusEmail = input.nextLine();
-
-
-                                        for (Customer c : app.customers) {
-                                             if(c.email.equalsIgnoreCase(cusEmail)){
-                                                  System.out.println("This Email is Already Taken!");
-                                                  continue emailCheckLoop;
-                                             }
-                                        }
-
-                                        for (Person u : app.users) {
-                                             if(u.email.equalsIgnoreCase(cusEmail)){
-                                                  System.out.println("This Email is Already Taken!");
-                                                  continue emailCheckLoop;
-                                             }
-                                        }
-
-                                        break;
-                                   }
-
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         while (true) {
-                              try {
-                                   System.out.print("Enter the Location : ");
-                                   cusLocation = input.nextLine();
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         while (true) {
-                              try {
-                                   System.out.print("Enter the Address : ");
-                                   cusAddress = input.nextLine();
-
-                                   break;
-                              } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
-                                   input.nextLine();
-                              }
-                         }
-
-                         Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
-
-                         app.customers.add(newCustomer);
-                         app.users.add(newCustomer);
-                         
-                         // saving in file
-                         app.saveAllData();
-
-                         // Welcome Message
-                         System.out.println("\n\u001B[96m\u001B[1m"+"┌──────────────────────────────────────────────────┐");
-                         System.out.println("│        Welcome to ZOSW Food Delivery App         │");
-                         System.out.println("└──────────────────────────────────────────────────┘"+"\u001B[0m\n");
-                         System.out.println(app.cyanColor+app.textBold+"You can Login Now!\n"+app.resetColor);
-                         System.out.println();
-                         break;
-                    case 2:
-                         System.out.println();
                          String email;
                          String password;
+
+                         // Menu
+                         System.out.println("\n╔═══════════════════════╗\n║      Login Menu       ║\n╚═══════════════════════╝\n");
 
                          while (true) {
                               try {
                                    System.out.print("Enter the Email : ");
                                    email = input.nextLine();
 
+                                   if(!app.isValidEmail(email)){
+                                        System.out.println(app.redColor+"Minimum 13 Letters Required for Email!"+app.resetColor);
+                                        continue;
+                                   }
+
                                    break;
                               } catch (InputMismatchException e) {
                                    System.out.println(app.invalidInputMessage);
@@ -241,7 +130,7 @@ public class App {
                          while (true) {
                               try {
                                    System.out.print("Enter the Password : ");
-                                   password = input.nextLine();
+                                   password = System.console().readPassword().toString();
 
                                    break;
                               } catch (InputMismatchException e) {
@@ -260,7 +149,7 @@ public class App {
                          String userRole = "";
 
                          if(app.users.isEmpty()){
-                              System.out.println("\u001B[101m"+"There is No Users To Login!\nStart SignUp!"+"\u001B[0m");
+                              System.out.println(app.redColor+"There is No Users To Login!\nStart SignUp!"+app.resetColor);
                               break;
                          }
 
@@ -292,40 +181,177 @@ public class App {
                          }
 
                          if(!userFound){
-                              System.out.println("\n\u001B[91m"+"Invalid Email Or Password!"+"\u001B[0m\n");
+                              System.out.println(app.redColor+"Invalid Email Or Password!"+app.resetColor);
                          } else {
                               if(userRole.equalsIgnoreCase("customer")){
                                    if(customer.login(email, password)){
                                         app.showCustomerMenu(customer);
                                    } else {
-                                        System.out.println("\n\u001B[91m"+"Invalid Credentials"+"\u001B[0m\n");
+                                        System.out.println(app.redColor+"Invalid Credentials"+app.resetColor);
                                    }
                               } else if(userRole.equalsIgnoreCase("deliveryagent")){
                                    if(deliveryAgent.login(email, password)){
                                         app.showDeliveryAgentMenu(deliveryAgent);
                                    } else {
-                                        System.out.println("\n\u001B[91m"+"Invalid Credentials"+"\u001B[0m\n");
+                                        System.out.println(app.redColor+"Invalid Credentials"+app.resetColor);
                                    }
                               } else if(userRole.equalsIgnoreCase("admin")){
                                    if(admin.login(email, password)){
                                         app.showAdminMenu(admin, app);
                                    } else {
-                                        System.out.println("\n\u001B[91m"+"Invalid Credentials"+"\u001B[0m\n");
+                                        System.out.println(app.redColor+"Invalid Credentials"+app.resetColor);
                                    }
                               } else {
-                                   System.out.println("Unknown Role!");
+                                   System.out.println(app.redColor+"Unknown Role!"+app.resetColor);
                               }
                          }
 
                          break;
+                    case 2:
+                         System.out.println();
+                         String cusName;
+                         String cusPassword;
+                         String cusPhoneNum;
+                         String cusEmail;
+                         String cusLocation;
+                         String cusAddress;
+
+
+                         System.out.println("\n╔═══════════════════════╗\n║      SignUp Menu      ║\n╚═══════════════════════╝\n");
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter your Name : ");
+                                   cusName = input.nextLine();
+
+                                   if(app.isValidName(cusName)){
+                                        System.out.println(app.redColor+"Minimum 5 Letters Required For Name!"+app.resetColor);
+                                        continue;
+                                   }
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Password : ");
+                                   cusPassword = System.console().readPassword().toString();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Phone Number : ");
+                                   cusPhoneNum = input.nextLine();
+
+                                   if(!app.isValidPhoneNumber(cusPassword)){
+                                        System.out.println(app.redColor+"Length of the Phone Number Must be 10"+app.resetColor);
+                                        continue;
+                                   }
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   emailCheckLoop:
+                                   while (true) {
+                                        System.out.print("Enter the Email : ");
+                                        cusEmail = input.nextLine();
+
+                                        if(!app.isValidEmail(cusEmail)){
+                                             System.out.println(app.redColor+"Minimum 13 Letters Required for Email!"+app.resetColor);
+                                             continue;
+                                        }
+
+                                        for (Person u : app.users) {
+                                             if(u.email.equalsIgnoreCase(cusEmail)){
+                                                  System.out.println(app.redColor+"This Email is Already Taken!"+app.resetColor);
+                                                  continue emailCheckLoop;
+                                             }
+                                        }
+
+                                        break;
+                                   }
+
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Location : ");
+                                   cusLocation = input.nextLine();
+
+                                   if(!app.isValidLocation(cusLocation)){
+                                        System.out.println(app.redColor+"Minimum 5 Letter Required for Location!"+app.resetColor);
+                                        continue;
+                                   }
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Address : ");
+                                   cusAddress = input.nextLine();
+
+                                   if(!app.isValidAddress(cusAddress)){
+                                        System.out.println(app.redColor+"Minimum 15 Letters Required for Location!"+app.resetColor);
+                                        continue;
+                                   }
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
+
+                         app.customers.add(newCustomer);
+                         app.users.add(newCustomer);
+                         
+                         // saving in file
+                         app.saveAllData();
+
+                         // Welcome Message
+                         System.out.println("\n\u001B[96m\u001B[1m"+"┌──────────────────────────────────────────────────┐");
+                         System.out.println("│        Welcome to ZOSW Food Delivery App         │");
+                         System.out.println("└──────────────────────────────────────────────────┘"+"\u001B[0m\n");
+                         System.out.println(app.cyanColor+app.textBold+"You can Login Now!\n"+app.resetColor);
+                         System.out.println();
+                         break;
                     case 3:
-                         System.out.println("\n\u001B[92m"+"Thank you For Visiting!"+"\u001B[0m\n");
+                         System.out.println(app.greenColor+"Thank you For Visiting!"+app.resetColor);
                          
                          // Save data
                          app.saveAllData();
                          break;
                     default:
-                         System.out.println("\n\u001B[91m"+"Enter the Valid Choice!"+"\u001B[0m\n");
+                         System.out.println(app.redColor+"Enter the Valid Choice!"+app.resetColor);
                          break;
                }
           }
@@ -335,7 +361,7 @@ public class App {
      // Customer Methods
      public void showCustomerMenu(Customer customer){
           System.out.println();
-          
+
           boolean isOrder = true;
           int userChoice = 0;
 
@@ -343,7 +369,8 @@ public class App {
 
                while (true) {
                     try {
-                         System.out.print("1. View Hotels\n2. View Menu\n3. Add to Cart\n4. View Cart\n5. Place Order\n6. Track Order\n7. Order History\n8. Logout\nEnter your Choice : ");
+                         System.out.print(cyanColor+"┌───────────────────────────────┐\n"+"│ 1. View Hotels                │     \n│ 2. View Menu                  │     \n│ 3. Add to Cart                │     \n│ 4. View Cart                  │     \n│ 5. Place Order                │     \n│ 6. Track Order                │     \n│ 7. Order History              │     \n│ 8. Logout                     │     \n"+"└───────────────────────────────┘\n"+resetColor);
+                         System.out.print("Enter your Choice :");
                          userChoice = input.nextInt();
 
                          break;
@@ -361,7 +388,7 @@ public class App {
                          System.out.println();
 
                          if(hotels.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Hotels to Display!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Hotels to Display!"+resetColor);
                               break;
                          }
 
@@ -372,7 +399,7 @@ public class App {
                          System.out.println();
 
                          if(hotels.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Hotels to Display Menu!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Hotels to Display Menu!"+resetColor);
                               break;
                          }
 
@@ -383,7 +410,7 @@ public class App {
                          System.out.println();
 
                          if(hotels.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Hotels to Order Food!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Hotels to Order Food!"+resetColor);
                               break;
                          }
 
@@ -406,21 +433,23 @@ public class App {
                          break;
                     case 6:
                          System.out.println();
-                         customer.trackOrder();
+                         loadAllData();
+                         customer.trackOrder(this);
                          System.out.println();
                          break;
                     case 7:
                          System.out.println();
-                         customer.viewOrderHistory();
+                         loadAllData();
+                         customer.viewOrderHistory(this);
                          System.out.println();
                          break;
                     case 8:
                          System.out.println();
-                         System.out.println("\n\u001B[92m"+"Logging Out..!"+"\u001B[0m\n");
+                         System.out.println(greenColor+"Thank You !\nVisit Again !"+resetColor);
                          System.out.println();
                          return;
                     default:
-                         System.out.println("\n\u001B[91m"+"Enter the Valid Option Number!"+"\u001B[0m\n");
+                         System.out.println(redColor+"Enter the Valid Option Number!"+resetColor);
                }
           }
 
@@ -453,7 +482,7 @@ public class App {
                }
           }
           if (newHotel == null) {
-              System.out.println("\n\u001B[91m"+"Enter a valid Hotel ID!"+"\u001B[0m\n");
+              System.out.println(redColor+"Enter a valid Hotel ID!"+resetColor);
               return;
           }
 
@@ -485,7 +514,7 @@ public class App {
                }
           }
           if (orderHotel == null) {
-              System.out.println("\n\u001B[91m"+"Enter a valid Hotel ID!"+"\u001B[0m\n");
+              System.out.println(redColor+"Enter a valid Hotel ID!"+resetColor);
               return;
           }
 
@@ -519,11 +548,12 @@ public class App {
                }
 
                if(orderItem == null){
-                    System.out.println("\n\u001B[91m"+"Item Not Found!"+"\u001B[0m\n");
+                    System.out.println(redColor+"Item Not Found!"+resetColor);
                     return;
                }
 
-               customer.addToCart(orderItem, orderHotel);
+               System.out.println(orderHotel.hotelName);
+               customer.addToCart(orderItem, orderHotel, this);
                
                String userChoice = "";
 
@@ -556,9 +586,7 @@ public class App {
      public void showDeliveryAgentMenu(DeliveryAgent deliveryAgent){
           System.out.println();
 
-          System.out.println("====================================================");
-          System.out.println("Welcome Delivery Agent!  : "+deliveryAgent.name);
-          System.out.println("====================================================\n");
+          System.out.println("\n╔═══════════════════════╗\n║  Delivery Agent Menu  ║\n╚═══════════════════════╝\n");
 
           int userChoice = 0;
 
@@ -566,7 +594,8 @@ public class App {
 
                while (true) {
                     try {
-                         System.out.print("1. Unassigned Orders\n2. Assigned Orders\n3. Accept Order\n4. Update Delivery Status\n5. See Total Earnings\n6. Completed Orders\n7. Logout\nEnter your Choice : ");
+                         System.out.print(cyanColor+"┌───────────────────────────────┐\n"+"│ 1. Unassigned Orders          │\n│ 2. Assigned Orders            │\n│ 3. Accept Order               │\n│ 4. Update Delivery Status     │\n│ 5. See Total Earnings         |\n| 6. Completed Orders           │\n│ 7. Logout                     │\n"+"└───────────────────────────────┘\n"+resetColor);
+                         System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
 
                          break;
@@ -592,32 +621,17 @@ public class App {
                          break;
                     case 3:
                          System.out.println();
-                         ArrayList<Order> unAssignedOrders = new ArrayList<>();
 
                          if(orders.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Order To Accept!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Order To Accept!"+resetColor);
                          } else {
-                              for(int i = 0; i < orders.size(); i++){
-                                   if(orders.get(i).deliveryAgent == null){
-                                        unAssignedOrders.add(orders.get(i));
-                                   }
-                              }
-
-                              if(unAssignedOrders.isEmpty()){
-                                   System.out.println("\n\u001B[91m"+"There is No UnAssigned Orders!"+"\u001B[0m\n");
-                              } else {
-                                   processOrders(unAssignedOrders, deliveryAgent);
-                              }
+                              processOrders(deliveryAgent);
                          }
                          System.out.println();
                          break;
                     case 4:
                          System.out.println();
-                         if(deliveryAgent.orders.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"No Assigned Orders to Update!"+"\u001B[0m\n");
-                         } else {
-                              updateOrder(deliveryAgent);
-                         }
+                         updateOrder(deliveryAgent);
                          System.out.println();
                          break;
                     case 5:
@@ -632,20 +646,37 @@ public class App {
                          break;
                     case 7:
                          System.out.println();
-                         System.out.println("\n\u001B[92m"+"Logging Out..!"+"\u001B[0m\n");
+                         System.out.println(greenColor+"Thank You !\nVisit Again !"+resetColor);
                          System.out.println();
                          return;
                     default:
-                         System.out.println("\n\u001B[91m"+"Enter the Valid Option Number!"+"\u001B[0m\n");
+                         System.out.println(redColor+"Enter the Valid Option Number!"+resetColor);
                }
           }
 
      }
 
 
-     public void processOrders(ArrayList<Order> unAssignedOrders, DeliveryAgent deliveryAgent){
-          
+     public void processOrders(DeliveryAgent deliveryAgent){
+
+          loadAllData();
+
+          ArrayList<Order> unAssignedOrders = new ArrayList<>();
+
+          unAssignedOrders.clear();
+          for(int i = 0; i < orders.size(); i++){
+               if(orders.get(i).deliveryAgent == null && orders.get(i).orderStatus.equalsIgnoreCase("Order Placed") && orders.get(i).hotel != null){
+                    unAssignedOrders.add(orders.get(i));
+               }
+          }
+          System.out.println(orders.get(0).hotel == null);
+          if(unAssignedOrders.isEmpty()){
+               System.out.println(redColor+"There is No UnAssigned Orders!"+resetColor);
+               return;
+          }
+
           for (int i = 0; i < unAssignedOrders.size(); i++) {
+
                System.out.println(unAssignedOrders.get(i).orderDetails());
           }
 
@@ -665,7 +696,8 @@ public class App {
           
 
           Order selectedOrder = null;
-          for (Order o : unAssignedOrders) {
+
+          for (Order o : orders) {
                if (o.orderId == orderId) {
                    selectedOrder = o;
                    break;
@@ -673,18 +705,24 @@ public class App {
           }
 
           if(selectedOrder == null){
-               System.out.println("\n\u001B[91m"+"Order Not Found!"+"\u001B[0m\n");
+               System.out.println(redColor+"Order Not Found!"+resetColor);
+               return;
+          }
+
+          if(selectedOrder.deliveryAgent != null){
+               System.out.println(redColor+"This order is already assigned to another agent!"+resetColor);
                return;
           }
 
           selectedOrder.deliveryAgent = deliveryAgent;
+          selectedOrder.orderStatus = "Order Assigned to Delivery Agent";
           deliveryAgent.orders.add(selectedOrder);
           deliveryAgent.isAvailable = false;
 
           // Saving In File
           saveAllData();
 
-          System.out.println("Order Id : "+selectedOrder.orderId+" has been Assigned Successfully!");
+          System.out.println(greenColor+"Order Id : "+selectedOrder.orderId+" has been Assigned Successfully!"+resetColor);
      }
 
 
@@ -717,12 +755,12 @@ public class App {
           }
 
           if(targetOrder == null) {
-               System.out.println("\n\u001B[91m"+"Order Not Found!"+"\u001B[0m\n");
+               System.out.println(redColor+"Order Not Found!"+resetColor);
                return;
           }
 
           if(targetOrder.orderStatus.equalsIgnoreCase("delivered")){
-               System.out.println("This order has already delivered!");
+               System.out.println(redColor+"This order has already delivered!"+resetColor);
                return;
           }
 
@@ -752,7 +790,7 @@ public class App {
 
           
 
-          deliveryAgent.updateDeliveryStatus(targetOrder, orderStatus);
+          deliveryAgent.updateDeliveryStatus(targetOrder, orderStatus, this);
 
           // Saving In File
           saveAllData();
@@ -767,9 +805,7 @@ public class App {
      public void showAdminMenu(Admin admin, App app){
           System.out.println();
 
-          System.out.println("======================================");
-          System.out.println("Welcome Admin : "+admin.name);
-          System.out.println("======================================");
+          System.out.println("\n╔═════════════════╗\n║   Admin Menu    ║\n╚═════════════════╝\n");
 
           int userChoice = 0;
 
@@ -777,7 +813,8 @@ public class App {
 
                while (true) {
                     try {
-                         System.out.print("1. Display All CUstomers\n2. Display All Hotels\n3. Diplay All Menu\n4. Display All DeliveryAgents\n5. Add Hotel\n6. Add Menu For Hotel\n7. Add Delivery Agent\n8. Remove Hotel\n9. Remove Delivery Agent\n10. Remove User\n11. Logout\nEnter your Choice : ");
+                         System.out.print(cyanColor+"┌───────────────────────────────────┐\n"+"│ 1. Display All Customers          │\n│ 2. Display All Hotels             │\n│ 3. Diplay All Menu                │\n│ 4. Display All DeliveryAgents     │\n│ 5. Add Hotel                      │\n│ 6. Add Menu For Hotel             │\n│ 7. Add Delivery Agent             │\n│ 8. Remove Hotel                   │\n│ 9. Remove Delivery Agent          │\n│ 10. Remove User                   │\n│ 11. Logout                        │\n"+"└───────────────────────────────────┘\n"+resetColor);
+                         System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
 
                          break;
@@ -795,7 +832,7 @@ public class App {
                          System.out.println();
 
                          if(customers.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Customers to Display!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Customers to Display!"+resetColor);
                               break;
                          }
 
@@ -806,7 +843,7 @@ public class App {
                          System.out.println();
 
                          if(hotels.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Hotels to Display!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Hotels to Display!"+resetColor);
                               break;
                          }
 
@@ -840,7 +877,7 @@ public class App {
                          }
 
                          if(showMenuHotel == null){
-                              System.out.println("Hotel Not Found!");
+                              System.out.println(redColor+"Hotel Not Found!"+resetColor);
                               break;
                          }
 
@@ -852,7 +889,7 @@ public class App {
                          System.out.println();
 
                          if(deliveryAgents.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Delivery Agents to Display!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Delivery Agents to Display!"+resetColor);
                               break;
                          }
 
@@ -867,8 +904,24 @@ public class App {
 
                          while (true) {
                               try {
-                                   System.out.print("Enter the Name of the Hotel : ");
-                                   hotelName = input.nextLine();
+                                   hotelNameCheckLoop:
+                                   while (true) {
+                                        System.out.print("Enter the Name of the Hotel : ");
+                                        hotelName = input.nextLine();
+
+                                        if(!isValidName(hotelName)){
+                                             System.out.println("Minimum 5 Letters Required for Hotel Name!");
+                                             continue hotelNameCheckLoop;
+                                        }
+
+                                        for (Hotel h : hotels) {
+                                             if(h.hotelName.equalsIgnoreCase(hotelName)){
+                                                  System.out.println(redColor+"Hotel With Same Name Already Exists!"+resetColor);
+                                                  continue hotelNameCheckLoop;
+                                             }
+                                        }
+                                        break;
+                                   }
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -881,6 +934,11 @@ public class App {
                               try {
                                    System.out.print("Enter the Hotel Location : ");
                                    hotelLocation = input.nextLine();
+
+                                   if(!isValidLocation(hotelLocation)){
+                                        System.out.println(redColor+"Minimum 5 Letters Required for Location!"+resetColor);
+                                        continue;
+                                   }
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -894,6 +952,8 @@ public class App {
                          
                          // Saving In File
                          saveAllData();
+
+                         System.out.println(greenColor+"Hotel Added Successfully!"+resetColor);
                          
                          System.out.println();
                          break;
@@ -928,7 +988,7 @@ public class App {
                               }
                          }
                          if (menuHotel == null) {
-                             System.out.println("\n\u001B[91m"+"Enter a valid Hotel ID!"+"\u001B[0m\n");
+                             System.out.println(redColor+"Enter a valid Hotel ID!"+resetColor);
                              return;
                          }
 
@@ -947,12 +1007,12 @@ public class App {
                          input.nextLine();
 
                          if(itemCount < 0){
-                              System.out.println("\n\u001B[91m"+"Enter the Valid Item Count!"+"\u001B[0m\n");
+                              System.out.println(redColor+"Enter the Valid Item Count!"+resetColor);
                               break;
                          }
 
                          if(itemCount > 5){
-                              System.out.println("\n\u001B[91m"+"You can Only add Upto 5 Items at a Time!"+"\u001B[0m\n");
+                              System.out.println(redColor+"You can Only add Upto 5 Items at a Time!"+resetColor);
                               break;
                          }
 
@@ -965,8 +1025,20 @@ public class App {
 
                               while (true) {
                                    try {
-                                        System.out.print("Enter the Name of the Item : ");
-                                        itemName = input.nextLine();
+                                        itemNameCheckLoop:
+                                        while (true) {
+                                             System.out.print("Enter the Name of the Item : ");
+                                             itemName = input.nextLine();
+
+                                             for (Item item : menuHotel.menu) {
+                                                  if(item.itemName.equalsIgnoreCase(itemName)){
+                                                       System.out.println(redColor+"Item With Same Name is Already Exists!"+resetColor);
+                                                       continue itemNameCheckLoop;
+                                                  }
+                                             }
+
+                                             break;
+                                        }
                
                                         break;
                                    } catch (InputMismatchException e) {
@@ -979,6 +1051,11 @@ public class App {
                                    try {
                                         System.out.print("Enter the Price of the Item : ");
                                         itemPrice = input.nextInt();
+
+                                        if(itemPrice < 0){
+                                             System.out.println(redColor+"Enter the Valid Price!"+resetColor);
+                                             continue;
+                                        }
                
                                         break;
                                    } catch (InputMismatchException e) {
@@ -1022,7 +1099,7 @@ public class App {
                               // Saving In File
                               saveAllData();
 
-                              System.out.println("\n\u001B[92m"+itemName+" has been Successfully Added to Hotel : "+menuHotel.hotelName+"\u001B[0m\n");
+                              System.out.println(greenColor+itemName+" has been Successfully Added to Hotel : "+menuHotel.hotelName+resetColor);
                          }
 
                          System.out.println();
@@ -1040,6 +1117,11 @@ public class App {
                               try {
                                    System.out.print("Enter the Name : ");
                                    dName = input.nextLine();
+
+                                   if(!isValidName(dName)){
+                                        System.out.println(redColor+"Minimum 5 Letter Required for Name!"+resetColor);
+                                        continue;
+                                   }
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -1051,7 +1133,7 @@ public class App {
                          while (true) {
                               try {
                                    System.out.print("Enter the Password : ");
-                                   dPass = input.nextLine();
+                                   dPass = System.console().readPassword().toString();
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -1064,6 +1146,11 @@ public class App {
                               try {
                                    System.out.print("Enter the Phone Number : ");
                                    dPhone = input.nextLine();
+
+                                   if(!isValidPhoneNumber(dPhone)){
+                                        System.out.println(redColor+"10 Characters need to be in Phone Number!"+resetColor);
+                                        continue;
+                                   }
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -1074,8 +1161,25 @@ public class App {
 
                          while (true) {
                               try {
-                                   System.out.print("Enter the Email : ");
-                                   dEmail = input.nextLine();
+                                   emailCheckLoop:
+                                   while (true) {
+                                        System.out.print("Enter the Email : ");
+                                        dEmail = input.nextLine();
+
+                                        if(!isValidAddress(dEmail)){
+                                             System.out.println(redColor+"Minimum 13 Character Required for Email!"+resetColor);
+                                             continue;
+                                        }
+
+                                        for (Person p : users) {
+                                             if(p.email.equalsIgnoreCase(dEmail)){
+                                                  System.out.println(redColor+"This Email Address is Already Taken!"+resetColor);
+                                                  continue emailCheckLoop;
+                                             }
+                                        }
+
+                                        break;
+                                   }
           
                                    break;
                               } catch (InputMismatchException e) {
@@ -1088,6 +1192,11 @@ public class App {
                               try {
                                    System.out.print("Enter the Location : ");
                                    dLocation = input.nextLine();
+
+                                   if(!isValidLocation(dLocation)){
+                                        System.out.println(redColor+"Minimum 5 Letters Required for Location!"+resetColor);
+                                        continue;
+                                   }
 
                                    break;
                               } catch (InputMismatchException e) {
@@ -1104,14 +1213,14 @@ public class App {
                          // Saving in File
                          saveAllData();
 
-                         System.out.print("");
+                         System.out.print(greenColor+dName+" has Successfully Added as Delivery Agent!"+resetColor);
                          System.out.println();
                          break;
                     case 8:
                          System.out.println();
 
                          if(hotels.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Hotel to Remove!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Hotel to Remove!"+resetColor);
                               break;
                          }
 
@@ -1142,7 +1251,7 @@ public class App {
                               }
                          }
                          if (removeHotel == null) {
-                             System.out.println("\n\u001B[91m"+"Enter a valid Hotel ID!"+"\u001B[0m\n");
+                             System.out.println(redColor+"Enter a valid Hotel ID!"+resetColor);
                              return;
                          }
 
@@ -1151,13 +1260,15 @@ public class App {
                          // Save In File
                          saveAllData();
 
+                         System.out.println(greenColor+removeHotel.hotelName+" has Successfully Removed as Hotels"+resetColor);
+
                          System.out.println();
                          break;
                     case 9:
                          System.out.println();
 
                          if(deliveryAgents.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Delivery Agents to Remove!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Delivery Agents to Remove!"+resetColor);
                               break;
                          }
 
@@ -1190,7 +1301,7 @@ public class App {
                          }
 
                          if (removedAgent == null) {
-                              System.out.println("\n\u001B[91mInvalid Delivery Agent ID!\u001B[0m\n");
+                              System.out.println(redColor+"Invalid Delivery Agent ID!"+resetColor);
                               break;
                          }
                           
@@ -1205,18 +1316,20 @@ public class App {
                          // Saving In File
                          saveAllData();
 
+                         System.out.println(greenColor+removedAgent.name+" has Successfully Removed as Delivery Agent"+resetColor);
+
                          System.out.println();
                          break;
                     case 10:
                          System.out.println();
 
                          if(customers.isEmpty()){
-                              System.out.println("\n\u001B[91m"+"There is No Customers to Remove!"+"\u001B[0m\n");
+                              System.out.println(redColor+"There is No Customers to Remove!"+resetColor);
                               break;
                          }
 
-                         for (Customer u : customers) {
-                              System.out.println(u.viewProfile());
+                         for (Customer c : customers) {
+                              System.out.println(c.displayCustomerDetails());
                          }
 
                          int customerId;
@@ -1243,7 +1356,7 @@ public class App {
                          }
 
                          if(removedCustomer == null){
-                              System.out.println("Customer Not Found!");
+                              System.out.println(redColor+"Customer Not Found!"+resetColor);
                               break;
                          }
 
@@ -1257,15 +1370,17 @@ public class App {
                          // Saving In File
                          saveAllData();
 
+                         System.out.println(greenColor+removedCustomer.name+" has been Successfully removed as Customer"+resetColor);
+
                          System.out.println();
                          break;
                     case 11:
                          System.out.println();
-                         System.out.println("\n\u001B[92m"+"Logging Out..!"+"\u001B[0m\n");
+                         System.out.println(greenColor+"Thank You !\nVisit Again !"+resetColor);
                          System.out.println();
                          return;
                     default:
-                         System.out.println("\n\u001B[91m"+"Enter the Valid Option Number!"+"\u001B[0m\n");
+                         System.out.println(redColor+"Enter the Valid Option Number!"+resetColor);
                }
           }
 
@@ -1275,6 +1390,14 @@ public class App {
 
 
      // Saving All data
+     public void loadAllData(){
+          customers = db.getCustomers();
+          hotels = db.getHotels();
+          deliveryAgents = db.getDeliveryAgents();
+          orders = db.getOrders(customers, hotels, deliveryAgents);
+          admins = db.getAdmins();
+          users = db.getUsers();
+     }
      public void saveAllData(){
           db.saveCustomers(customers);
           db.saveDeliveryAgents(deliveryAgents);
@@ -1284,6 +1407,39 @@ public class App {
           db.saveAdmins(admins);
      }
 
+
+     // Validations
+     public boolean isValidName(String name){
+          return name.length() > 5;
+     }
+
+     public boolean isValidEmail(String email){
+          if(!email.contains("@")){
+               return false;
+          } else if(!email.contains(".gmail.com") || !email.contains(".zoho.com") || !email.contains(".zohocorp.com")){
+               return false;
+          } else if(email.length() < 13){
+               return false;
+          }
+          
+          return true;
+     }
+
+     public boolean isValidPassword(String password){
+          return true;
+     }
+
+     public boolean isValidPhoneNumber(String phoneNumber){
+          return phoneNumber.length() == 10;
+     }
+     
+     public boolean isValidLocation(String location){
+          return location.length() > 5;
+     }
+
+     public boolean isValidAddress(String address){
+          return address.length() > 10;
+     }
 
 
      // Find Methods

@@ -2,6 +2,16 @@ public final class Admin extends Person {
      int adminId;
      static int globalId = 1;
 
+     // Text Formatting & Decorations
+     String redColor = "\n\u001B[91m";
+     String resetColor = "\u001B[0m\n";
+     String cyanColor = "\n\u001B[96m";
+     String greenColor = "\n\u001B[92m";
+     String textBold = "\u001B[1m";
+
+     // Error Messages
+     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
+
      Admin(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location, "admin");
           this.adminId = globalId++;
@@ -13,7 +23,7 @@ public final class Admin extends Person {
 
      public void removeHotel(App app, int HotelId){
           if(app.hotels.isEmpty()){
-               System.out.println("There is No Hotels To Remove!");
+               System.out.println(redColor+"There is No Hotels To Remove!"+resetColor);
                return;
           }
 
@@ -26,7 +36,7 @@ public final class Admin extends Person {
 
      public void removeDeliveryAgent(App app, int deliveryAgentId){
           if(app.deliveryAgents.isEmpty()){
-               System.out.println("There is No Delivery Agents to Remove!");
+               System.out.println(redColor+"There is No Delivery Agents to Remove!"+resetColor);
                return;
           }
 
@@ -35,17 +45,17 @@ public final class Admin extends Person {
 
      public void displayAllCustomers(App app){
           if(app.customers.isEmpty()){
-               System.out.println("There is No Customers to Display!");
+               System.out.println(redColor+"There is No Customers to Display!"+resetColor);
                return;
           }
           for(int i = 0; i < app.customers.size(); i++){
-               System.out.println(app.customers.get(i).viewProfile());
+               System.out.println(app.customers.get(i).displayCustomerDetails());
           }
      }
 
      public void displayAllDeliveryAgents(App app){
           if(app.deliveryAgents.isEmpty()){
-               System.out.println("There is No Delivery Agents to Display!");
+               System.out.println(redColor+"There is No Delivery Agents to Display!"+resetColor);
                return;
           }
 
@@ -56,7 +66,7 @@ public final class Admin extends Person {
 
      public void displayAllHotels(App app){
           if(app.hotels.isEmpty()){
-               System.out.println("There is No Admins to Display!");
+               System.out.println(redColor+"There is No Admins to Display!"+resetColor);
                return;
           }
 
@@ -73,7 +83,7 @@ public final class Admin extends Person {
 
      public void removeCustomer(App app, int customerId){
           if(app.customers.isEmpty()){
-               System.out.println("There is No Customer To Remove!");
+               System.out.println(redColor+"There is No Customer To Remove!"+resetColor);
                return;
           }
 

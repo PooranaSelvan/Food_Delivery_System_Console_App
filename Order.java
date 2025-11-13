@@ -18,6 +18,7 @@ public class Order {
           this.items = items;
           this.orderStatus = "Order Placed";
           this.totalAmount = 0;
+          this.deliveryAgent = null;
      }
 
 
