@@ -419,7 +419,9 @@ public class DataBase {
                          }
                          // System.out.println(orderStatus);
 
-                         c.orderHistory.add(o);
+                         if (c != null) {
+                              c.orderHistory.add(o);
+                         }
                     }
                     
                    orders.add(o);

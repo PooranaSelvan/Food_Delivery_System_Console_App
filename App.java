@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class App {
@@ -10,19 +11,32 @@ public class App {
      ArrayList<Person> users = new ArrayList<>();
 
      static Scanner input = new Scanner(System.in);
+     DataBase db = new DataBase();
+
+     // Text Formatting & Decorations
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String cyanColor = "\u001B[96m";
+     String topLine = "┌──────────────────────────────────────────────────┐";
+     String bottomLine = "└──────────────────────────────────────────────────┘";
+     String sideLine = "│";
+     String textBold = "\u001B[1m";
+
+     // Error Messages
+     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
+
      
      public static void main(String[] args) {
           App app = new App();
-          DataBase db = new DataBase();
 
 
           // Load Users
-          app.customers = db.getCustomers();
-          app.hotels = db.getHotels();
-          app.deliveryAgents = db.getDeliveryAgents();
-          app.orders = db.getOrders(app.customers, app.hotels, app.deliveryAgents);
-          app.admins = db.getAdmins();
-          app.users = db.getUsers();
+          app.customers = app.db.getCustomers();
+          app.hotels = app.db.getHotels();
+          app.deliveryAgents = app.db.getDeliveryAgents();
+          app.orders = app.db.getOrders(app.customers, app.hotels, app.deliveryAgents);
+          app.admins = app.db.getAdmins();
+          app.users = app.db.getUsers();
 
           if (app.users.isEmpty()) {
                // Users
@@ -73,51 +87,168 @@ public class App {
 
 
           while (userChoice != 3) {
-               System.out.print("1. SignUp\n2. Login\n3. Exit\nEnter your Choice : ");
-               userChoice = input.nextInt();
+               System.out.println();
+               while (true) {
+                    try {
+                         System.out.print("1. SignUp\n2. Login\n3. Exit\nEnter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(app.invalidInputMessage);
+                         input.nextLine();
+                         userChoice = 0;
+                    }
+               }
+
                input.nextLine();
 
                switch (userChoice) {
                     case 1:
                          System.out.println();
-                         System.out.print("Enter your Name : ");
-                         String cusName = input.nextLine();
+                         String cusName;
+                         String cusPassword;
+                         String cusPhoneNum;
+                         String cusEmail;
+                         String cusLocation;
+                         String cusAddress;
 
-                         System.out.print("Enter the Password : ");
-                         String cusPassword = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter your Name : ");
+                                   cusName = input.nextLine();
 
-                         System.out.print("Enter the Phone Number : ");
-                         String cusPhoneNum = input.nextLine();
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
-                         System.out.print("Enter the Email : ");
-                         String cusEmail = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Password : ");
+                                   cusPassword = input.nextLine();
 
-                         System.out.print("Enter the Location : ");
-                         String cusLocation = input.nextLine();
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
-                         System.out.print("Enter the Address : ");
-                         String cusAddress = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Phone Number : ");
+                                   cusPhoneNum = input.nextLine();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   emailCheckLoop:
+                                   while (true) {
+                                        System.out.print("Enter the Email : ");
+                                        cusEmail = input.nextLine();
+
+
+                                        for (Customer c : app.customers) {
+                                             if(c.email.equalsIgnoreCase(cusEmail)){
+                                                  System.out.println("This Email is Already Taken!");
+                                                  continue emailCheckLoop;
+                                             }
+                                        }
+
+                                        for (Person u : app.users) {
+                                             if(u.email.equalsIgnoreCase(cusEmail)){
+                                                  System.out.println("This Email is Already Taken!");
+                                                  continue emailCheckLoop;
+                                             }
+                                        }
+
+                                        break;
+                                   }
+
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Location : ");
+                                   cusLocation = input.nextLine();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Address : ");
+                                   cusAddress = input.nextLine();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
                          Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
 
                          app.customers.add(newCustomer);
                          app.users.add(newCustomer);
+                         
+                         // saving in file
+                         app.saveAllData();
 
                          // Welcome Message
                          System.out.println("\n\u001B[96m\u001B[1m"+"┌──────────────────────────────────────────────────┐");
                          System.out.println("│        Welcome to ZOSW Food Delivery App         │");
                          System.out.println("└──────────────────────────────────────────────────┘"+"\u001B[0m\n");
-                         System.out.println("You can Login Now!\n");
+                         System.out.println(app.cyanColor+app.textBold+"You can Login Now!\n"+app.resetColor);
                          System.out.println();
                          break;
                     case 2:
                          System.out.println();
+                         String email;
+                         String password;
 
-                         System.out.print("Enter the Email : ");
-                         String email = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Email : ");
+                                   email = input.nextLine();
 
-                         System.out.print("Enter the Password : ");
-                         String password = input.nextLine();
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+                         
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Password : ");
+                                   password = input.nextLine();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
                          boolean userFound = false;
 
@@ -130,7 +261,7 @@ public class App {
 
                          if(app.users.isEmpty()){
                               System.out.println("\u001B[101m"+"There is No Users To Login!\nStart SignUp!"+"\u001B[0m");
-                              return;
+                              break;
                          }
 
 
@@ -189,13 +320,9 @@ public class App {
                          break;
                     case 3:
                          System.out.println("\n\u001B[92m"+"Thank you For Visiting!"+"\u001B[0m\n");
+                         
                          // Save data
-                         db.saveCustomers(app.customers);
-                         db.saveDeliveryAgents(app.deliveryAgents);
-                         db.saveHotels(app.hotels);
-                         db.saveOrders(app.orders);
-                         db.saveUsers(app.users);
-                         db.saveAdmins(app.admins);
+                         app.saveAllData();
                          break;
                     default:
                          System.out.println("\n\u001B[91m"+"Enter the Valid Choice!"+"\u001B[0m\n");
@@ -213,9 +340,21 @@ public class App {
           int userChoice = 0;
 
           while (userChoice != 8) {
-               System.out.print("1. View Hotels\n2. View Menu\n3. Add to Cart\n4. View Cart\n5. Place Order\n6. Track Order\n7. Order History\n8. Logout\nEnter your Choice : ");
-               userChoice = input.nextInt();
+
+               while (true) {
+                    try {
+                         System.out.print("1. View Hotels\n2. View Menu\n3. Add to Cart\n4. View Cart\n5. Place Order\n6. Track Order\n7. Order History\n8. Logout\nEnter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                         userChoice = 0;
+                    }
+               }
                input.nextLine();
+
 
                switch (userChoice) {
                     case 1:
@@ -259,6 +398,10 @@ public class App {
                     case 5:
                          System.out.println();
                          customer.placeOrder(this);
+
+                         // Saving in File
+                         saveAllData();
+
                          System.out.println();
                          break;
                     case 6:
@@ -286,8 +429,19 @@ public class App {
 
      public void showMenu(Customer customer){
           customer.viewHotels(hotels);
-          System.out.print("Enter the Hotel Id to See the Hotel Menu : ");
-          int hotelId = input.nextInt();
+          int hotelId;
+
+          while (true) {
+               try {
+                    System.out.print("Enter the Hotel Id to See the Hotel Menu : ");
+                    hotelId = input.nextInt();
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
 
           
@@ -308,8 +462,19 @@ public class App {
 
      public void showMenuNaddCart(Customer customer, boolean isOrder){
           customer.viewHotels(hotels);
-          System.out.print("Enter the Hotel Id to See the Hotel Menu : ");
-          int hotelId = input.nextInt();
+          int hotelId;
+
+          while (true) {
+               try {
+                    System.out.print("Enter the Hotel Id to See the Hotel Menu : ");
+                    hotelId = input.nextInt();
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
 
           Hotel orderHotel = null;
@@ -325,12 +490,23 @@ public class App {
           }
 
           boolean orderAgain = true;
+          int menuNum;
 
           while (orderAgain) {
                orderHotel.displayMenu();
 
-               System.out.print("Enter the Menu Number to Add to Cart : ");
-               int menuNum = input.nextInt();
+
+               while (true) {
+                    try {
+                         System.out.print("Enter the Menu Number to Add to Cart : ");
+                         menuNum = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                    }
+               }
                input.nextLine();
 
                Item orderItem = null;
@@ -351,11 +527,22 @@ public class App {
                
                String userChoice = "";
 
+               while (true) {
+                    try {
+                         System.out.print("Do you Want to Order More? [yes(y)/no(n)] : ");
+                         userChoice = input.nextLine().toLowerCase();
 
-               System.out.print("Do you Want to Order More? [yes(y)/no(n)] : ");
-               userChoice = input.nextLine().toLowerCase();
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                    }
+               }
+               
 
-               if(userChoice.equalsIgnoreCase("n") || userChoice.equalsIgnoreCase("no")){
+               if(userChoice.equalsIgnoreCase("y") || userChoice.equalsIgnoreCase("yes")){
+                    continue;
+               } else {
                     orderAgain = false;
                }
           }
@@ -376,9 +563,21 @@ public class App {
           int userChoice = 0;
 
           while (userChoice != 7) {
-               System.out.print("1. Unassigned Orders\n2. Assigned Orders\n3. Accept Order\n4. Update Delivery Status\n5. See Total Earnings\n6. Completed Orders\n7. Logout\nEnter your Choice : ");
-               userChoice = input.nextInt();
+
+               while (true) {
+                    try {
+                         System.out.print("1. Unassigned Orders\n2. Assigned Orders\n3. Accept Order\n4. Update Delivery Status\n5. See Total Earnings\n6. Completed Orders\n7. Logout\nEnter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                         userChoice = 0;
+                    }
+               }
                input.nextLine();
+
 
                switch (userChoice) {
                     case 1:
@@ -450,9 +649,20 @@ public class App {
                System.out.println(unAssignedOrders.get(i).orderDetails());
           }
 
-          System.out.print("Enter the Order Id to Accept Order : ");
-          int orderId = input.nextInt();
+          int orderId;
+          while (true) {
+               try {
+                    System.out.print("Enter the Order Id to Accept Order : ");
+                    orderId = input.nextInt();
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
+          
 
           Order selectedOrder = null;
           for (Order o : unAssignedOrders) {
@@ -471,6 +681,9 @@ public class App {
           deliveryAgent.orders.add(selectedOrder);
           deliveryAgent.isAvailable = false;
 
+          // Saving In File
+          saveAllData();
+
           System.out.println("Order Id : "+selectedOrder.orderId+" has been Assigned Successfully!");
      }
 
@@ -480,9 +693,20 @@ public class App {
                System.out.println(deliveryAgent.orders.get(i).orderDetails());
           }
 
-          System.out.print("Enter the Order Id to Update Order Status : ");
-          int orderId = input.nextInt();
+          int orderId;
+          while (true) {
+               try {
+                    System.out.print("Enter the Order Id to Update Order Status : ");
+                    orderId = input.nextInt();
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
+
 
           Order targetOrder = null;
           for (Order order : deliveryAgent.orders) {
@@ -502,10 +726,37 @@ public class App {
                return;
           }
 
-          System.out.print("Enter New Order Status : (Out Of Delivery, Delivered) : ");
-          String orderStatus = input.nextLine();
+          String orderStatus = "";
+          int userInput = 0;
+          while (true) {
+               try {
+                    while(userInput != 1 && userInput != 2){
+                         System.out.print("Enter New Order Status : (1. Out Of Delivery, 2. Delivered)\nEnter the Option Number : ");
+                         userInput = input.nextInt();
+                         
+                         if(userInput == 1){
+                              orderStatus = "Out of Delivery";
+                         } else if(userInput == 2){
+                              orderStatus = "Delivered";
+                         } else {
+                              System.out.println(invalidInputMessage);
+                         }
+                    }
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
+
+          
 
           deliveryAgent.updateDeliveryStatus(targetOrder, orderStatus);
+
+          // Saving In File
+          saveAllData();
+
      }
 
 
@@ -523,9 +774,21 @@ public class App {
           int userChoice = 0;
 
           while (userChoice != 11) {
-               System.out.print("1. Display All Users\n2. Display All Hotels\n3. Diplay All Menu\n4. Display All DeliveryAgents\n5. Add Hotel\n6. Add Menu For Hotel\n7. Add Delivery Agent\n8. Remove Hotel\n9. Remove Delivery Agent\n10. Remove User\n11. Logout\nEnter your Choice : ");
-               userChoice = input.nextInt();
+
+               while (true) {
+                    try {
+                         System.out.print("1. Display All CUstomers\n2. Display All Hotels\n3. Diplay All Menu\n4. Display All DeliveryAgents\n5. Add Hotel\n6. Add Menu For Hotel\n7. Add Delivery Agent\n8. Remove Hotel\n9. Remove Delivery Agent\n10. Remove User\n11. Logout\nEnter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                         userChoice = 0;
+                    }
+               }
                input.nextLine();
+
 
                switch (userChoice) {
                     case 1:
@@ -554,8 +817,19 @@ public class App {
                          System.out.println();
                          admin.displayAllHotels(app);
 
-                         System.out.print("Enter the Hotel Id to Display its Menu : ");
-                         int showMenuHotelId = input.nextInt();
+                         int showMenuHotelId;
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Hotel Id to Display its Menu : ");
+                                   showMenuHotelId = input.nextInt();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+                         input.nextLine();
 
                          Hotel showMenuHotel = null;
 
@@ -587,14 +861,40 @@ public class App {
                          break;
                     case 5:
                          System.out.println();
-                         System.out.print("Enter the Name of the Hotel : ");
-                         String hotelName = input.nextLine();
+                         String hotelName;
+                         String hotelLocation;
 
-                         System.out.print("Enter the Hotel Location : ");
-                         String hotelLocation = input.nextLine();
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Name of the Hotel : ");
+                                   hotelName = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Hotel Location : ");
+                                   hotelLocation = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
                          Hotel hotel = new Hotel(hotelName, hotelLocation);
                          admin.addHotel(app, hotel);
+                         
+                         // Saving In File
+                         saveAllData();
+                         
                          System.out.println();
                          break;
                     case 6:
@@ -605,9 +905,19 @@ public class App {
                          }
 
                          admin.displayAllHotels(app);
+                         int menuHotelId;
 
-                         System.out.print("Enter the Hotel Id to Add Menu For It : ");
-                         int menuHotelId = input.nextInt();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Hotel Id to Add Menu For It : ");
+                                   menuHotelId = input.nextInt();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          input.nextLine();
 
                          Hotel menuHotel = null;
@@ -622,8 +932,18 @@ public class App {
                              return;
                          }
 
-                         System.out.print("How Many Menu Items You Want to Add? : ");
-                         int itemCount = input.nextInt();
+                         int itemCount;
+                         while (true) {
+                              try {
+                                   System.out.print("How Many Menu Items You Want to Add? : ");
+                                   itemCount = input.nextInt();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          input.nextLine();
 
                          if(itemCount < 0){
@@ -637,21 +957,70 @@ public class App {
                          }
 
                          for(int i = 0; i < itemCount; i++){
-                              System.out.print("Enter the Name of the Item : ");
-                              String itemName = input.nextLine();
+                              String itemName;
+                              int itemPrice;
+                              String itemCategory;
+                              String itemDescription;
 
-                              System.out.print("Enter the Price of the Item : ");
-                              int itemPrice = input.nextInt();
+
+                              while (true) {
+                                   try {
+                                        System.out.print("Enter the Name of the Item : ");
+                                        itemName = input.nextLine();
+               
+                                        break;
+                                   } catch (InputMismatchException e) {
+                                        System.out.println(invalidInputMessage);
+                                        input.nextLine();
+                                   }
+                              }
+                              
+                              while (true) {
+                                   try {
+                                        System.out.print("Enter the Price of the Item : ");
+                                        itemPrice = input.nextInt();
+               
+                                        break;
+                                   } catch (InputMismatchException e) {
+                                        System.out.println(invalidInputMessage);
+                                        input.nextLine();
+                                   }
+                              }
                               input.nextLine();
 
-                              System.out.print("Enter the Item's Category : ");
-                              String itemCategory = input.nextLine();
+                              while (true) {
+                                   try {
+                                        String userInput = "";
+                                        while(!userInput.equalsIgnoreCase("v") && !userInput.equalsIgnoreCase("nv")){
+                                             System.out.print("Enter the Item's Category [Veg(v) / Non-Veg(nv)] : ");
+                                             userInput = input.nextLine();
+                                        }
+                                        itemCategory = userInput;
+               
+                                        break;
+                                   } catch (InputMismatchException e) {
+                                        System.out.println(invalidInputMessage);
+                                        input.nextLine();
+                                   }
+                              }
 
-                              System.out.print("Enter the Item's Description : ");
-                              String itemDescription = input.nextLine();
+                              while (true) {
+                                   try {
+                                        System.out.print("Enter the Item's Description : ");
+                                        itemDescription = input.nextLine();
+               
+                                        break;
+                                   } catch (InputMismatchException e) {
+                                        System.out.println(invalidInputMessage);
+                                        input.nextLine();
+                                   }
+                              }
 
                               Item newItem = new Item(itemName, itemPrice, itemCategory, itemDescription);
                               menuHotel.addFoodItem(newItem);
+                              
+                              // Saving In File
+                              saveAllData();
 
                               System.out.println("\n\u001B[92m"+itemName+" has been Successfully Added to Hotel : "+menuHotel.hotelName+"\u001B[0m\n");
                          }
@@ -660,24 +1029,80 @@ public class App {
                          break;
                     case 7:
                          System.out.println();
-                         System.out.print("Enter the Name : ");
-                         String dName = input.nextLine();
+                         String dName;
+                         String dPass;
+                         String dPhone;
+                         String dEmail;
+                         String dLocation;
 
-                         System.out.print("Enter the Password : ");
-                         String dPass = input.nextLine();
 
-                         System.out.print("Enter the Phone Number : ");
-                         String dPhone = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Name : ");
+                                   dName = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
-                         System.out.print("Enter the Email : ");
-                         String dEmail = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Password : ");
+                                   dPass = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
 
-                         System.out.print("Enter the Location : ");
-                         String dLocation = input.nextLine();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Phone Number : ");
+                                   dPhone = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Email : ");
+                                   dEmail = input.nextLine();
+          
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+                         
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Location : ");
+                                   dLocation = input.nextLine();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }     
 
                          DeliveryAgent d = new DeliveryAgent(dName, dPass, dPhone, dEmail, dLocation);
 
                          deliveryAgents.add(d);
+                         users.add(d);
+                         
+                         // Saving in File
+                         saveAllData();
 
                          System.out.print("");
                          System.out.println();
@@ -694,9 +1119,20 @@ public class App {
                               System.out.println(h.getHotelDetails());
                          }
 
-                         System.out.print("Enter the Hotel Id to Remove : ");
-                         int hotelId = input.nextInt();
+                         int hotelId;
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Hotel Id to Remove : ");
+                                   hotelId = input.nextInt();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          input.nextLine();
+
 
                          Hotel removeHotel = null;
                          for (Hotel h : hotels) {
@@ -711,6 +1147,9 @@ public class App {
                          }
 
                          hotels.remove(removeHotel);
+                         
+                         // Save In File
+                         saveAllData();
 
                          System.out.println();
                          break;
@@ -726,8 +1165,18 @@ public class App {
                               System.out.println(da.getTotalEarnings());
                          }
 
-                         System.out.print("Enter the Delivery Agent Id to Remove : ");
-                         int deliveryAgentId = input.nextInt();
+                         int deliveryAgentId;
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Delivery Agent Id to Remove : ");
+                                   deliveryAgentId = input.nextInt();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          input.nextLine();
 
                          DeliveryAgent removedAgent = null;
@@ -753,6 +1202,9 @@ public class App {
                               }
                          }
 
+                         // Saving In File
+                         saveAllData();
+
                          System.out.println();
                          break;
                     case 10:
@@ -767,8 +1219,18 @@ public class App {
                               System.out.println(u.viewProfile());
                          }
 
-                         System.out.print("Enter the Customer Id to Remove : ");
-                         int customerId = input.nextInt();
+                         int customerId;
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Customer Id to Remove : ");
+                                   customerId = input.nextInt();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          input.nextLine();
 
                          Customer removedCustomer = null;
@@ -780,12 +1242,20 @@ public class App {
                               }
                          }
 
+                         if(removedCustomer == null){
+                              System.out.println("Customer Not Found!");
+                              break;
+                         }
+
                          for(int i = 0; i < users.size(); i++){
                               if(users.get(i).email.equalsIgnoreCase(removedCustomer.email)){
                                    users.remove(i);
                                    break;
                               }
                          }
+                         
+                         // Saving In File
+                         saveAllData();
 
                          System.out.println();
                          break;
@@ -800,6 +1270,18 @@ public class App {
           }
 
           System.out.println();
+     }
+
+
+
+     // Saving All data
+     public void saveAllData(){
+          db.saveCustomers(customers);
+          db.saveDeliveryAgents(deliveryAgents);
+          db.saveHotels(hotels);
+          db.saveOrders(orders);
+          db.saveUsers(users);
+          db.saveAdmins(admins);
      }
 
 

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Hotel {
@@ -9,6 +10,14 @@ public class Hotel {
      ArrayList<Item> menu  = new ArrayList<>();
      ArrayList<Order> orders = new ArrayList<>();
      Scanner input = new Scanner(System.in);
+
+     // Text Formatting & Decorations
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String textBold = "\u001B[1m";
+
+     // Error Messages
+     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
 
      Hotel(String hotelName, String location){
@@ -37,17 +46,37 @@ public class Hotel {
      public void updateFoodItem(int index){
           Item item = menu.get(index);
 
-          System.out.print("Enter the Option Number you Want to Change : \n1. Name\n2. Price\n3. Category\n4. Description\nEnter your Choice : ");
-          int userChoice = input.nextInt();
+          int userChoice;
+          while (true) {
+               try {
+                    System.out.print("Enter the Option Number you Want to Change : \n1. Name\n2. Price\n3. Category\n4. Description\nEnter your Choice : ");
+                    userChoice = input.nextInt();
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
 
           switch (userChoice) {
                case 1:
                     System.out.println();
-                    System.out.print("Enter the New Name : ");
-                    String name = input.nextLine();
-
+                    String name;
+                    while (true) {
+                         try {
+                              System.out.print("Enter the New Name : ");
+                              name = input.nextLine();
+          
+                              break;
+                         } catch (InputMismatchException e) {
+                              System.out.println(invalidInputMessage);
+                              input.nextLine();
+                         }
+                    }
                     item.itemName = name;
+
 
                     System.out.println("\n==========================");
                     System.out.println("Name Changed Successfully!");
@@ -55,10 +84,20 @@ public class Hotel {
                     break;
                case 2:
                     System.out.println();
-                    System.out.print("Enter the New Price : ");
-                    double price = input.nextDouble();
-
+                    double price;
+                    while (true) {
+                         try {
+                              System.out.print("Enter the New Price : ");
+                              price = input.nextDouble();
+          
+                              break;
+                         } catch (InputMismatchException e) {
+                              System.out.println(invalidInputMessage);
+                              input.nextLine();
+                         }
+                    }
                     item.itemPrice = price;
+
 
                     System.out.println("\n===========================");
                     System.out.println("Price Changed Successfully!");
@@ -66,10 +105,20 @@ public class Hotel {
                     break;
                case 3:
                     System.out.println();
-                    System.out.print("Enter the New Category name : ");
-                    String categoryName = input.nextLine();
-
+                    String categoryName;
+                    while (true) {
+                         try {
+                              System.out.print("Enter the New Category name : ");
+                              categoryName = input.nextLine();
+          
+                              break;
+                         } catch (InputMismatchException e) {
+                              System.out.println(invalidInputMessage);
+                              input.nextLine();
+                         }
+                    }
                     item.itemCategory = categoryName;
+
 
                     System.out.println("\n====================================");
                     System.out.println("Category Name Changed Successfully!");
@@ -77,10 +126,20 @@ public class Hotel {
                     break;
                case 4:
                     System.out.println();
-                    System.out.print("Enter the New Description : ");
-                    String description = input.nextLine();
-
+                    String description;
+                    while (true) {
+                         try {
+                              System.out.print("Enter the New Description : ");
+                              description = input.nextLine();
+          
+                              break;
+                         } catch (InputMismatchException e) {
+                              System.out.println(invalidInputMessage);
+                              input.nextLine();
+                         }
+                    }
                     item.description = description;
+
 
                     System.out.println("\n==================================");
                     System.out.println("Description Changed Successfully!");

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class Customer extends Person {
@@ -9,6 +10,12 @@ public final class Customer extends Person {
      static int globalId = 1;
      static Scanner input = new Scanner(System.in);
      Hotel hotel;
+
+     // Text Formatting & Decorations
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String textBold = "\u001B[1m";
+     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
 
      Customer(String name, String password, String phone, String email, String location, String address){
@@ -68,17 +75,57 @@ public final class Customer extends Person {
 
           if(!cart.isEmpty() && this.hotel.hotelId != hotel.hotelId){
                System.out.println("You can Only able to Order from One Hotel!");
-               return;
+
+               while (true) {
+                    String userChoice;
+                    while (true) {
+                         try {
+                              System.out.print("Are you Sure want to Reset the Cart and Order from this hotel? [y/n]");
+                              userChoice = input.nextLine();
+     
+                              break;
+                         } catch (InputMismatchException e) {
+                              System.out.println(invalidInputMessage);
+                              input.nextLine();
+                         }
+                    }
+
+                    if(userChoice.equalsIgnoreCase("y")){
+                         cart.clear();
+                         this.hotel = hotel;
+                         break;
+                    } else if(userChoice.equalsIgnoreCase("n")) {
+                         System.out.println("Item Is Not Added to Cart!");
+                         return;
+                    } else {
+                         System.out.println(invalidInputMessage);
+                         continue;
+                    }
+               }
           }
 
-          System.out.print("Enter the Quantity for "+item.itemName+" : ");
-          int qty = input.nextInt();
+          int qty;
+          while (true) {
+               try {
+                    while (true) {
+                         System.out.print("Enter the Quantity for "+item.itemName+" : ");
+                         qty = input.nextInt();
+                         
+                         if(qty < 1){
+                              System.out.println("Enter the Valid Quantity!");
+                              continue;
+                         }
+                         break;
+                    }
+
+                    break;
+               } catch (InputMismatchException e) {
+                    System.out.println(invalidInputMessage);
+                    input.nextLine();
+               }
+          }
           input.nextLine();
 
-          if(qty <= 0){
-               System.out.println("Enter the Valid Quantity!");
-               return;
-          }
 
           Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
           orderedItem.quantity = qty;
