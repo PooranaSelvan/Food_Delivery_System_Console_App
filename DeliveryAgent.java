@@ -45,7 +45,7 @@ public final class DeliveryAgent extends Person {
           }
 
           if(!isNotAssigned){
-               System.out.println(redColor+"There is Not UnAssigned Orders!"+resetColor);
+               System.out.println(redColor+"There is No UnAssigned Orders!"+resetColor);
           }
      }
 

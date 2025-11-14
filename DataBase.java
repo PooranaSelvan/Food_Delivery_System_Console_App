@@ -147,14 +147,11 @@ public class DataBase {
 
                while (line != null) {
                     String arr[] = line.split(",");
+
                     DeliveryAgent d = new DeliveryAgent(arr[1], arr[2], arr[3], arr[4], arr[5]);
                     d.deliveryAgentId = Integer.parseInt(arr[0]);
-                    if (arr.length > 6) {
-                         d.totalEarnings = Double.parseDouble(arr[6]);
-                    }
-                    if (arr.length > 7) {
-                        d.isAvailable = Boolean.parseBoolean(arr[7]);
-                    }
+                    d.totalEarnings = Double.parseDouble(arr[6]);
+                    d.isAvailable = Boolean.parseBoolean(arr[7]);
                     deliveryAgents.add(d);
 
                     line = br.readLine();
@@ -310,7 +307,7 @@ public class DataBase {
 
 
      // Items
-     public ArrayList<Item> getHotelItems(ArrayList<Hotel> hotels){
+     public void getHotelItems(ArrayList<Hotel> hotels){
           ArrayList<Item> items = new ArrayList<>();
 
           try {
@@ -328,7 +325,7 @@ public class DataBase {
                     double price = Double.parseDouble(arr[3]);
                     String itemCategory = arr[4];
                     String itemDescription = arr[5];
-                    int quantity = (arr.length > 6) ? Integer.parseInt(arr[6]) : 0;
+                    int quantity = Integer.parseInt(arr[6]);
 
                     Item item = new Item(itemName, price, itemCategory, itemDescription);
                     item.itemId = itemId;
@@ -364,7 +361,6 @@ public class DataBase {
                System.out.println(e.getMessage());
           }
 
-          return items;
      }
 
      public void saveHotelMenu(ArrayList<Hotel> hotels){
@@ -495,19 +491,6 @@ public class DataBase {
           }
 
           return  null;
-     }
-
-     public ArrayList<Item> getItems(int orderId, ArrayList<Order> orders){
-          ArrayList<Item> items = new ArrayList<>();
-
-          for(int i = 0; i < orders.size(); i++){
-               if(orders.get(i).orderId == orderId){
-                    items = orders.get(i).items;
-                    break;
-               }
-          }
-
-          return items;
      }
 
      public Hotel getHotel(int hotelId, ArrayList<Hotel> hotels){

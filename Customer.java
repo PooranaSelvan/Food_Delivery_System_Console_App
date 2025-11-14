@@ -117,6 +117,11 @@ public final class Customer extends Person {
                               System.out.println(redColor+"Enter the Valid Quantity!"+resetColor);
                               continue;
                          }
+
+                         if(qty > 15){
+                              System.out.println(redColor+"You can Only Order 15 at a Time!"+resetColor);
+                              continue;
+                         }
                          break;
                     }
 
@@ -165,7 +170,6 @@ public final class Customer extends Person {
                return;
           }
 
-          System.out.println(this.hotel.hotelName != null ? this.hotel.hotelName : null);
           Order order = new Order(this, this.hotel, cart);
           order.calculateTotal();
           order.orderStatus = "Order Placed";
