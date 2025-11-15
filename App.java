@@ -88,7 +88,7 @@ public class App {
 
           // Welcome Message
           System.out.println(app.yellowColor+app.textBold + "┌──────────────────────────────────────────────────┐\n"+
-                                                            "│      Welcome to Suvai Now Food Delivery App      │\n"+
+                                                            "│      Welcome to 'Suvai Now' Food Delivery App    │\n"+
                                                             "└──────────────────────────────────────────────────┘" + app.resetColor);
 
           while (userChoice != 3) {
@@ -222,6 +222,7 @@ public class App {
                          String cusEmail;
                          String cusLocation;
                          String cusAddress;
+                         String confirmPassword;
 
                          System.out.println(
                                    "\n╔═══════════════════════╗\n║      SignUp Menu      ║\n╚═══════════════════════╝\n");
@@ -252,6 +253,24 @@ public class App {
                                         continue;
                                    }
 
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+                         
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Confirm Password : ");
+                                   char c[] = System.console().readPassword();
+                                   confirmPassword = new String(c);
+                                   
+                                   if(!cusPassword.equals(confirmPassword)){
+                                        System.out.println(app.redColor+"Confirm Password Doesn't Match!"+app.resetColor);
+                                        continue;
+                                   }
+                                   
                                    break;
                               } catch (InputMismatchException e) {
                                    System.out.println(app.invalidInputMessage);
@@ -346,8 +365,8 @@ public class App {
 
                          // Welcome Message
                          System.out.println(
-                                   "\n\u001B[96m\u001B[1m" + "┌──────────────────────────────────────────────────┐");
-                         System.out.println("│        Welcome to ZOSW Food Delivery App         │");
+                  "\n\u001B[96m\u001B[1m" + "┌──────────────────────────────────────────────────┐");
+                         System.out.println("│     Welcome to 'Suvai Now' Food Delivery App     │");
                          System.out.println("└──────────────────────────────────────────────────┘" + "\u001B[0m\n");
                          System.out.println(app.cyanColor + app.textBold + "You can Login Now!\n" + app.resetColor);
                          System.out.println();
@@ -665,12 +684,11 @@ public class App {
 
           unAssignedOrders.clear();
           for (int i = 0; i < orders.size(); i++) {
-               if (orders.get(i).deliveryAgent == null && orders.get(i).orderStatus.equalsIgnoreCase("Order Placed")
-                         && orders.get(i).hotel != null) {
+               if (orders.get(i).deliveryAgent == null && orders.get(i).orderStatus.equalsIgnoreCase("Order Placed") && orders.get(i).hotel != null) {
                     unAssignedOrders.add(orders.get(i));
                }
           }
-          System.out.println(orders.get(0).hotel == null);
+
           if (unAssignedOrders.isEmpty()) {
                System.out.println(redColor + "There is No UnAssigned Orders!" + resetColor);
                return;
@@ -826,7 +844,7 @@ public class App {
                          adminHotelMenu(admin);
                          break;
                     case 2:
-                         adminDeliveryAgentMenu(admin);
+                         adminDeliveryAgentMenu(admin, app);
                          break;
                     case 3:
                          adminCustomerMenu(admin);
@@ -854,10 +872,11 @@ public class App {
           while (userChoice != 3) {
 
                System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
-                                     + "│ 1. Display All Customers        │\n│ 2. Remove Customers             │\n│ 3. Exit                         |\n"
+                                     + "│ 1. Display All Customers        │\n│ 2. Remove Customers             │\n│ 3. Back                         |\n"
                                      + "└─────────────────────────────────┘\n" + resetColor);
                System.out.print("Enter your Choice : ");
                userChoice = input.nextInt();
+               input.nextLine();
 
                switch (userChoice) {
                     case 1:
@@ -936,7 +955,7 @@ public class App {
           }
      }
 
-     public void adminDeliveryAgentMenu(Admin admin){
+     public void adminDeliveryAgentMenu(Admin admin, App app){
           int userChoice = 0;
 
           System.out.println("\n╔══════════════════════╗\n"+
@@ -945,11 +964,11 @@ public class App {
 
           while (userChoice != 4) {
                System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
-                                     + "│ 1. Display All DeliveryAgents   │\n│ 2. Add Delivery Agent           │\n│ 3. Remove DeliveryAgent         │\n│ 4. Exit                         |\n"
+                                     + "│ 1. Display All DeliveryAgents   │\n│ 2. Add Delivery Agent           │\n│ 3. Remove DeliveryAgent         │\n│ 4. Back                         |\n"
                                      + "└─────────────────────────────────┘\n" + resetColor);
                System.out.print("Enter your Choice : ");
                userChoice = input.nextInt();
-
+               input.nextLine();
 
                switch (userChoice) {
                     case 1:
@@ -962,7 +981,7 @@ public class App {
 
                          System.out.println("==========================================================");
                          System.out.println(greenColor + "All Delivery Agents : " + resetColor);
-                         admin.displayAllDeliveryAgents(this);
+                         admin.displayAllDeliveryAgents(app);
                          System.out.println("==========================================================");
                          System.out.println();
                          break;
@@ -1151,10 +1170,11 @@ public class App {
           while (userChoice != 6) {
 
                System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
-                                          + "│ 1. Display All Hotels           │\n│ 2. Display Hotel Menu           │\n│ 3. Add Hotel                    │\n│ 4. Add Menu for Hotel           │\n│ 5. Remove Hotel                 |\n| 6. Exit                         |\n"
+                                          + "│ 1. Display All Hotels           │\n│ 2. Display Hotel Menu           │\n│ 3. Add Hotel                    │\n│ 4. Add Menu for Hotel           │\n│ 5. Remove Hotel                 |\n| 6. Back                         |\n"
                                           + "└─────────────────────────────────┘\n" + resetColor);
                System.out.print("Enter your Choice : ");
                userChoice = input.nextInt();
+               input.nextLine();
 
                switch (userChoice) {
                     case 1:
@@ -1336,6 +1356,10 @@ public class App {
                                              System.out.print("Enter the Name of the Item : ");
                                              itemName = input.nextLine();
 
+                                             if(!isValidName(itemName)){
+                                                  continue;
+                                             }
+
                                              for (Item item : menuHotel.menu) {
                                                   if (item.itemName.equalsIgnoreCase(itemName)) {
                                                        System.out.println(redColor + "Item With Same Name is Already Exists!"+resetColor);
@@ -1363,6 +1387,11 @@ public class App {
                                              continue;
                                         }
 
+                                        if(itemPrice > 10000){
+                                             System.out.println(redColor+"Maximum Price Limit is 10k"+resetColor);
+                                             continue;
+                                        }
+
                                         break;
                                    } catch (InputMismatchException e) {
                                         System.out.println(invalidInputMessage);
@@ -1374,10 +1403,14 @@ public class App {
                               while (true) {
                                    try {
                                         String userInput = "";
-                                        while (!userInput.equalsIgnoreCase("v") && !userInput.equalsIgnoreCase("nv")) {
-                                             System.out.print("Enter the Item's Category [Veg(v) / Non-Veg(nv) / Drinks / Snacks] : ");
-                                             userInput = input.nextLine();
+                                        System.out.print("Enter the Item's Category [Veg(v) / Non-Veg(nv) / Drinks / Snacks] : ");
+                                        userInput = input.nextLine();
+
+                                        if(!userInput.equalsIgnoreCase("nv") || !userInput.equalsIgnoreCase("v") || !userInput.equalsIgnoreCase("veg") || !userInput.equalsIgnoreCase("non-veg") || !userInput.equalsIgnoreCase("non veg") || !userInput.equalsIgnoreCase("drinks") || !userInput.equalsIgnoreCase("snacks")){
+                                             System.out.println(redColor+"Enter the Valid Option!"+resetColor);
+                                             continue;
                                         }
+
                                         itemCategory = userInput;
 
                                         break;
@@ -1391,6 +1424,16 @@ public class App {
                                    try {
                                         System.out.print("Enter the Item's Description : ");
                                         itemDescription = input.nextLine();
+
+                                        if(itemDescription.length() < 5){
+                                             System.out.println(redColor+"Minimum 5 Letters for Description!\nGive a Big Description!"+resetColor);
+                                             continue;
+                                        }
+
+                                        if(itemDescription.length() > 20){
+                                             System.out.println(redColor+"Maximum 20 Letters for Description!\nGive a Short Description!"+resetColor);
+                                             continue;
+                                        }
 
                                         break;
                                    } catch (InputMismatchException e) {

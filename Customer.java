@@ -145,7 +145,6 @@ public final class Customer extends Person {
 
                if(updateItem){
                     System.out.println(greenColor+item.itemName+(qty > 1 ? "×"+qty : "")+" has been Added to Cart!"+resetColor);
-                    return;
                }
           }
 
@@ -222,6 +221,7 @@ public final class Customer extends Person {
      }
 
      public void viewOrderHistory(App app){
+          app.loadAllData();
 
           System.out.println(greenColor+"Order History : "+resetColor);
 

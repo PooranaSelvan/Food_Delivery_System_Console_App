@@ -61,7 +61,7 @@ public final class DeliveryAgent extends Person {
                Order order = orders.get(i);
 
                if(!order.orderStatus.equalsIgnoreCase("delivered")){
-                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+order.customer.name+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+ ((order.customer == null) ? "Not Assigned" : order.customer.name) +" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
                     isAssigned = true;
                }
           }
@@ -75,6 +75,7 @@ public final class DeliveryAgent extends Person {
 
           if(order.orderStatus.equalsIgnoreCase("delivered")){
                System.out.println(greenColor+"This Order is Already Delivered!"+resetColor);
+               app.saveAllData();
                return;
           }
 
