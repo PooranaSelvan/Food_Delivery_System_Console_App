@@ -21,6 +21,6 @@ public sealed class Person permits Admin, Customer, DeliveryAgent {
      }
 
      public String viewProfile(){
-          return "| Name : "+name+" | Email : "+email+" | Phone : "+phone+" | Location : "+location+" | Role : "+role+" |";
+          return "| Name : "+name+" | Email : "+email+" | Phone : "+phone+" | Location : "+location+" |";
      }
 }

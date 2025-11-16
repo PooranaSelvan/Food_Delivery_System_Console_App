@@ -70,7 +70,7 @@ public final class Customer extends Person {
           System.out.println("==========================================\n");
      }
 
-     public void addToCart(Item item, Hotel hotel, App app){
+     public boolean addToCart(Item item, Hotel hotel, App app){
           if(cart.isEmpty()){
                this.hotel = hotel;
           }
@@ -98,7 +98,7 @@ public final class Customer extends Person {
                          break;
                     } else if(userChoice.equalsIgnoreCase("n")) {
                          System.out.println(redColor+"Item Is Not Added to Cart!"+resetColor);
-                         return;
+                         return false;
                     } else {
                          System.out.println(invalidInputMessage);
                          continue;
@@ -110,8 +110,17 @@ public final class Customer extends Person {
           while (true) {
                try {
                     while (true) {
-                         System.out.print("Enter the Quantity for "+item.itemName+" : ");
-                         qty = input.nextInt();
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Quantity for "+item.itemName+" : ");
+                                   qty = input.nextInt();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(app.invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
                          
                          if(qty < 1){
                               System.out.println(redColor+"Enter the Valid Quantity!"+resetColor);
@@ -142,20 +151,22 @@ public final class Customer extends Person {
                     i.itemPrice = item.itemPrice;
                     break;
                }
-
-               if(updateItem){
-                    System.out.println(greenColor+item.itemName+(qty > 1 ? "×"+qty : "")+" has been Added to Cart!"+resetColor);
-               }
           }
 
 
-          Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
-          orderedItem.quantity = qty;
+          if(!updateItem){
+               Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
+               orderedItem.quantity = qty;
 
-          cart.add(orderedItem);
+               cart.add(orderedItem);
+          }
           // System.out.println(cart.size());
 
           System.out.println(greenColor+item.itemName+(item.quantity > 1 ? "*"+qty : "")+" has been Added to Cart!"+resetColor);
+
+          app.saveAllData();
+
+          return true;
      }
 
      public void placeOrder(App app){

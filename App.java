@@ -232,7 +232,8 @@ public class App {
                                    System.out.print("Enter your Name : ");
                                    cusName = input.nextLine();
 
-                                   if (!app.isValidName(cusName)) {
+                                   if (cusName.equalsIgnoreCase("")) {
+                                        System.out.println(app.invalidInputMessage);
                                         continue;
                                    }
 
@@ -460,19 +461,57 @@ public class App {
                          break;
                     case 6:
                          System.out.println();
-                         loadAllData();
                          customer.trackOrder(this);
                          System.out.println();
                          break;
                     case 7:
                          System.out.println();
-                         loadAllData();
                          customer.viewOrderHistory(this);
                          System.out.println();
                          break;
                     case 8:
                          System.out.println();
+                         String logoutOption = "";
+                         
+                         if(!customer.cart.isEmpty()){
+                              while (true) {
+                                   while (true) {
+                                        try {
+                                             System.out.print("You have unplaced orders in your cart. If you exit, they will be cleared. Exit anyway? [yes(y)/no(n)] : ");
+                                             logoutOption = input.nextLine();
+     
+                                             if(logoutOption.equalsIgnoreCase("")){
+                                                  System.out.println(invalidInputMessage);
+                                                  continue;
+                                             }
+     
+                                             break;
+                                        } catch (InputMismatchException e) {
+                                             System.out.println(invalidInputMessage);
+                                        }
+                                   }
+
+                                   if(logoutOption.equalsIgnoreCase("yes") || logoutOption.equalsIgnoreCase("y")){
+                                        customer.cart.clear();
+                                        break;
+                                   } else if(logoutOption.equalsIgnoreCase("no") || logoutOption.equalsIgnoreCase("n")){
+                                        userChoice = 0;
+                                        System.out.println(greenColor+"Place Your Order!"+resetColor);
+                                        System.out.println();
+                                        break;
+                                   } else {
+                                        System.out.println(invalidInputMessage);
+                                        continue;
+                                   }
+                              } 
+                         }
+
+                         if(logoutOption.equalsIgnoreCase("no") || logoutOption.equalsIgnoreCase("n")){
+                              break;
+                         }
+
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
+                         saveAllData();
                          System.out.println();
                          return;
                     default:
@@ -577,7 +616,11 @@ public class App {
                     return;
                }
 
-               customer.addToCart(orderItem, orderHotel, this);
+               boolean orderResponse = customer.addToCart(orderItem, orderHotel, this);
+
+               if(!orderResponse){
+                    return;
+               }
 
                String userChoice = "";
 
@@ -667,6 +710,7 @@ public class App {
                     case 7:
                          System.out.println();
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
+                         saveAllData();
                          System.out.println();
                          return;
                     default:
@@ -852,6 +896,7 @@ public class App {
                     case 4:
                          System.out.println();
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
+                         saveAllData();
                          System.out.println();
                          return;
                     default:
@@ -871,11 +916,20 @@ public class App {
 
           while (userChoice != 3) {
 
-               System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
+               while (true) {
+                    try {
+                         System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
                                      + "│ 1. Display All Customers        │\n│ 2. Remove Customers             │\n│ 3. Back                         |\n"
                                      + "└─────────────────────────────────┘\n" + resetColor);
-               System.out.print("Enter your Choice : ");
-               userChoice = input.nextInt();
+                         System.out.print("Enter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                    }
+               }
                input.nextLine();
 
                switch (userChoice) {
@@ -948,6 +1002,7 @@ public class App {
                          System.out.println();
                          break;
                     case 3:
+                         saveAllData();
                          break;
                     default:
                          break;
@@ -963,11 +1018,20 @@ public class App {
                                "╚══════════════════════╝\n");
 
           while (userChoice != 4) {
-               System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
+               while (true) {
+                    try {
+                         System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
                                      + "│ 1. Display All DeliveryAgents   │\n│ 2. Add Delivery Agent           │\n│ 3. Remove DeliveryAgent         │\n│ 4. Back                         |\n"
                                      + "└─────────────────────────────────┘\n" + resetColor);
-               System.out.print("Enter your Choice : ");
-               userChoice = input.nextInt();
+                         System.out.print("Enter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                    }
+               }
                input.nextLine();
 
                switch (userChoice) {
@@ -998,7 +1062,8 @@ public class App {
                                    System.out.print("Enter the Name : ");
                                    dName = input.nextLine();
 
-                                   if (!isValidName(dName)) {
+                                   if (dName.equalsIgnoreCase("")) {
+                                        System.out.println(invalidInputMessage);
                                         continue;
                                    }
 
@@ -1048,13 +1113,13 @@ public class App {
                                         System.out.print("Enter the Email : ");
                                         dEmail = input.nextLine();
 
-                                        if (!isValidAddress(dEmail)) {
+                                        if (!isValidEmail(dEmail)) {
                                              continue;
                                         }
 
                                         for (Person p : users) {
                                              if (p.email.equalsIgnoreCase(dEmail)) {
-                                                  System.out.println(redColor + "This Email Address is Already Taken!"+resetColor);
+                                                  System.out.println(redColor + "This Email is Already Taken!"+resetColor);
                                                   continue emailCheckLoop;
                                              }
                                         }
@@ -1152,6 +1217,7 @@ public class App {
                          System.out.println();
                          break;
                     case 4:
+                         saveAllData();
                          break;
                     default:
                          break;
@@ -1167,13 +1233,22 @@ public class App {
                                "║     Hotel    ║\n"+
                                "╚══════════════╝\n");
 
-          while (userChoice != 6) {
+          while (userChoice != 7) {
 
-               System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
-                                          + "│ 1. Display All Hotels           │\n│ 2. Display Hotel Menu           │\n│ 3. Add Hotel                    │\n│ 4. Add Menu for Hotel           │\n│ 5. Remove Hotel                 |\n| 6. Back                         |\n"
-                                          + "└─────────────────────────────────┘\n" + resetColor);
-               System.out.print("Enter your Choice : ");
-               userChoice = input.nextInt();
+               while (true) {
+                    try {
+                         System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
+                                                    + "│ 1. Display All Hotels           │\n│ 2. Display Hotel Menu           │\n│ 3. Add Hotel                    │\n│ 4. Add Menu Item for Hotel      │\n│ 5. Remove Hotel                 │\n| 6. Remove Hotel Menu            |\n| 7. Back                         |\n"
+                                                    + "└─────────────────────────────────┘\n" + resetColor);
+                         System.out.print("Enter your Choice : ");
+                         userChoice = input.nextInt();
+
+                         break;
+                    } catch (InputMismatchException e) {
+                         System.out.println(invalidInputMessage);
+                         input.nextLine();
+                    }
+               }
                input.nextLine();
 
                switch (userChoice) {
@@ -1356,7 +1431,8 @@ public class App {
                                              System.out.print("Enter the Name of the Item : ");
                                              itemName = input.nextLine();
 
-                                             if(!isValidName(itemName)){
+                                             if(itemName.equalsIgnoreCase("")){
+                                                  System.out.println(invalidInputMessage);
                                                   continue;
                                              }
 
@@ -1406,7 +1482,7 @@ public class App {
                                         System.out.print("Enter the Item's Category [Veg(v) / Non-Veg(nv) / Drinks / Snacks] : ");
                                         userInput = input.nextLine();
 
-                                        if(!userInput.equalsIgnoreCase("nv") || !userInput.equalsIgnoreCase("v") || !userInput.equalsIgnoreCase("veg") || !userInput.equalsIgnoreCase("non-veg") || !userInput.equalsIgnoreCase("non veg") || !userInput.equalsIgnoreCase("drinks") || !userInput.equalsIgnoreCase("snacks")){
+                                        if(!userInput.equalsIgnoreCase("nv") && !userInput.equalsIgnoreCase("v") && !userInput.equalsIgnoreCase("veg") && !userInput.equalsIgnoreCase("non-veg") && !userInput.equalsIgnoreCase("non veg") && !userInput.equalsIgnoreCase("drinks") && !userInput.equalsIgnoreCase("snacks")){
                                              System.out.println(redColor+"Enter the Valid Option!"+resetColor);
                                              continue;
                                         }
@@ -1479,29 +1555,90 @@ public class App {
                          }
                          input.nextLine();
 
-                         Hotel removeHotel = null;
+                         Hotel removingHotel = null;
                          for (Hotel h : hotels) {
                               if (h.hotelId == hotelId) {
-                                   removeHotel = h;
+                                   removingHotel = h;
                                    break;
                               }
                          }
-                         if (removeHotel == null) {
+                         if (removingHotel == null) {
                               System.out.println(redColor + "Enter a valid Hotel ID!" + resetColor);
                               return;
                          }
 
-                         hotels.remove(removeHotel);
+                         hotels.remove(removingHotel);
 
                          // Save In File
                          saveAllData();
 
-                         System.out.println(greenColor + removeHotel.hotelName + " has Successfully Removed as Hotels"
-                                   + resetColor);
+                         System.out.println(greenColor + removingHotel.hotelName + " has Successfully Removed from Hotels"+ resetColor);
 
                          System.out.println();
                          break;
                     case 6:
+                         System.out.println();
+                         admin.displayAllHotels(this);
+
+                         int removeMenuHotelId;
+                         while (true) {
+                              try {
+                                   System.out.print("Enter the Hotel Id to Display its Menu Item: ");
+                                   removeMenuHotelId = input.nextInt();
+
+                                   break;
+                              } catch (InputMismatchException e) {
+                                   System.out.println(invalidInputMessage);
+                                   input.nextLine();
+                              }
+                         }
+                         input.nextLine();
+
+                         Hotel removeMenuHotel = null;
+
+                         for (int i = 0; i < hotels.size(); i++) {
+                              if (hotels.get(i).hotelId == removeMenuHotelId) {
+                                   removeMenuHotel = hotels.get(i);
+                                   break;
+                              }
+                         }
+
+                         if (removeMenuHotel == null) {
+                              System.out.println(redColor + "Hotel Not Found!" + resetColor);
+                              break;
+                         }
+
+                         System.out.println("==========================================================");
+                         System.out.println(greenColor + "All Menu of Hotel " + removeMenuHotel.hotelName + resetColor);
+                         admin.displayAllMenu(removeMenuHotel);
+                         System.out.println("==========================================================");
+
+
+                         System.out.print("Enter the Menu Id to Remove the Menu from the Hotel : ");
+                         int removeMenuId = input.nextInt();
+
+                         Item removeHotelMenu = null;
+
+                         for(int i = 0; i < removeMenuHotel.menu.size(); i++){
+                              if(removeMenuHotel.menu.get(i).itemId == removeMenuId){
+                                   removeHotelMenu = removeMenuHotel.menu.get(i);
+                                   break;
+                              }
+                         }
+
+                         if (removeHotelMenu == null) {
+                              System.out.println(redColor + "Menu Item with ID " + removeMenuId + " not found!" + resetColor);
+                              break;
+                         }
+
+                         removeMenuHotel.menu.remove(removeHotelMenu);
+
+                         System.out.println(removeHotelMenu.itemName+" has removed Successfully from Hotel "+removeMenuHotel.hotelName);
+                         saveAllData();
+                         System.out.println();
+                         break;
+                    case 7:
+                         saveAllData();
                          break;     
                     default:
                          System.out.println(redColor+"Enter the Valid Option!"+resetColor);
@@ -1554,17 +1691,62 @@ public class App {
      }
 
      public boolean isValidEmail(String email) {
-          if (!(email.endsWith("@gmail.com") || email.endsWith("@zoho.com") || email.endsWith("@zohocorp.com"))) {
+
+          if(email.indexOf("@") <= 0){
                System.out.println(
                          "\u001B[91m╭───────────────────────────────────────╮\n" +
                                    "│         Invalid Email Format          │\n" +
                                    "╰───────────────────────────────────────╯\u001B[0m");
                return false;
-          } else if (email.length() < 13) {
+          }
+
+          if(email.indexOf(".") <= 0){
                System.out.println(
-                         "\u001B[91m╭────────────────────────────────────────────╮\n" +
-                                   "│        Email must be at least 13 letters   │\n" +
-                                   "╰────────────────────────────────────────────╯\u001B[0m");
+                         "\u001B[91m╭───────────────────────────────────────╮\n" +
+                                   "│         Invalid Email Format          │\n" +
+                                   "╰───────────────────────────────────────╯\u001B[0m");
+               return false;
+          }
+
+          if(email.indexOf("@") != email.lastIndexOf("@")){
+               System.out.println(
+                         "\u001B[91m╭───────────────────────────────────────╮\n" +
+                                   "│         Contains Multiple @           │\n" +
+                                   "╰───────────────────────────────────────╯\u001B[0m");
+               return false;
+          }
+
+          if(email.indexOf(".") != email.lastIndexOf(".")){
+               System.out.println(
+                         "\u001B[91m╭───────────────────────────────────────╮\n" +
+                                   "│         Contains Multiple .           │\n" +
+                                   "╰───────────────────────────────────────╯\u001B[0m");
+               return false;
+          }
+
+          if(email.startsWith(".") || email.endsWith(".")){
+               System.out.println(
+                         "\u001B[91m╭───────────────────────────────────────╮\n" +
+                                   "│         Invalid Email Format          │\n" +
+                                   "╰───────────────────────────────────────╯\u001B[0m");
+               return false;
+          }
+          
+          String emailArr[] = email.split("@");
+
+          if(emailArr[0].length() < 2){
+               System.out.println(
+                    "\u001B[91m╭───────────────────────────────────────╮\n" +
+                              "│         Invalid Email Format          │\n" +
+                              "╰───────────────────────────────────────╯\u001B[0m");
+               return false;
+          }
+
+          if(emailArr[0].length() < 2){
+               System.out.println(
+                    "\u001B[91m╭───────────────────────────────────────╮\n" +
+                              "│         Invalid Email Format          │\n" +
+                              "╰───────────────────────────────────────╯\u001B[0m");
                return false;
           }
 

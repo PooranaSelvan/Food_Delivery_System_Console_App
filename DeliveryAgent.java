@@ -27,7 +27,6 @@ public final class DeliveryAgent extends Person {
 
 
      public void getUnassignedOrders(App app){
-          app.loadAllData();
 
           if(app.orders.isEmpty()){
                System.out.println(redColor+"No Orders Found!"+resetColor);
