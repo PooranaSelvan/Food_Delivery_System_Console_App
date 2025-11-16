@@ -85,6 +85,8 @@ public class DataBase {
      // Customer
      public ArrayList<Customer> getCustomers(){
           ArrayList<Customer> customers = new ArrayList<>();
+          int maxCustomerId = 0;
+
 
           try {
                File f = new File(customerFile);
@@ -99,7 +101,15 @@ public class DataBase {
                     c.customerId = Integer.parseInt(arr[0]);
                     customers.add(c);
 
+                    if (c.customerId > maxCustomerId) {
+                         maxCustomerId = c.customerId;
+                    }
+
                     line = br.readLine();
+               }
+
+               if (maxCustomerId >= Customer.globalId) {
+                    Customer.globalId = maxCustomerId + 1;
                }
 
                fr.close();
@@ -138,6 +148,7 @@ public class DataBase {
      // Delivery Agent
      public ArrayList<DeliveryAgent> getDeliveryAgents(){
           ArrayList<DeliveryAgent> deliveryAgents = new ArrayList<>();
+          int maxDeliveryAgentId = 0;
 
           try {
                File f =  new File(deliveryAgentFile);
@@ -154,7 +165,15 @@ public class DataBase {
                     d.isAvailable = Boolean.parseBoolean(arr[7]);
                     deliveryAgents.add(d);
 
+                    if (d.deliveryAgentId > maxDeliveryAgentId) {
+                         maxDeliveryAgentId = d.deliveryAgentId;
+                    }
+
                     line = br.readLine();
+               }
+
+               if (maxDeliveryAgentId >= DeliveryAgent.globalId) {
+                    DeliveryAgent.globalId = maxDeliveryAgentId + 1;
                }
 
                fr.close();
@@ -191,6 +210,7 @@ public class DataBase {
      // Admin
      public ArrayList<Admin> getAdmins(){
           ArrayList<Admin> admins = new ArrayList<>();
+          int maxAdminId = 0;
 
           try {
                File f =  new File(adminFile);
@@ -204,8 +224,18 @@ public class DataBase {
                     // Admin a  = new Admin(null, null, null, null, null);
                     a.adminId = Integer.parseInt(arr[0]);
                     admins.add(a);
+
+                    if (a.adminId > maxAdminId) {
+                         maxAdminId = a.adminId;
+                    }
+
                     line = br.readLine();
                }
+
+               if (maxAdminId >= Admin.globalId) {
+                    Admin.globalId = maxAdminId + 1;
+               }
+        
 
                fr.close();
                br.close();
@@ -394,6 +424,7 @@ public class DataBase {
      // Order
      public ArrayList<Order> getOrders(ArrayList<Customer> customers, ArrayList<Hotel> hotels, ArrayList<DeliveryAgent> deliveryAgents) {
           ArrayList<Order> orders = new ArrayList<>();
+          int maxOrderId = 0;
       
           try {
                File f = new File(orderFile);
@@ -402,24 +433,29 @@ public class DataBase {
                String line = br.readLine();
                
                while (line != null) {
-                   String arr[] = line.split(",");
-               
-                   int orderId = Integer.parseInt(arr[0]);
-                   int customerId = Integer.parseInt(arr[1]);
-                   int hotelId = Integer.parseInt(arr[2]);
-                   int deliveryAgentId = Integer.parseInt(arr[3]);
-                   String orderStatus = arr[4];
-                   double totalAmount = Double.parseDouble(arr[5]);
-               
-                   Customer c = getCustomer(customerId, customers);
-                   Hotel h = getHotel(hotelId, hotels);
-                   DeliveryAgent deliveryAgent = getDeliveryAgent(deliveryAgentId, deliveryAgents);
-               
-                   Order o = new Order(c, h, new ArrayList<Item>());
-                   o.orderId = orderId;
-                   o.orderStatus = orderStatus;
-                   o.totalAmount = totalAmount;
-                   o.deliveryAgent = deliveryAgent;
+                    String arr[] = line.split(",");
+                    
+                    int orderId = Integer.parseInt(arr[0]);
+                    int customerId = Integer.parseInt(arr[1]);
+                    int hotelId = Integer.parseInt(arr[2]);
+                    int deliveryAgentId = Integer.parseInt(arr[3]);
+                    String orderStatus = arr[4];
+                    double totalAmount = Double.parseDouble(arr[5]);
+                    
+                    Customer c = getCustomer(customerId, customers);
+                    Hotel h = getHotel(hotelId, hotels);
+                    DeliveryAgent deliveryAgent = getDeliveryAgent(deliveryAgentId, deliveryAgents);
+                    
+                    Order o = new Order(c, h, new ArrayList<Item>());
+                    o.orderId = orderId;
+                    o.orderStatus = orderStatus;
+                    o.totalAmount = totalAmount;
+                    o.deliveryAgent = deliveryAgent;
+
+
+                    if (orderId > maxOrderId) {
+                    maxOrderId = orderId;
+                    }
 
                     if (deliveryAgent != null) {
                          if (orderStatus.equalsIgnoreCase("delivered")) {
@@ -436,6 +472,10 @@ public class DataBase {
                     
                    orders.add(o);
                    line = br.readLine();
+               }
+
+               if (maxOrderId >= Order.globalId) {
+                    Order.globalId = maxOrderId + 1;
                }
               
                fr.close();
