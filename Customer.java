@@ -7,7 +7,7 @@ public final class Customer extends Person {
      String address;
      ArrayList<Item> cart = new ArrayList<>();
      ArrayList<Order> orderHistory = new ArrayList<>();
-     static int globalId = 1;
+     static int cusGlobalId = 1;
      static Scanner input = new Scanner(System.in);
      Hotel hotel;
 
@@ -22,7 +22,7 @@ public final class Customer extends Person {
 
      Customer(String name, String password, String phone, String email, String location, String address){
           super(name, password, phone, email, location, "customer");
-          this.customerId = globalId++;
+          this.customerId = cusGlobalId++;
           this.address = address;
      }
 
@@ -162,7 +162,7 @@ public final class Customer extends Person {
           }
           // System.out.println(cart.size());
 
-          System.out.println(greenColor+item.itemName+(item.quantity > 1 ? "*"+qty : "")+" has been Added to Cart!"+resetColor);
+          System.out.println(greenColor+item.itemName+(item.quantity > 1 ? "×"+qty : "")+" has been Added to Cart!"+resetColor);
 
           app.saveAllData();
 
@@ -186,8 +186,19 @@ public final class Customer extends Person {
           orderHistory.add(order);
           app.orders.add(order);
 
-          System.out.println(greenColor+"Order Has Been Placed Successfully!");
-          System.out.println("Your Total Amount is : "+order.totalAmount+resetColor);
+          System.out.println(greenColor);
+          System.out.println("╔════════════════════════════════════╗");
+          System.out.println("║                BILL                ║");
+          System.out.println("╠════════════════════════════════════╣");
+          System.out.println("╠ ORDER ID : "+order.orderId);
+          System.out.println("╠ HOTEL NAME : "+order.hotel.hotelName);
+          System.out.println("╠ ORDER STATUS : "+order.orderStatus);
+          for(int i = 0; i < cart.size(); i++){
+               Item item = cart.get(i);
+               System.out.println("╠ "+item.quantity+"× "+item.itemName+"     "+"₹"+item.itemPrice * item.quantity);
+          }
+          System.out.println("╠ TOTAL AMOUNT : "+order.totalAmount);
+          System.out.println(resetColor);
 
           app.saveAllData();
 
@@ -218,9 +229,10 @@ public final class Customer extends Person {
                Order order = orderHistory.get(i);
 
                String deliveryAgentName = (order.deliveryAgent == null) ? "Not Assigned" : order.deliveryAgent.name;
+               String hotelName = (order.hotel == null) ? "Unknown Hotel" : order.hotel.hotelName;
 
                if(!order.orderStatus.equalsIgnoreCase("delivered")){
-                    orderRes += "| Order Id : "+order.orderId+" | Ordered Hotel : "+order.hotel.hotelName+" | Delivery Agent Name : "+deliveryAgentName+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |\n";
+                    orderRes += "| Order Id : "+order.orderId+" | Ordered Hotel : "+hotelName+" | Delivery Agent Name : "+deliveryAgentName+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |\n";
                }
           }
 

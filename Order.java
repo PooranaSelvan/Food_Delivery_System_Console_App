@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Order {
      int orderId;
-     static int globalId = 1;
+     static int orderGlobalId = 1;
      Customer customer;
      Hotel hotel;
      DeliveryAgent deliveryAgent;
@@ -12,7 +12,7 @@ public class Order {
 
 
      Order(Customer customer, Hotel hotel, ArrayList<Item> items){
-          this.orderId = globalId++;
+          this.orderId = orderGlobalId++;
           this.hotel = hotel;
           this.customer = customer;
           this.items = items;
@@ -33,8 +33,10 @@ public class Order {
      }
 
      public String orderDetails(){
+          String customerName = (customer == null) ? "Unknown" : customer.name;
+          String hotelName = (hotel == null) ? "Unknown" : hotel.hotelName;
           String deliveryAgentName = (deliveryAgent == null) ? "Not Assigned" : deliveryAgent.name;
 
-          return "| Order Id : "+orderId+" | Customer Name : "+customer.name+" | Hotel Name : "+hotel.hotelName+" | Delivery Agent : "+deliveryAgentName+" | Order Status : "+orderStatus+" | Total Amount : "+totalAmount+" |";
+          return "| Order Id : "+orderId+" | Customer Name : "+customerName+" | Hotel Name : "+hotelName+" | Delivery Agent : "+deliveryAgentName+" | Order Status : "+orderStatus+" | Total Amount : "+totalAmount+" |";
      }
 }

@@ -1,6 +1,6 @@
 public final class Admin extends Person {
      int adminId;
-     static int globalId = 1;
+     static int adminGlobalId = 1;
 
      // Text Formatting & Decorations
      String redColor = "\n\u001B[91m";
@@ -14,7 +14,7 @@ public final class Admin extends Person {
 
      Admin(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location, "admin");
-          this.adminId = globalId++;
+          this.adminId = adminGlobalId++;
      }
 
      public void addHotel(App app, Hotel hotel){

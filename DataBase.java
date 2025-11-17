@@ -108,8 +108,8 @@ public class DataBase {
                     line = br.readLine();
                }
 
-               if (maxCustomerId >= Customer.globalId) {
-                    Customer.globalId = maxCustomerId + 1;
+               if (maxCustomerId >= Customer.cusGlobalId) {
+                    Customer.cusGlobalId = maxCustomerId + 1;
                }
 
                fr.close();
@@ -172,8 +172,8 @@ public class DataBase {
                     line = br.readLine();
                }
 
-               if (maxDeliveryAgentId >= DeliveryAgent.globalId) {
-                    DeliveryAgent.globalId = maxDeliveryAgentId + 1;
+               if (maxDeliveryAgentId >= DeliveryAgent.agentGlobalId) {
+                    DeliveryAgent.agentGlobalId = maxDeliveryAgentId + 1;
                }
 
                fr.close();
@@ -232,8 +232,8 @@ public class DataBase {
                     line = br.readLine();
                }
 
-               if (maxAdminId >= Admin.globalId) {
-                    Admin.globalId = maxAdminId + 1;
+               if (maxAdminId >= Admin.adminGlobalId) {
+                    Admin.adminGlobalId = maxAdminId + 1;
                }
         
 
@@ -474,8 +474,8 @@ public class DataBase {
                    line = br.readLine();
                }
 
-               if (maxOrderId >= Order.globalId) {
-                    Order.globalId = maxOrderId + 1;
+               if (maxOrderId >= Order.orderGlobalId) {
+                    Order.orderGlobalId = maxOrderId + 1;
                }
               
                fr.close();

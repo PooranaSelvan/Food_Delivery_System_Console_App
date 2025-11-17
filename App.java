@@ -355,9 +355,7 @@ public class App {
                               }
                          }
 
-                         Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation,
-                                   cusAddress);
-
+                         Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
                          app.customers.add(newCustomer);
                          app.users.add(newCustomer);
 
@@ -869,7 +867,7 @@ public class App {
                while (true) {
                     try {
                          System.out.print(cyanColor + "┌─────────────────────┐\n"
-                                                    + "│ 1. Hotels           │\n│ 2. Delivery Agents   │\n│ 3. Customers        │\n│ 4. Logout           │\n"
+                                                    + "│ 1. Hotels           │\n│ 2. Delivery Agents  │\n│ 3. Customers        │\n│ 4. Logout           │\n"
                                                     + "└─────────────────────┘\n" + resetColor);
                          System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
@@ -1021,8 +1019,8 @@ public class App {
                while (true) {
                     try {
                          System.out.print(cyanColor + "┌─────────────────────────────────┐\n"
-                                     + "│ 1. Display All Delivery Agents   │\n│ 2. Add Delivery Agent           │\n│ 3. Remove DeliveryAgent         │\n│ 4. Back                         |\n"
-                                     + "└─────────────────────────────────┘\n" + resetColor);
+                                                    + "│ 1. Display All Delivery Agents  │\n│ 2. Add Delivery Agent           │\n│ 3. Remove DeliveryAgent         │\n│ 4. Back                         |\n"
+                                                    + "└─────────────────────────────────┘\n" + resetColor);
                          System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
 
@@ -1151,7 +1149,6 @@ public class App {
                          }
 
                          DeliveryAgent d = new DeliveryAgent(dName, dPass, dPhone, dEmail, dLocation);
-
                          deliveryAgents.add(d);
                          users.add(d);
 

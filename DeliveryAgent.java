@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public final class DeliveryAgent extends Person {
      int deliveryAgentId;
-     static int globalId = 1;
+     static int agentGlobalId = 1;
      boolean isAvailable;
      double totalEarnings;
      ArrayList<Order> orders = new ArrayList<>();
@@ -20,7 +20,7 @@ public final class DeliveryAgent extends Person {
 
      DeliveryAgent(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location, "deliveryagent");
-          this.deliveryAgentId = globalId++;
+          this.deliveryAgentId = agentGlobalId++;
           this.isAvailable = true;
           this.totalEarnings = 0;
      }
@@ -36,9 +36,10 @@ public final class DeliveryAgent extends Person {
           boolean isNotAssigned = false;
           for(int i = 0; i < app.orders.size(); i++){
                Order order = app.orders.get(i);
+               String customerName = (order.customer == null) ? "Unknown" : order.customer.name;
 
                if(order.deliveryAgent == null && order.orderStatus.equalsIgnoreCase("Order Placed")){
-                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+order.customer.name+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+customerName+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
                     isNotAssigned = true;
                }
           }
