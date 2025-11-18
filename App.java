@@ -29,7 +29,6 @@ public class App {
 
      public static void main(String[] args) {
           App app = new App();
-
           // Load Users
           app.loadAllData();
 
@@ -387,6 +386,8 @@ public class App {
      public void showCustomerMenu(Customer customer) {
           System.out.println();
 
+          System.out.println("\n╔═══════════════════════╗\n║     Customer Menu     ║\n╚═══════════════════════╝\n");
+
           boolean isOrder = true;
           int userChoice = 0;
 
@@ -395,8 +396,8 @@ public class App {
                while (true) {
                     try {
                          System.out.print(cyanColor + "┌───────────────────────────────┐\n"
-                                   + "│ 1. View Hotels                │     \n│ 2. View Menu                  │     \n│ 3. Add to Cart                │     \n│ 4. View Cart                  │     \n│ 5. Place Order                │     \n│ 6. Track Order                │     \n│ 7. Order History              │     \n│ 8. Logout                     │     \n"
-                                   + "└───────────────────────────────┘\n" + resetColor);
+                                                    + "│ 1. View Hotels                │     \n│ 2. View Menu                  │     \n│ 3. Add to Cart                │     \n│ 4. View Cart                  │     \n│ 5. Place Order                │     \n│ 6. Track Order                │     \n│ 7. Order History              │     \n│ 8. Logout                     │     \n"
+                                                    + "└───────────────────────────────┘\n" + resetColor);
                          System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
 
@@ -1799,10 +1800,10 @@ public class App {
      }
 
      public boolean isValidLocation(String location) {
-          if (location.length() <= 5) {
+          if (location.length() <= 2) {
                System.out.println(
                          "\u001B[91m╭────────────────────────────────────────────╮\n" +
-                                   "│       Location must be more than 5 letters │\n" +
+                                   "│       Location must be more than 2 letters │\n" +
                                    "╰────────────────────────────────────────────╯\u001B[0m");
                return false;
           }
@@ -1810,10 +1811,10 @@ public class App {
      }
 
      public boolean isValidAddress(String address) {
-          if (address.length() <= 10) {
+          if (address.length() <= 5) {
                System.out.println(
                          "\u001B[91m╭────────────────────────────────────────────╮\n" +
-                                   "│      Address must be more than 10 letters  │\n" +
+                                   "│      Address must be more than 5 letters   │\n" +
                                    "╰────────────────────────────────────────────╯\u001B[0m");
                return false;
           }

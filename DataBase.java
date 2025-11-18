@@ -87,7 +87,6 @@ public class DataBase {
           ArrayList<Customer> customers = new ArrayList<>();
           int maxCustomerId = 0;
 
-
           try {
                File f = new File(customerFile);
                FileReader fr = new FileReader(f);
@@ -101,16 +100,12 @@ public class DataBase {
                     c.customerId = Integer.parseInt(arr[0]);
                     customers.add(c);
 
-                    if (c.customerId > maxCustomerId) {
-                         maxCustomerId = c.customerId;
-                    }
+                    maxCustomerId = Math.max(maxCustomerId, c.customerId);
 
                     line = br.readLine();
                }
 
-               if (maxCustomerId >= Customer.cusGlobalId) {
-                    Customer.cusGlobalId = maxCustomerId + 1;
-               }
+               Customer.cusGlobalId = maxCustomerId + 1;
 
                fr.close();
                br.close();
@@ -165,16 +160,12 @@ public class DataBase {
                     d.isAvailable = Boolean.parseBoolean(arr[7]);
                     deliveryAgents.add(d);
 
-                    if (d.deliveryAgentId > maxDeliveryAgentId) {
-                         maxDeliveryAgentId = d.deliveryAgentId;
-                    }
+                    maxDeliveryAgentId = Math.max(maxDeliveryAgentId, d.deliveryAgentId);
 
                     line = br.readLine();
                }
 
-               if (maxDeliveryAgentId >= DeliveryAgent.agentGlobalId) {
-                    DeliveryAgent.agentGlobalId = maxDeliveryAgentId + 1;
-               }
+               DeliveryAgent.agentGlobalId = maxDeliveryAgentId + 1;
 
                fr.close();
                br.close();
@@ -212,6 +203,7 @@ public class DataBase {
           ArrayList<Admin> admins = new ArrayList<>();
           int maxAdminId = 0;
 
+
           try {
                File f =  new File(adminFile);
                FileReader fr = new FileReader(f);
@@ -225,17 +217,12 @@ public class DataBase {
                     a.adminId = Integer.parseInt(arr[0]);
                     admins.add(a);
 
-                    if (a.adminId > maxAdminId) {
-                         maxAdminId = a.adminId;
-                    }
+                    maxAdminId = Math.max(maxAdminId, a.adminId);
 
                     line = br.readLine();
                }
 
-               if (maxAdminId >= Admin.adminGlobalId) {
-                    Admin.adminGlobalId = maxAdminId + 1;
-               }
-        
+               Admin.adminGlobalId = maxAdminId + 1;
 
                fr.close();
                br.close();
@@ -270,13 +257,13 @@ public class DataBase {
      public ArrayList<Hotel> getHotels(){
           ArrayList<Hotel> hotels = new ArrayList<>();
 
+          int maxHotelId = 0;
+
           try {
                File f = new File(hotelFile);
                FileReader fr = new FileReader(f);
                BufferedReader br = new BufferedReader(fr);
                String line = br.readLine();
-
-               int globalId = 0;
 
                while (line != null) {
                     String arr[] = line.split(",");
@@ -288,16 +275,14 @@ public class DataBase {
                     Hotel h = new Hotel(hotelName, location);
                     h.hotelId = hotelId;
 
-                    if(hotelId > globalId){
-                         globalId = hotelId;
-                    }
+                    maxHotelId = Math.max(maxHotelId, h.hotelId);
 
                     hotels.add(h);
 
                     line = br.readLine();
                }
 
-               Hotel.globalId = globalId + 1;
+               Hotel.globalId = maxHotelId + 1;
 
                getHotelItems(hotels);
 
@@ -339,6 +324,7 @@ public class DataBase {
      // Items
      public void getHotelItems(ArrayList<Hotel> hotels){
           ArrayList<Item> items = new ArrayList<>();
+          int maxItemId = 0;
 
           try {
                File f = new File(itemFile);
@@ -361,9 +347,7 @@ public class DataBase {
                     item.itemId = itemId;
                     item.quantity = quantity;
 
-                    if (itemId >= Item.globalId) {
-                         Item.globalId = itemId + 1;
-                    }
+                    maxItemId = Math.max(maxItemId, item.itemId);
 
                     items.add(item);
 
@@ -372,18 +356,16 @@ public class DataBase {
                               if (h.menu == null) {
                                    h.menu = new ArrayList<>();
                               }
-
-                              Item newItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
-                              newItem.itemId = item.itemId;
-                              newItem.quantity = item.quantity;
           
-                              h.menu.add(newItem);
+                              h.menu.add(item);
                               break;
                          }
                     }
 
                     line = br.readLine();
                }
+
+               Item.globalId = maxItemId + 1;
 
                fr.close();
                br.close();
@@ -425,6 +407,7 @@ public class DataBase {
      public ArrayList<Order> getOrders(ArrayList<Customer> customers, ArrayList<Hotel> hotels, ArrayList<DeliveryAgent> deliveryAgents) {
           ArrayList<Order> orders = new ArrayList<>();
           int maxOrderId = 0;
+
       
           try {
                File f = new File(orderFile);
@@ -453,9 +436,7 @@ public class DataBase {
                     o.deliveryAgent = deliveryAgent;
 
 
-                    if (orderId > maxOrderId) {
-                    maxOrderId = orderId;
-                    }
+                    maxOrderId = Math.max(maxOrderId, orderId);
 
                     if (deliveryAgent != null) {
                          if (orderStatus.equalsIgnoreCase("delivered")) {
@@ -474,9 +455,7 @@ public class DataBase {
                    line = br.readLine();
                }
 
-               if (maxOrderId >= Order.orderGlobalId) {
-                    Order.orderGlobalId = maxOrderId + 1;
-               }
+               Order.orderGlobalId = maxOrderId + 1;
               
                fr.close();
                br.close();

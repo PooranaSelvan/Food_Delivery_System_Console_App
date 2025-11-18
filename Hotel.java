@@ -12,10 +12,10 @@ public class Hotel {
      Scanner input = new Scanner(System.in);
 
      // Text Formatting & Decorations
-     String redColor = "\n\u001B[91m";
-     String resetColor = "\u001B[0m\n";
-     String cyanColor = "\n\u001B[96m";
-     String greenColor = "\n\u001B[92m";
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String cyanColor = "\u001B[96m";
+     String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
 
      // Error Messages
@@ -30,7 +30,7 @@ public class Hotel {
      
      public void displayMenu(){
           System.out.println("\n=====================================================");
-          System.out.println(greenColor+"Menu Of Hotel : "+hotelName+resetColor);
+          System.out.println("\n"+greenColor+"Menu Of Hotel : "+hotelName+resetColor+"\n");
           for(int i = 0; i < menu.size(); i++){
                System.out.println(menu.get(i).displayItemInfo());
           }
@@ -40,6 +40,13 @@ public class Hotel {
      public void addFoodItem(Item item){
           menu.add(item);
      }
+     
+     public void addFoodItem(ArrayList<Item> item){
+          menu.addAll(item);
+     }
+     
+     
+
 
      public void removeFoodItem(int index){
           menu.remove(index);
@@ -158,6 +165,6 @@ public class Hotel {
      }
 
      public String getHotelDetails(){
-          return "| Hotel Id : "+hotelId+" | Hotel Name : "+hotelName+" | Location : "+location+" |";
+          return "| Hotel Id : "+hotelId+" | "+greenColor+"Hotel Name : "+hotelName+resetColor+" | Location : "+location+" |";
      }
 }

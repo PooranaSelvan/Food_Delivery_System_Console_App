@@ -59,14 +59,16 @@ public final class Customer extends Person {
                return;
           }
 
-
+          int totalAmount = 0;
           System.out.println("\n==========================================");
           System.out.println(greenColor+"Your Cart Items : "+resetColor);
           for(int i = 0; i < cart.size(); i++){
                if(cart.get(i) != null){
                     System.out.println(cart.get(i).displayItemInfo());
+                    totalAmount += cart.get(i).itemPrice;
                }
           }
+          System.out.println(greenColor+"Your Total Amount is : "+totalAmount+resetColor);
           System.out.println("==========================================\n");
      }
 
@@ -198,6 +200,7 @@ public final class Customer extends Person {
                System.out.println("╠ "+item.quantity+"× "+item.itemName+"     "+"₹"+item.itemPrice * item.quantity);
           }
           System.out.println("╠ TOTAL AMOUNT : "+order.totalAmount);
+          System.out.println("╚════════════════════════════════════╝");
           System.out.println(resetColor);
 
           app.saveAllData();
