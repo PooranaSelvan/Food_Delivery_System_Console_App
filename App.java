@@ -738,8 +738,10 @@ public class App {
           }
 
           for (int i = 0; i < unAssignedOrders.size(); i++) {
-
-               System.out.println(unAssignedOrders.get(i).orderDetails());
+               Order order = unAssignedOrders.get(i);
+               if(order != null){
+                    System.out.println(greenColor+"│ Order Id : "+order.orderId+resetColor+" │ Customer Name : "+order.customer.name+" │ Order Status : "+order.orderStatus+greenColor+" │ Total Amount : "+order.totalAmount+resetColor);
+               }
           }
 
           int orderId;

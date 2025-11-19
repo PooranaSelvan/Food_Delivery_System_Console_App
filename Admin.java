@@ -3,10 +3,10 @@ public final class Admin extends Person {
      static int adminGlobalId = 1;
 
      // Text Formatting & Decorations
-     String redColor = "\n\u001B[91m";
-     String resetColor = "\u001B[0m\n";
-     String cyanColor = "\n\u001B[96m";
-     String greenColor = "\n\u001B[92m";
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String cyanColor = "\u001B[96m";
+     String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
 
      // Error Messages
@@ -49,7 +49,7 @@ public final class Admin extends Person {
                return;
           }
           for(int i = 0; i < app.customers.size(); i++){
-               System.out.println(app.customers.get(i).displayCustomerDetails());
+               System.out.println(app.customers.get(i).displayCustomerDetails()+greenColor+" Orders Count : "+app.customers.get(i).orderHistory.size()+" |"+resetColor);
           }
      }
 

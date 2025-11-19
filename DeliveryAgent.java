@@ -9,10 +9,10 @@ public final class DeliveryAgent extends Person {
      ArrayList<Order> comppletedOrders = new ArrayList<>();
 
      // Text Formatting & Decorations
-     String redColor = "\n\u001B[91m";
-     String resetColor = "\u001B[0m\n";
-     String cyanColor = "\n\u001B[96m";
-     String greenColor = "\n\u001B[92m";
+     String redColor = "\u001B[91m";
+     String resetColor = "\u001B[0m";
+     String cyanColor = "\u001B[96m";
+     String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
 
      // Error Messages
@@ -39,7 +39,7 @@ public final class DeliveryAgent extends Person {
                String customerName = (order.customer == null) ? "Unknown" : order.customer.name;
 
                if(order.deliveryAgent == null && order.orderStatus.equalsIgnoreCase("Order Placed")){
-                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+customerName+" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+customerName+" | "+greenColor+"Total Amount : ₹"+order.totalAmount+" |"+resetColor);
                     isNotAssigned = true;
                }
           }
@@ -61,13 +61,13 @@ public final class DeliveryAgent extends Person {
                Order order = orders.get(i);
 
                if(!order.orderStatus.equalsIgnoreCase("delivered")){
-                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+ ((order.customer == null) ? "Not Assigned" : order.customer.name) +" | Order Status : "+order.orderStatus+" | Total Amount : "+order.totalAmount+" |");
+                    System.out.println("| Order Id : "+order.orderId+" |"+greenColor+" Customer Name : "+ ((order.customer == null) ? "Not Assigned" : order.customer.name) +resetColor+" | Order Status : "+order.orderStatus+greenColor+" | Total Amount : "+order.totalAmount+resetColor+" |");
                     isAssigned = true;
                }
           }
 
           if(!isAssigned){
-               System.out.println("There is No Assigned Orders!");
+               System.out.println(redColor+"There is No Assigned Orders!"+resetColor);
           }
      }
 
@@ -105,12 +105,20 @@ public final class DeliveryAgent extends Person {
                return;
           }
 
+          System.out.println("=============================================================================");
+          System.out.println(greenColor+"Completed Orders\n"+resetColor);
+
+          int totalAmount = 0;
           for(int i = 0; i < comppletedOrders.size(); i++){
                System.out.println(comppletedOrders.get(i).orderDetails());
+               totalAmount += comppletedOrders.get(i).totalAmount;
           }
+
+          System.out.println(greenColor+"\nTotal Amount : ₹"+totalAmount+resetColor);
+          System.out.println("=============================================================================");
      }
 
      public String getTotalEarnings(){
-          return "Agent Id : "+deliveryAgentId+" "+this.viewProfile()+" Total Earnings : "+totalEarnings;
+          return "Agent Id : "+deliveryAgentId+" "+this.viewProfile()+greenColor+" Total Earnings : "+totalEarnings+resetColor;
      }
 }
