@@ -1,1 +1,10 @@
 Data/
+/Admin.class
+/App.class
+/Customer.class
+/DataBase.class
+/DeliveryAgent.class
+/Hotel.class
+/Item.class
+/Order.class
+/Person.class
