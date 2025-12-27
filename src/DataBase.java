@@ -674,24 +674,6 @@ class DataBase {
         return orders;
     }
 
-    public ArrayList<Order> getAssignedOrders(int agentId) throws SQLException {
-        ArrayList<Order> orders = new ArrayList<>();
-
-        PreparedStatement ps = connection.prepareStatement(Queries.selectOrdersByAgentId);
-        ps.setInt(1, agentId);
-        ResultSet rs = ps.executeQuery();
-
-        while (rs.next()){
-            Order o = getOrderById(rs.getInt("orderId"));
-            if(o != null){
-                orders.add(o);
-            }
-        }
-        ps.close();
-
-        return orders;
-    }
-
     public ArrayList<Order> getCustomerOrders(int customerId) throws SQLException {
         ArrayList<Order> orders = new ArrayList<>();
 
@@ -757,13 +739,15 @@ class DataBase {
             if(agentId > 0){
                 updateDeliveryAgentStatus(agentId, true);
 
-                DeliveryAgent d = getDeliveryAgentById(agentId);
 
                 Order o = getOrderById(orderId);
 
-                if(d != null && o != null){
-                    d.totalEarnings += o.totalAmount;
-                    updateDeliveryAgentEarnings(agentId, d.totalEarnings);
+                if(o != null){
+                    DeliveryAgent d = getDeliveryAgentById(agentId);
+                    if(d != null){
+                        d.totalEarnings += o.totalAmount;
+                        updateDeliveryAgentEarnings(agentId, d.totalEarnings);
+                    }
                 }
             }
         }

@@ -77,7 +77,7 @@ final class DeliveryAgent extends Person {
      public void updateDeliveryStatus(Order order, String orderStatus, DataBase db) throws SQLException {
 //          System.out.println("Inside Delivery Agent : "+orderStatus);
 
-          if(order.orderStatus.equalsIgnoreCase("delivered")){
+          if(order.orderStatus.equalsIgnoreCase("DELIVERED")){
                System.out.println(greenColor+"This Order is Already Delivered!"+resetColor);
                return;
           }
@@ -85,15 +85,23 @@ final class DeliveryAgent extends Person {
           order.updateOrderStatus(orderStatus);
           db.updateOrderStatus(order.orderId, orderStatus);
 
-          if(orderStatus.equalsIgnoreCase("delivered")){
-               totalEarnings += order.totalAmount;
+          if(orderStatus.equalsIgnoreCase("DELIVERED")){
                isAvailable = true;
 
-               orders.remove(order);
-               comppletedOrders.add(order);
-               System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
+               if(orders != null){
+                   orders.remove(order);
+               }
 
-               db.updateDeliveryAgentEarnings(deliveryAgentId, totalEarnings);
+               if(comppletedOrders != null){
+                   comppletedOrders.add(order);
+               }
+
+               DeliveryAgent updatedAgent = db.getDeliveryAgentById(deliveryAgentId);
+               if(updatedAgent != null){
+                  totalEarnings = updatedAgent.totalEarnings;
+               }
+
+               System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
                return;
           }
 

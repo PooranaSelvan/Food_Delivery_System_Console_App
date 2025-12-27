@@ -2,6 +2,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class App {
      static Scanner input = new Scanner(System.in);
@@ -21,9 +23,13 @@ public class App {
      // Error Messages
      String invalidInputMessage = redColor + textBold + "\nInvalid Input!\n" + resetColor;
 
+     Logger logger = LogManager.getLogger("FoodDeliveryApp");
+
      public void makeConnection() throws SQLException {
          db = new DataBase();
+         logger.info("Connected to The DataBase!");
      }
+
 
      public static void main(String[] args) throws SQLException {
           App app = new App();
@@ -39,6 +45,8 @@ public class App {
 
           while (userChoice != 3) {
                System.out.println();
+              app.logger.info("User Tried to Login!");
+
                while (true) {
                     try {
                          System.out.print(app.cyanColor + "┌──────────────────────┐"
@@ -86,6 +94,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -108,26 +117,28 @@ public class App {
                             case "customer":
                                 Customer c = app.db.getCustomerById(p.userId);
                                 if(c != null){
+                                    app.logger.info(c.name+" : Customer Logged In!");
                                     app.showCustomerMenu(c);
                                 }
                                 break;
                             case "deliveryagent":
                                 DeliveryAgent d = app.db.getDeliveryAgentById(p.userId);
                                 if(d != null){
+                                    app.logger.info(d.name+" : DeliveryAgent Logged In!");
                                     app.showDeliveryAgentMenu(d);
                                 }
                                 break;
                             case "admin":
                                 Admin a = app.db.getAdminByEmail(p.email);
                                 if(a != null){
+                                    app.logger.info(a.name+" : Admin Logged In!");
                                     app.showAdminMenu(a);
                                 }
                                 break;
                             default:
+                                app.logger.info("Login Failed!");
                                 System.out.println("Unknown Login Happened!");
                         }
-
-
                          break;
                     case 2:
                          System.out.println();
@@ -154,6 +165,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -170,6 +182,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -187,6 +200,7 @@ public class App {
                                    
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -203,6 +217,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -229,6 +244,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -245,6 +261,7 @@ public class App {
 
                                 break;
                             } catch (InputMismatchException e) {
+                                app.logger.error(e.getMessage());
                                 System.out.println(app.invalidInputMessage);
                                 input.nextLine();
                             }
@@ -261,6 +278,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -269,6 +287,7 @@ public class App {
                          Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
 
                          app.db.saveCustomer(newCustomer);
+                        app.logger.info(newCustomer.name+" : new Customer Signed Up!");
 
                          // Welcome Message
                          System.out.println(
@@ -280,9 +299,7 @@ public class App {
                          break;
                     case 3:
                          System.out.println(app.greenColor + "Thank you For Visiting!" + app.resetColor);
-
-                         // Save data
-//                         app.saveAllData();
+                         app.logger.info("User Exited!");
                          break;
                     default:
                          System.out.println(app.redColor + "Enter the Valid Choice!" + app.resetColor);
@@ -323,36 +340,43 @@ public class App {
                     case 1:
                          System.out.println();
                          customer.viewHotels(db);
+                         logger.info(customer.name+" Viewed All Hotels!");
                          System.out.println();
                          break;
                     case 2:
                          System.out.println();
                          showMenu(customer);
+                         logger.info(customer.name+" Viewed a Hotel Menu!");
                          System.out.println();
                          break;
                     case 3:
                          System.out.println();
                          showMenuNaddCart(customer, isOrder);
+                         logger.info(customer.name+" Added a Menu in Cart!");
                          System.out.println();
                          break;
                     case 4:
                          System.out.println();
                          customer.viewCart();
+                         logger.info(customer.name+" Viewed a Cart!");
                          System.out.println();
                          break;
                     case 5:
                          System.out.println();
                          customer.placeOrder(db);
+                         logger.info(customer.name+" Placed a New Order!");
                          System.out.println();
                          break;
                     case 6:
                          System.out.println();
                          customer.trackOrder(db);
+                         logger.info(customer.name+" Tracked Their Order!");
                          System.out.println();
                          break;
                     case 7:
                          System.out.println();
                          customer.viewOrderHistory(db);
+                         logger.info(customer.name+" Viewed Order History!");
                          System.out.println();
                          break;
                     case 8:
@@ -373,6 +397,7 @@ public class App {
      
                                              break;
                                         } catch (InputMismatchException e) {
+                                             logger.error(e.getMessage());
                                              System.out.println(invalidInputMessage);
                                         }
                                    }
@@ -418,6 +443,7 @@ public class App {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -446,6 +472,7 @@ public class App {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -472,6 +499,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                     }
@@ -506,6 +534,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                     }
@@ -539,6 +568,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                          userChoice = 0;
@@ -600,6 +630,7 @@ public class App {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -620,8 +651,7 @@ public class App {
 
           db.assignOrder(orderId, deliveryAgent.deliveryAgentId);
 
-          System.out.println(greenColor + "Order Id : " + selectedOrder.orderId + " has been Assigned Successfully!"
-                    + resetColor);
+          System.out.println(greenColor + "Order Id : " + selectedOrder.orderId + " has been Assigned Successfully!" + resetColor);
      }
 
      public void updateOrder(DeliveryAgent deliveryAgent) throws SQLException {
@@ -635,6 +665,7 @@ public class App {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -653,7 +684,7 @@ public class App {
                 targetOrder.deliveryAgent = db.getDeliveryAgentById(agentId);
          }
 
-          if (targetOrder.deliveryAgent.deliveryAgentId != deliveryAgent.deliveryAgentId) {
+          if (targetOrder.deliveryAgent == null || targetOrder.deliveryAgent.deliveryAgentId != deliveryAgent.deliveryAgentId) {
                System.out.println(redColor + "Order Not Found!" + resetColor);
                return;
           }
@@ -683,6 +714,7 @@ public class App {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -712,6 +744,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                          userChoice = 0;
@@ -732,7 +765,6 @@ public class App {
                     case 4:
                          System.out.println();
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
-//                         saveAllData();
                          System.out.println();
                          return;
                     default:
@@ -762,6 +794,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                     }
@@ -814,7 +847,6 @@ public class App {
                          admin.removeCustomer(db, customerId);
 
                          System.out.println(greenColor+"Customer has been Successfully removed as Customer" + resetColor);
-
                          System.out.println();
                          break;
                     case 3:
@@ -844,6 +876,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                     }
@@ -876,6 +909,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -892,6 +926,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -908,6 +943,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -935,6 +971,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -951,6 +988,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -981,6 +1019,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1020,6 +1059,7 @@ public class App {
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                     }
@@ -1048,6 +1088,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1086,6 +1127,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1102,6 +1144,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1127,6 +1170,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1148,6 +1192,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1186,6 +1231,7 @@ public class App {
 
                                         break;
                                    } catch (InputMismatchException e) {
+                                        logger.error(e.getMessage());
                                         System.out.println(invalidInputMessage);
                                         input.nextLine();
                                    }
@@ -1208,6 +1254,7 @@ public class App {
 
                                         break;
                                    } catch (InputMismatchException e) {
+                                        logger.error(e.getMessage());
                                         System.out.println(invalidInputMessage);
                                         input.nextLine();
                                    }
@@ -1239,6 +1286,7 @@ public class App {
 
                                         break;
                                    } catch (InputMismatchException e) {
+                                        logger.error(e.getMessage());
                                         System.out.println(invalidInputMessage);
                                         input.nextLine();
                                    }
@@ -1261,6 +1309,7 @@ public class App {
 
                                         break;
                                    } catch (InputMismatchException e) {
+                                        logger.error(e.getMessage());
                                         System.out.println(invalidInputMessage);
                                         input.nextLine();
                                    }
@@ -1297,6 +1346,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1328,6 +1378,7 @@ public class App {
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
@@ -1346,9 +1397,20 @@ public class App {
                          admin.displayAllMenu(removeMenuHotel);
                          System.out.println("==========================================================");
 
+                         int removeMenuId;
 
-                         System.out.print("Enter the Menu Id to Remove the Menu from the Hotel : ");
-                         int removeMenuId = input.nextInt();
+                         while (true){
+                             try {
+                                 System.out.print("Enter the Menu Id to Remove the Menu from the Hotel : ");
+                                 removeMenuId = input.nextInt();
+
+                                 break;
+                             } catch (InputMismatchException e){
+                                 logger.error(e.getMessage());
+                                 System.out.println(invalidInputMessage);
+                                 input.nextLine();
+                             }
+                         }
 
                          Item removeHotelMenu = db.getItemById(removeMenuId);
 
@@ -1364,7 +1426,6 @@ public class App {
                          System.out.println();
                          break;
                     case 7:
-//                         saveAllData();
                          break;     
                     default:
                          System.out.println(redColor+"Enter the Valid Option!"+resetColor);

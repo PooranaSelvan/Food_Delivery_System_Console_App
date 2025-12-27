@@ -183,7 +183,7 @@ final class Customer extends Person {
 
           Order order = new Order(this, this.hotel, cart);
           order.calculateTotal();
-          order.orderStatus = "Order Placed";
+          order.orderStatus = "ORDERED";
           int orderId = db.saveOrder(order);
 
           if(orderId > 0){

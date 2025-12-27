@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 class Hotel {
      int hotelId;
@@ -18,9 +20,9 @@ class Hotel {
      String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
-
-     // Error Messages
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
+
+     Logger logger = LogManager.getLogger("Hotel");
 
 
      Hotel(String hotelName, String location){
@@ -56,6 +58,7 @@ class Hotel {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -94,6 +97,7 @@ class Hotel {
           
                               break;
                          } catch (InputMismatchException e) {
+                              logger.error(e.getMessage());
                               System.out.println(invalidInputMessage);
                               input.nextLine();
                          }
@@ -115,6 +119,7 @@ class Hotel {
           
                               break;
                          } catch (InputMismatchException e) {
+                              logger.error(e.getMessage());
                               System.out.println(invalidInputMessage);
                               input.nextLine();
                          }
@@ -136,6 +141,7 @@ class Hotel {
           
                               break;
                          } catch (InputMismatchException e) {
+                              logger.error(e.getMessage());
                               System.out.println(invalidInputMessage);
                               input.nextLine();
                          }
