@@ -1,10 +1,9 @@
-public class Item {
+class Item {
      int itemId;
      String itemName;
      double itemPrice;
      String itemCategory;
      String description;
-     static int globalId = 1;
      int quantity;
 
      // Text Formatting & Decorations
@@ -15,7 +14,6 @@ public class Item {
      String textBold = "\u001B[1m";
 
      Item(String itemName, double itemPrice, String itemCategory, String description){
-          this.itemId = globalId++;
           this.itemName = itemName;
           this.itemPrice = itemPrice;
           this.itemCategory = itemCategory;

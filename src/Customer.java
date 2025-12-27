@@ -1,13 +1,12 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public final class Customer extends Person {
+final class Customer extends Person {
      int customerId;
      String address;
      ArrayList<Item> cart = new ArrayList<>();
-     ArrayList<Order> orderHistory = new ArrayList<>();
-     static int cusGlobalId = 1;
      static Scanner input = new Scanner(System.in);
      Hotel hotel;
 
@@ -21,12 +20,13 @@ public final class Customer extends Person {
 
 
      Customer(String name, String password, String phone, String email, String location, String address){
-          super(name, password, phone, email, location, "customer");
-          this.customerId = cusGlobalId++;
+          super(name, password, phone, email, location);
           this.address = address;
      }
 
-     public void viewHotels(ArrayList<Hotel> hotels){
+     public void viewHotels(DataBase db) throws SQLException {
+         ArrayList<Hotel> hotels = db.getHotels();
+
           if (hotels == null || hotels.isEmpty()) {
                System.out.println(redColor+"No hotels available!"+resetColor);
                return;
@@ -34,10 +34,10 @@ public final class Customer extends Person {
 
           System.out.println("\n=============================================================================");
           System.out.println(greenColor+textBold+"All Hotels : "+resetColor+"\n");
-          for(int i = 0; i < hotels.size(); i++){
-               if(hotels.get(i) != null){
-                    System.out.println(hotels.get(i).getHotelDetails());
-               }
+          for (Hotel value : hotels) {
+              if (value != null) {
+                 System.out.println(value.getHotelDetails());
+              }
           }
           System.out.println("\n=============================================================================");
      }
@@ -62,22 +62,22 @@ public final class Customer extends Person {
           int totalAmount = 0;
           System.out.println("\n==========================================");
           System.out.println(greenColor+"Your Cart Items : "+resetColor+"\n");
-          for(int i = 0; i < cart.size(); i++){
-               if(cart.get(i) != null){
-                    System.out.println(cart.get(i).displayItemInfo());
-                    totalAmount += cart.get(i).itemPrice;
-               }
+          for(Item item : cart){
+             if(item != null){
+                 System.out.println(item.displayItemInfo());
+                 totalAmount += (int) (item.itemPrice * item.quantity);
+             }
           }
           System.out.println(greenColor+"\nYour Total Amount is : ₹"+totalAmount+resetColor);
           System.out.println("==========================================\n");
      }
 
-     public boolean addToCart(Item item, Hotel hotel, App app){
+     public boolean addToCart(Item item, Hotel hotel){
           if(cart.isEmpty()){
                this.hotel = hotel;
           }
 
-          if(!cart.isEmpty() && this.hotel.hotelId != hotel.hotelId && this.hotel != null){
+          if(!cart.isEmpty() && this.hotel.hotelId != hotel.hotelId){
                System.out.println(redColor+"You can Only able to Order from One Hotel!"+resetColor);
 
                while (true) {
@@ -119,7 +119,7 @@ public final class Customer extends Person {
 
                                    break;
                               } catch (InputMismatchException e) {
-                                   System.out.println(app.invalidInputMessage);
+                                   System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }
                          }
@@ -159,6 +159,7 @@ public final class Customer extends Person {
           if(!updateItem){
                Item orderedItem = new Item(item.itemName, item.itemPrice, item.itemCategory, item.description);
                orderedItem.quantity = qty;
+               orderedItem.itemId = item.itemId;
 
                cart.add(orderedItem);
           }
@@ -166,12 +167,10 @@ public final class Customer extends Person {
 
           System.out.println("\n"+greenColor+item.itemName+((item.quantity > 1) ? "×"+item.quantity : "")+resetColor+" has been Added to Cart!"+"\n");
 
-          app.saveAllData();
-
           return true;
      }
 
-     public void placeOrder(App app){
+     public void placeOrder(DataBase db) throws SQLException {
           if(cart.isEmpty()){
                System.out.println(redColor+"Your Cart Is Empty!"+resetColor);
                return;
@@ -185,78 +184,60 @@ public final class Customer extends Person {
           Order order = new Order(this, this.hotel, cart);
           order.calculateTotal();
           order.orderStatus = "Order Placed";
-          orderHistory.add(order);
-          app.orders.add(order);
+          int orderId = db.saveOrder(order);
 
-          System.out.println(greenColor);
-          System.out.println("╔════════════════════════════════════╗");
-          System.out.println("║                BILL                ║");
-          System.out.println("╠════════════════════════════════════╣");
-          System.out.println("╠ ORDER ID     : "+order.orderId);
-          System.out.println("╠ HOTEL NAME   : "+order.hotel.hotelName);
-          System.out.println("╠ ORDER STATUS : "+order.orderStatus);
-          for(int i = 0; i < cart.size(); i++){
-               Item item = cart.get(i);
-               System.out.println("╠ "+item.quantity+"× "+item.itemName+"       : "+"₹"+item.itemPrice * item.quantity);
+          if(orderId > 0){
+              System.out.println(greenColor);
+              System.out.println("╔════════════════════════════════════╗");
+              System.out.println("║                BILL                ║");
+              System.out.println("╠════════════════════════════════════╣");
+              System.out.println("╠ ORDER ID     : "+order.orderId);
+              System.out.println("╠ HOTEL NAME   : "+order.hotel.hotelName);
+              System.out.println("╠ ORDER STATUS : "+order.orderStatus);
+              for (Item item : cart) {
+                  System.out.println("╠ " + item.quantity + "× " + item.itemName + "       : " + "₹" + item.itemPrice * item.quantity);
+              }
+              System.out.println("╠ TOTAL AMOUNT : ₹"+order.totalAmount);
+              System.out.println("╚════════════════════════════════════╝");
+              System.out.println(resetColor);
+
+              cart.clear();
+              this.hotel = null;
+          } else {
+              System.out.println(redColor + "Order is Not Placed!" + resetColor);
           }
-          System.out.println("╠ TOTAL AMOUNT : ₹"+order.totalAmount);
-          System.out.println("╚════════════════════════════════════╝");
-          System.out.println(resetColor);
-
-          app.saveAllData();
-
-          cart.clear();
-          this.hotel = null;
      }
 
-     public void trackOrder(App app){
-          String orderRes = "";
+     public void trackOrder(DataBase db) throws SQLException {
+         ArrayList<Order> customerOrders = db.getCustomerOrders(this.customerId);
 
-          app.loadAllData();
-
-
-          this.orderHistory.clear();
-          for (Order order : app.orders) {
-               if (order.customer != null && order.customer.customerId == this.customerId) {
-                   this.orderHistory.add(order);
-               }
-          }
-
-
-          if(orderHistory.isEmpty()){
+          if(customerOrders.isEmpty()){
                System.out.println(redColor+"\nNo Orders Found\nStart Your First Order\n"+resetColor);
                return;
           }
 
-          for(int i = 0; i < orderHistory.size(); i++){
-               Order order = orderHistory.get(i);
+          String orderRes = "";
 
-               String deliveryAgentName = (order.deliveryAgent == null) ? "Not Assigned" : order.deliveryAgent.name;
-               String hotelName = (order.hotel == null) ? "Unknown Hotel" : order.hotel.hotelName;
+          for (Order order : customerOrders) {
+              String deliveryAgentName = (order.deliveryAgent == null) ? "Not Assigned" : order.deliveryAgent.name;
+              String hotelName = (order.hotel == null) ? "Unknown Hotel" : order.hotel.hotelName;
 
-               if(!order.orderStatus.equalsIgnoreCase("delivered")){
-                    orderRes += "| Order Id : "+order.orderId+" | Ordered Hotel : "+hotelName+" | Delivery Agent Name : "+deliveryAgentName+" | Order Status : "+order.orderStatus+" | Total Amount : ₹"+order.totalAmount+" |\n";
-               }
+              if (!order.orderStatus.equalsIgnoreCase("delivered")) {
+                 orderRes += "| Order Id : " + order.orderId + " | Ordered Hotel : " + hotelName + " | Delivery Agent Name : " + deliveryAgentName + " | Order Status : " + order.orderStatus + " | Total Amount : ₹" + order.totalAmount + " |\n";
+              }
           }
 
-          if(orderRes.length() < 1){
+          if(orderRes.isEmpty()){
                System.out.println(greenColor+"All Your Orders Has been Delivered!\nCheck Order History"+resetColor);
           } else {
                System.out.println(orderRes);
           }
      }
 
-     public void viewOrderHistory(App app){
-          app.loadAllData();
+     public void viewOrderHistory(DataBase db) throws SQLException {
+         ArrayList<Order> customerOrders = db.getCustomerOrders(this.customerId);
 
-          this.orderHistory.clear();
-          for (Order order : app.orders) {
-               if (order.customer != null && order.customer.customerId == this.customerId) {
-                   this.orderHistory.add(order);
-               }
-          }
-
-          if(orderHistory.isEmpty()){
+          if(customerOrders.isEmpty()){
                System.out.println(redColor+"\nNo Orders Found\nStart Your First Order\n"+resetColor);
                return;
           }
@@ -264,13 +245,13 @@ public final class Customer extends Person {
           System.out.println("=============================================================");
           System.out.println(greenColor+"Order History : "+resetColor);
 
-          int totalAmount = 0;          
-          for(int i = 0; i < orderHistory.size(); i++){
-               if(orderHistory.get(i) != null){
-                    System.out.println(orderHistory.get(i).orderDetails());
-                    totalAmount += orderHistory.get(i).totalAmount;
-               }
-          }
+          int totalAmount = 0;
+         for (Order customerOrder : customerOrders) {
+             if (customerOrder != null) {
+                 System.out.println(customerOrder.orderDetails());
+                 totalAmount += (int) customerOrder.totalAmount;
+             }
+         }
 
           System.out.println(greenColor+"Total Amount : ₹"+totalAmount+resetColor);
           System.out.println("=============================================================");

@@ -2,11 +2,12 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Hotel {
+class Hotel {
      int hotelId;
      String hotelName;
      String location;
-     static int globalId = 1;
+     double rating;
+     boolean isOpen;
      ArrayList<Item> menu  = new ArrayList<>();
      ArrayList<Order> orders = new ArrayList<>();
      Scanner input = new Scanner(System.in);
@@ -23,7 +24,6 @@ public class Hotel {
 
 
      Hotel(String hotelName, String location){
-          this.hotelId = globalId++;
           this.hotelName = hotelName;
           this.location = location;
      }
@@ -40,16 +40,9 @@ public class Hotel {
      public void addFoodItem(Item item){
           menu.add(item);
      }
-     
-     public void addFoodItem(ArrayList<Item> item){
-          menu.addAll(item);
-     }
-     
-     
 
-
-     public void removeFoodItem(int index){
-          menu.remove(index);
+     public void removeFoodItem(Item item){
+         menu.remove(item);
      }
 
      public void updateFoodItem(int index){

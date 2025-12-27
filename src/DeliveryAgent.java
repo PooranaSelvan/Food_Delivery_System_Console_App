@@ -1,8 +1,8 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public final class DeliveryAgent extends Person {
+final class DeliveryAgent extends Person {
      int deliveryAgentId;
-     static int agentGlobalId = 1;
      boolean isAvailable;
      double totalEarnings;
      ArrayList<Order> orders = new ArrayList<>();
@@ -14,34 +14,37 @@ public final class DeliveryAgent extends Person {
      String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
-
-     // Error Messages
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
      DeliveryAgent(String name, String password, String phone, String email, String location){
-          super(name, password, phone, email, location, "deliveryagent");
-          this.deliveryAgentId = agentGlobalId++;
+          super(name, password, phone, email, location);
           this.isAvailable = true;
           this.totalEarnings = 0;
      }
 
 
-     public void getUnassignedOrders(App app){
+     public void getUnassignedOrders(DataBase db) throws SQLException {
+          ArrayList<Order> unAssignedOrders = db.getUnassignedOrders();
 
-          if(app.orders.isEmpty()){
+//         System.out.println("Total Unassigned Orders : "+unAssignedOrders.size());
+
+          if(unAssignedOrders.isEmpty()){
                System.out.println(redColor+"No Orders Found!"+resetColor);
                return;
           }
 
-          boolean isNotAssigned = false;
-          for(int i = 0; i < app.orders.size(); i++){
-               Order order = app.orders.get(i);
-               String customerName = (order.customer == null) ? "Unknown" : order.customer.name;
+//          for (Order o : unAssignedOrders){
+//              System.out.println(o.orderDetails());
+//          }
 
-               if(order.deliveryAgent == null && order.orderStatus.equalsIgnoreCase("Order Placed")){
-                    System.out.println("| Order Id : "+order.orderId+" | Customer Name : "+customerName+" | "+greenColor+"Total Amount : ₹"+order.totalAmount+" |"+resetColor);
-                    isNotAssigned = true;
-               }
+          boolean isNotAssigned = false;
+          for (Order order : unAssignedOrders) {
+             String customerName = (order.customer == null) ? "Unknown" : order.customer.name;
+
+             if (order.orderStatus.equalsIgnoreCase("ORDERED")) {
+                 System.out.println("| Order Id : " + order.orderId + " | Customer Name : " + customerName + " | " + greenColor + "Total Amount : ₹" + order.totalAmount + " |" + resetColor);
+                 isNotAssigned = true;
+             }
           }
 
           if(!isNotAssigned){
@@ -49,21 +52,21 @@ public final class DeliveryAgent extends Person {
           }
      }
 
-     public void getAssignedOrders(){
+     public void getAssignedOrders(DataBase db) throws SQLException {
 
-          if(orders.isEmpty()){
+         ArrayList<Order> assignedOrders = db.getOrderByAgentId(this.deliveryAgentId);
+
+          if(assignedOrders.isEmpty()){
                System.out.println(redColor+"No Orders Found!"+resetColor);
                return;
           }
           
           boolean isAssigned = false;
-          for(int i = 0; i < orders.size(); i++){
-               Order order = orders.get(i);
-
-               if(!order.orderStatus.equalsIgnoreCase("delivered")){
-                    System.out.println("| Order Id : "+order.orderId+" |"+greenColor+" Customer Name : "+ ((order.customer == null) ? "Not Assigned" : order.customer.name) +resetColor+" | Order Status : "+order.orderStatus+greenColor+" | Total Amount : "+order.totalAmount+resetColor+" |");
-                    isAssigned = true;
-               }
+          for (Order order : assignedOrders) {
+             if (!order.orderStatus.equalsIgnoreCase("delivered")) {
+                 System.out.println("| Order Id : " + order.orderId + " |" + greenColor + " Customer Name : " + ((order.customer == null) ? "Not Assigned" : order.customer.name) + resetColor + " | Order Status : " + order.orderStatus + greenColor + " | Total Amount : " + order.totalAmount + resetColor + " |");
+                 isAssigned = true;
+             }
           }
 
           if(!isAssigned){
@@ -71,15 +74,16 @@ public final class DeliveryAgent extends Person {
           }
      }
 
-     public void updateDeliveryStatus(Order order, String orderStatus, App app){
+     public void updateDeliveryStatus(Order order, String orderStatus, DataBase db) throws SQLException {
+//          System.out.println("Inside Delivery Agent : "+orderStatus);
 
           if(order.orderStatus.equalsIgnoreCase("delivered")){
                System.out.println(greenColor+"This Order is Already Delivered!"+resetColor);
-               app.saveAllData();
                return;
           }
 
           order.updateOrderStatus(orderStatus);
+          db.updateOrderStatus(order.orderId, orderStatus);
 
           if(orderStatus.equalsIgnoreCase("delivered")){
                totalEarnings += order.totalAmount;
@@ -89,18 +93,17 @@ public final class DeliveryAgent extends Person {
                comppletedOrders.add(order);
                System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
 
-               app.saveAllData();
-
+               db.updateDeliveryAgentEarnings(deliveryAgentId, totalEarnings);
                return;
           }
 
           System.out.println(greenColor+"Your Order Has Been Updated Successfully!"+resetColor);
-
-          app.saveAllData();
      }
 
-     public void checkCompletedOrders(){
-          if(comppletedOrders.isEmpty()){
+     public void checkCompletedOrders(DataBase db) throws SQLException {
+         ArrayList<Order> allOrders = db.getOrderByAgentId(deliveryAgentId);
+
+          if(allOrders.isEmpty()){
                System.out.println(redColor+"There is no Orders You Completed!"+resetColor);
                return;
           }
@@ -109,10 +112,10 @@ public final class DeliveryAgent extends Person {
           System.out.println(greenColor+"Completed Orders\n"+resetColor);
 
           int totalAmount = 0;
-          for(int i = 0; i < comppletedOrders.size(); i++){
-               System.out.println(comppletedOrders.get(i).orderDetails());
-               totalAmount += comppletedOrders.get(i).totalAmount;
-          }
+         for (Order o : allOrders) {
+             System.out.println(o.orderDetails());
+             totalAmount += (int) o.totalAmount;
+         }
 
           System.out.println(greenColor+"\nTotal Amount : ₹"+totalAmount+resetColor);
           System.out.println("=============================================================================");

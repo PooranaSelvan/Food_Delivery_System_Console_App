@@ -1,0 +1,71 @@
+                           ┌───────────────┐
+                           │     users     │
+                           ├───────────────┤
+                           │ PK userId     │
+                           │ name          │
+                           │ phone         │
+                           │ email         │
+                           │ password      │
+                           └───────┬───────┘
+                                   │
+          ┌────────────────────────┼────────────────────────┐
+          │                        │                        │
+┌─────────▼─────────┐    ┌─────────▼──────────┐    ┌───────▼────────┐
+│     customers     │    │  delivery_agents   │    │     admins     │
+├───────────────────┤    ├────────────────────┤    ├───────────────┤
+│ PK/FK customerId  │    │ PK/FK agentId      │    │ PK/FK adminId  │
+│ address           │    │ totalEarnings      │    └───────────────┘
+└─────────┬─────────┘    └─────────┬──────────┘
+          │                        │
+          │ 1                      │ 1
+          │                        │
+          │ N                      │ N
+┌─────────▼─────────┐     ┌────────▼────────────────┐
+│      orders       │     │  order_delivery_agents  │
+├───────────────────┤     ├─────────────────────────┤
+│ PK orderId        │◄────│ FK orderId              │
+│ FK customerId     │     │ FK agentId              │
+│ FK hotelId        │     │ orderStatus             │
+│ totalAmount       │     └─────────────────────────┘
+│ createdAt         │
+└─────────┬─────────┘
+          │
+          │ 1
+          │
+          │ N
+┌─────────▼─────────┐
+│   order_items     │
+├───────────────────┤
+│ PK id             │
+│ FK orderId        │
+│ FK itemId         │
+│ quantity          │
+│ price             │
+└─────────┬─────────┘
+          │
+          │ N
+          │
+          │ 1
+┌─────────▼─────────┐
+│      items        │
+├───────────────────┤
+│ PK itemId         │
+│ FK hotelId        │
+│ name              │
+│ price             │
+│ category          │
+│ description       │
+└─────────┬─────────┘
+          │
+          │ N
+          │
+          │ 1
+┌─────────▼─────────┐
+│      hotels       │
+├───────────────────┤
+│ PK hotelId        │
+│ name              │
+│ location          │
+│ rating            │
+│ isOpen            │
+└───────────────────┘

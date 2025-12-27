@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
-public class Order {
+class Order {
      int orderId;
-     static int orderGlobalId = 1;
      Customer customer;
      Hotel hotel;
      DeliveryAgent deliveryAgent;
@@ -12,11 +11,10 @@ public class Order {
 
 
      Order(Customer customer, Hotel hotel, ArrayList<Item> items){
-          this.orderId = orderGlobalId++;
           this.hotel = hotel;
           this.customer = customer;
           this.items = items;
-          this.orderStatus = "Order Placed";
+          this.orderStatus = "ORDERED";
           this.totalAmount = 0;
           this.deliveryAgent = null;
      }
