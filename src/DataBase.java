@@ -3,21 +3,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class DataBase {
-    private static final String URL = "jdbc:mysql://localhost:3306/FoodDeliverySystem";
-    private static final String USER = "root";
-    private static final String PASSWORD = "poorana@zs27";
-    private Connection connection;
+    private final Connection connection;
 
     public DataBase() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }
-    }
+        DBConnection dbConnection = DBConnection.getInstance();
+        this.connection = dbConnection.getConnection();
 
-    public Connection getConnection() {
-        return connection;
+        try {
+            if (connection != null && !connection.isClosed()) {
+                System.out.println("Database Connected Successfully!");
+            } else {
+                System.err.println("Failed Database Connection!");
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -62,6 +62,33 @@ class DataBase {
             String name = rs.getString("name");
             String password = rs.getString("password");
             String phone = rs.getString("phone");
+            String resEmail = rs.getString("email");
+            String location = rs.getString("location");
+
+            p = new Person(name, password, phone, resEmail, location);
+            p.userId = userId;
+            p.role = getUserRole(p.userId);
+        } else {
+            return null;
+        }
+
+        ps.close();
+
+        return p;
+    }
+
+    public Person getUserByPhone(String phone) throws SQLException {
+        Person p = null;
+
+        PreparedStatement ps = connection.prepareStatement(Queries.selectUserByPhone);
+        ps.setString(1, phone);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()){
+            int userId = rs.getInt("userId");
+            String name = rs.getString("name");
+            String password = rs.getString("password");
             String resEmail = rs.getString("email");
             String location = rs.getString("location");
 
@@ -462,8 +489,6 @@ class DataBase {
     public void saveItem(Item item, int hotelId) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(Queries.insertItem, Statement.RETURN_GENERATED_KEYS);
 
-        System.out.println(item.itemCategory);
-
         ps.setInt(1, hotelId);
         ps.setString(2, item.itemName);
         ps.setDouble(3, item.itemPrice);
@@ -739,11 +764,11 @@ class DataBase {
             if(agentId > 0){
                 updateDeliveryAgentStatus(agentId, true);
 
-
                 Order o = getOrderById(orderId);
 
                 if(o != null){
                     DeliveryAgent d = getDeliveryAgentById(agentId);
+
                     if(d != null){
                         d.totalEarnings += o.totalAmount;
                         updateDeliveryAgentEarnings(agentId, d.totalEarnings);

@@ -2,7 +2,8 @@ public class Queries {
 
 //    User
     public final static String insertUser = "INSERT INTO users (name, password, phone, email, location) VALUES (?, ?, ?, ?, ?)";
-    public final static String selectUserByEmail = "SELECT * from users where email = ?";
+    public final static String selectUserByEmail = "SELECT * FROM users WHERE email = ?";
+    public final static String selectUserByPhone = "SELECT * FROM users WHERE phone = ?";
     public final static String deleteUser = "DELETE FROM users WHERE userId = ?";
 
 //    Customer
@@ -42,7 +43,7 @@ public class Queries {
     public final static String selectOrders = "SELECT o.*, oda.agentId, oda.orderStatus FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId";
     public final static String selectOrderById = "SELECT o.*, oa.agentId, oa.orderStatus FROM orders o LEFT JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE o.orderId = ?";
     public final static String selectUnassignedOrders = "SELECT o.* FROM orders o LEFT JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE oa.agentId IS NULL";
-    public final static String selectOrdersByAgentId = "SELECT o.* FROM orders o JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE oa.agentId = ?";
+    public final static String selectOrdersByAgentId = "SELECT o.*, oa.orderStatus FROM orders o JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE oa.agentId = ?";
     public final static String selectOrderByCusId = "SELECT orderId FROM orders WHERE customerId = ?";
 
 

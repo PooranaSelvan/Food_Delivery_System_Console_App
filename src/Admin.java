@@ -56,7 +56,7 @@ final class Admin extends Person {
           System.out.println("==========================================================");
           System.out.println(greenColor + "All Delivery Agents : " + resetColor);
           for (DeliveryAgent d : deliveryAgents) {
-               System.out.println(d.getTotalEarnings());
+               System.out.println(d.getTotalEarnings(db));
           }
           System.out.println("==========================================================");
      }

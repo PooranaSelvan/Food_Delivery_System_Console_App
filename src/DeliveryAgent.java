@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -97,6 +98,7 @@ final class DeliveryAgent extends Person {
                }
 
                DeliveryAgent updatedAgent = db.getDeliveryAgentById(deliveryAgentId);
+
                if(updatedAgent != null){
                   totalEarnings = updatedAgent.totalEarnings;
                }
@@ -120,16 +122,35 @@ final class DeliveryAgent extends Person {
           System.out.println(greenColor+"Completed Orders\n"+resetColor);
 
           int totalAmount = 0;
-         for (Order o : allOrders) {
-             System.out.println(o.orderDetails());
-             totalAmount += (int) o.totalAmount;
-         }
+          boolean isCompleted = false;
+
+          for (Order o : allOrders) {
+              if (o.orderStatus.equalsIgnoreCase("DELIVERED")) {
+                  System.out.println(o.orderDetails());
+                  totalAmount += (int) o.totalAmount;
+                  isCompleted = true;
+              }
+          }
+
+          if (!isCompleted) {
+              System.out.println(redColor+"No Orders Completed!\nStart Your First Order Now!"+resetColor);
+              System.out.println("=============================================================================");
+              return;
+          }
 
           System.out.println(greenColor+"\nTotal Amount : ₹"+totalAmount+resetColor);
           System.out.println("=============================================================================");
      }
 
-     public String getTotalEarnings(){
+     public String getTotalEarnings(DataBase db) throws SQLException {
+          DeliveryAgent d = db.getDeliveryAgentById(deliveryAgentId);
+
+          if(d != null){
+              totalEarnings = d.totalEarnings;
+          }
+
+         System.out.println(d.totalEarnings);
+
           return "Agent Id : "+deliveryAgentId+" "+this.viewProfile()+greenColor+" Total Earnings : "+totalEarnings+resetColor;
      }
 }

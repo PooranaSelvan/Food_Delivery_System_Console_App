@@ -215,6 +215,13 @@ public class App {
                                         continue;
                                    }
 
+                                  Person phonePerson = app.db.getUserByPhone(cusPhoneNum);
+
+                                  if(phonePerson != null){
+                                      System.out.println(app.redColor + "This Phone Number is Already Taken!" + app.resetColor);
+                                      continue;
+                                  }
+
                                    break;
                               } catch (InputMismatchException e) {
                                    app.logger.error(e.getMessage());
@@ -599,7 +606,7 @@ public class App {
                          break;
                     case 5:
                          System.out.println();
-                         System.out.println(deliveryAgent.getTotalEarnings());
+                         System.out.println(deliveryAgent.getTotalEarnings(db));
                          System.out.println();
                          break;
                     case 6:
@@ -941,6 +948,13 @@ public class App {
                                         continue;
                                    }
 
+                                   Person p = db.getUserByPhone(dPhone);
+
+                                   if(p != null){
+                                       System.out.println(redColor + "This Phone Number is Already Taken!"+resetColor);
+                                       continue;
+                                   }
+
                                    break;
                               } catch (InputMismatchException e) {
                                    logger.error(e.getMessage());
@@ -1008,7 +1022,7 @@ public class App {
                         ArrayList<DeliveryAgent> deliveryAgents = db.getDeliveryAgents();
 
                          for (DeliveryAgent da : deliveryAgents) {
-                              System.out.println(da.getTotalEarnings());
+                              System.out.println(da.getTotalEarnings(db));
                          }
 
                          int deliveryAgentId;
