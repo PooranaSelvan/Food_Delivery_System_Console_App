@@ -4,7 +4,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-class Hotel {
+class Hotel implements Display{
      int hotelId;
      String hotelName;
      String location;
@@ -33,8 +33,8 @@ class Hotel {
      public void displayMenu(){
           System.out.println("\n=====================================================");
           System.out.println("\n"+greenColor+"Menu Of Hotel : "+hotelName+resetColor+"\n");
-          for(int i = 0; i < menu.size(); i++){
-               System.out.println(menu.get(i).displayItemInfo());
+          for (Item item : menu) {
+              System.out.println(item.displayDetails());
           }
           System.out.println("=====================================================\n");
      }
@@ -159,11 +159,12 @@ class Hotel {
 
           System.out.println(greenColor+"After Changed"+resetColor);
           System.out.println("===================================================");
-          System.out.println(item.displayItemInfo());
+          System.out.println(item.displayDetails());
           System.out.println("===================================================");
      }
 
-     public String getHotelDetails(){
+     @Override
+     public String displayDetails(){
           return "| Hotel Id : "+hotelId+" | "+greenColor+"Hotel Name : "+hotelName+resetColor+" | Location : "+location+" |";
      }
 }

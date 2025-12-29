@@ -1,4 +1,4 @@
-class Item {
+class Item implements Display{
      int itemId;
      String itemName;
      double itemPrice;
@@ -21,7 +21,8 @@ class Item {
           this.quantity = 1;
      }
 
-     public String displayItemInfo(){
+     @Override
+     public String displayDetails(){
           return "| Id : "+itemId+" |"+greenColor+" Name : "+itemName+" | Category : "+itemCategory+resetColor+" | Description : "+description+(quantity > 1 ? " | Quantity : "+quantity : "")+" |"+greenColor+" Item Price : "+itemPrice+resetColor;
      }
 }

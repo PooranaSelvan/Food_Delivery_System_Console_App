@@ -1,11 +1,13 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBConnection {
     private static DBConnection instance;
     private Connection connection;
+    Logger logger = LogManager.getLogger("DBConnection");
 
     private static final String URL = "jdbc:mysql://localhost:3306/FoodDeliverySystem";
     private static final String USER = "root";
@@ -14,6 +16,7 @@ public class DBConnection {
     private DBConnection() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            logger.info("Connected to the Database!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

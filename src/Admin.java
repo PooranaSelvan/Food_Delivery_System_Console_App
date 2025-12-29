@@ -1,13 +1,15 @@
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 final class Admin extends Person {
      int adminId;
+    Logger logger = LogManager.getLogger("Admin");
 
      // Text Formatting & Decorations
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
@@ -18,18 +20,22 @@ final class Admin extends Person {
 
      public void addHotel(DataBase db, Hotel hotel) throws SQLException {
           db.saveHotel(hotel);
+          logger.info("Added a Hotel");
      }
 
      public void removeHotel(DataBase db, int hotelId) throws SQLException {
           db.deleteHotel(hotelId);
+         logger.info("Removed a Hotel");
      }
 
      public void addDeliveryAgent(DataBase db, DeliveryAgent deliveryAgent) throws SQLException {
          db.saveDeliveryAgent(deliveryAgent);
+         logger.info("Added a DeliveryAgent");
      }
 
      public void removeDeliveryAgent(DataBase db, int deliveryAgentId) throws SQLException {
           db.deleteDeliveryAgent(deliveryAgentId);
+         logger.info("Removed a DeliveryAgent");
      }
 
      public void displayAllCustomers(DataBase db) throws SQLException {
@@ -41,7 +47,7 @@ final class Admin extends Person {
           }
          for (Customer c : customers) {
              ArrayList<Order> customerOrders = db.getCustomerOrders(c.customerId);
-             System.out.println(c.displayCustomerDetails() + greenColor + " Orders Count : " + customerOrders.size() + " |" + resetColor);
+             System.out.println(c.displayDetails() + greenColor + " Orders Count : " + customerOrders.size() + " |" + resetColor);
          }
      }
 
@@ -70,17 +76,18 @@ final class Admin extends Person {
           }
 
           for (Hotel h : hotels) {
-               System.out.println(h.getHotelDetails());
+               System.out.println(h.displayDetails());
           }
      }
 
      public void displayAllMenu(Hotel hotel){
           for(int i = 0; i < hotel.menu.size(); i++){
-               System.out.println(hotel.menu.get(i).displayItemInfo());
+               System.out.println(hotel.menu.get(i).displayDetails());
           }
      }
 
      public void removeCustomer(DataBase db, int customerId) throws SQLException {
          db.deleteCustomer(customerId);
+         logger.info("Removed a Customer");
      }
 }

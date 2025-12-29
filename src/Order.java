@@ -1,6 +1,7 @@
+import java.security.interfaces.DSAKey;
 import java.util.ArrayList;
 
-class Order {
+class Order implements Display {
      int orderId;
      Customer customer;
      Hotel hotel;
@@ -30,7 +31,8 @@ class Order {
           this.orderStatus = orderStatus;
      }
 
-     public String orderDetails(){
+     @Override
+     public String displayDetails(){
           String customerName = (customer == null) ? "Unknown" : customer.name;
           String hotelName = (hotel == null) ? "Unknown" : hotel.hotelName;
           String deliveryAgentName = (deliveryAgent == null) ? "Not Assigned" : deliveryAgent.name;

@@ -1,9 +1,11 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 class DataBase {
     private final Connection connection;
+    Logger logger = LogManager.getLogger("Database");
 
     public DataBase() {
         DBConnection dbConnection = DBConnection.getInstance();
@@ -14,6 +16,7 @@ class DataBase {
                 System.out.println("Database Connected Successfully!");
             } else {
                 System.err.println("Failed Database Connection!");
+                logger.info("DataBase Connection Failed!");
             }
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -45,6 +48,7 @@ class DataBase {
             userId = rs.getInt(1);
         }
         ps.close();
+        logger.info("Saved New User!");
 
         return userId;
     }
@@ -74,6 +78,7 @@ class DataBase {
 
         ps.close();
 
+        logger.info("Getting User By Email!");
         return p;
     }
 
@@ -101,6 +106,8 @@ class DataBase {
 
         ps.close();
 
+        logger.info("Getting User By Phone!");
+
         return p;
     }
 
@@ -120,11 +127,10 @@ class DataBase {
             int res = ps.executeUpdate();
 
             if(res == 0){
-                System.out.println("Error Saving In SaveCustomer");
                 return;
             }
 
-            System.out.println("Successfully Saved Customer");
+            logger.info("Saved New Customer!");
             ps.close();
         }
     }
@@ -151,6 +157,7 @@ class DataBase {
 
             customers.add(c);
         }
+        logger.info("Getting All Customers!");
 
         return customers;
     }
@@ -175,8 +182,8 @@ class DataBase {
             c.userId = customerId;
             c.role = "customer";
         }
-
         ps.close();
+        logger.info("Getting Customer By Id!");
 
         return c;
     }
@@ -191,6 +198,7 @@ class DataBase {
         ps1.setInt(1, customerId);
         ps1.executeUpdate();
         ps1.close();
+        logger.info("Deleted Customer & User!");
     }
 
 
@@ -211,11 +219,10 @@ class DataBase {
             int res = ps.executeUpdate();
 
             if(res == 0){
-                System.out.println("Error Saving In Deliver Agent");
                 return;
             }
 
-            System.out.println("Successfully Saved Delivery Agent");
+            logger.info("Saved New DeliveryAgent!");
         }
     }
 
@@ -245,6 +252,8 @@ class DataBase {
 
             deliveryAgents.add(d);
         }
+        ps.close();
+        logger.info("Getting All Delivery Agents!");
 
         return deliveryAgents;
     }
@@ -272,8 +281,8 @@ class DataBase {
             d.userId = agentId;
             d.role = "deliveryagent";
         }
-
         ps.close();
+        logger.info("Getting DeliveryAgent By Id!");
 
         return d;
     }
@@ -292,6 +301,7 @@ class DataBase {
         }
 
         ps.close();
+        logger.info("Updated DeliveryAgent's Earnings!");
     }
 
     public void updateDeliveryAgentStatus(int agentId, boolean isAvailable) throws SQLException {
@@ -308,6 +318,7 @@ class DataBase {
         }
 
         ps.close();
+        logger.info("Updated Delivery Agents's Status!");
     }
 
     public void deleteDeliveryAgent(int agentId) throws SQLException {
@@ -320,6 +331,7 @@ class DataBase {
         ps1.setInt(1, agentId);
         ps1.executeUpdate();
         ps1.close();
+        logger.info("Deleted Delivery Agent!");
     }
 
 
@@ -342,6 +354,7 @@ class DataBase {
 
             ps.close();
         }
+        logger.info("Saved New Admin!");
     }
 
     public ArrayList<Admin> getAdmins() throws SQLException {
@@ -364,8 +377,8 @@ class DataBase {
 
             admins.add(a);
         }
-
         ps.close();
+        logger.info("Getting All Admins!");
 
         return admins;
     }
@@ -390,6 +403,8 @@ class DataBase {
             a.userId = adminId;
             a.role = "admin";
         }
+        ps.close();
+        logger.info("Getting Admin By Email!");
 
         return a;
     }
@@ -417,6 +432,7 @@ class DataBase {
         }
 
         ps.close();
+        logger.info("Saved New Hotel!");
     }
 
     public ArrayList<Hotel> getHotels() throws SQLException {
@@ -441,8 +457,8 @@ class DataBase {
 
             hotels.add(h);
         }
-
         ps.close();
+        logger.info("Getting All Hotels!");
 
         return hotels;
     }
@@ -466,8 +482,8 @@ class DataBase {
             h.rating = rating;
             h.isOpen = isOpen;
         }
-
         ps.close();
+        logger.info("Getting a Hotel By Id!");
 
         return h;
     }
@@ -482,6 +498,7 @@ class DataBase {
         ps1.setInt(1, hotelId);
         ps1.executeUpdate();
         ps1.close();
+        logger.info("Deleted a Hotel!");
     }
 
 
@@ -515,6 +532,7 @@ class DataBase {
         }
 
         ps.close();
+        logger.info("Saved New Item!");
     }
 
     public ArrayList<Item> getHotelItems(int hotelId) throws SQLException {
@@ -537,6 +555,7 @@ class DataBase {
             items.add(item);
         }
         ps.close();
+        logger.info("Getting Hotel Items!");
 
         return items;
     }
@@ -562,8 +581,8 @@ class DataBase {
 
             items.add(item);
         }
-
         ps.close();
+        logger.info("Getting Items for a Order!");
 
         return items;
     }
@@ -586,6 +605,7 @@ class DataBase {
             item.itemId = itemId;
         }
         ps.close();
+        logger.info("Getting a Item By its Id!");
 
         return item;
     }
@@ -595,6 +615,7 @@ class DataBase {
         ps.setInt(1, itemId);
         ps.executeUpdate();
         ps.close();
+        logger.info("Deleted a Item!");
     }
 
 
@@ -625,8 +646,8 @@ class DataBase {
         for (Item i : o.items){
             saveOrderItems(orderId, i);
         }
-
         ps.close();
+        logger.info("Saved New Order!");
 
         return orderId;
     }
@@ -641,6 +662,7 @@ class DataBase {
 
         int res = ps.executeUpdate();
         ps.close();
+        logger.info("Saved New Order Items!");
     }
 
     public ArrayList<Order> getOrders() throws SQLException {
@@ -676,8 +698,8 @@ class DataBase {
                 orders.add(order);
             }
         }
-
         ps.close();
+        logger.info("Getting All Orders!");
 
         return orders;
     }
@@ -695,6 +717,7 @@ class DataBase {
             }
         }
         ps.close();
+        logger.info("Getting All UnAssigned Orders for DeliveryAgent!");
 
         return orders;
     }
@@ -713,6 +736,7 @@ class DataBase {
             }
         }
         ps.close();
+        logger.info("Getting Orders Based ON Customer!");
 
         return orders;
     }
@@ -735,6 +759,7 @@ class DataBase {
             }
         }
         ps.close();
+        logger.info("Getting Order By DeliveryAgentId!");
 
         return orders;
     }
@@ -751,6 +776,7 @@ class DataBase {
         ps.close();
 
         updateDeliveryAgentStatus(agentId, false);
+        logger.info("Assigned a New Order for a DeliveryAgent!");
     }
 
     public void updateOrderStatus(int orderId, String orderStatus) throws SQLException {
@@ -784,6 +810,7 @@ class DataBase {
         }
 
         ps.close();
+        logger.info("updated an Order Status!");
     }
 
     public Order getOrderById(int orderId) throws SQLException {
@@ -810,6 +837,8 @@ class DataBase {
                 o.deliveryAgent = getDeliveryAgentById(agentId);
             }
         }
+        ps.close();
+        logger.info("Getting an Order By Id!");
 
         return o;
     }
@@ -825,8 +854,8 @@ class DataBase {
         if(rs.next()){
             agentId = rs.getInt("agentId");
         }
-
         ps.close();
+        logger.info("Getting DeliveryAgent By Order Id!");
 
         return agentId;
     }

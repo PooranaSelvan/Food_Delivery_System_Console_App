@@ -1,4 +1,3 @@
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -7,12 +6,11 @@ final class DeliveryAgent extends Person {
      boolean isAvailable;
      double totalEarnings;
      ArrayList<Order> orders = new ArrayList<>();
-     ArrayList<Order> comppletedOrders = new ArrayList<>();
+     ArrayList<Order> completedOrders = new ArrayList<>();
 
      // Text Formatting & Decorations
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
@@ -34,10 +32,6 @@ final class DeliveryAgent extends Person {
                return;
           }
 
-//          for (Order o : unAssignedOrders){
-//              System.out.println(o.orderDetails());
-//          }
-
           boolean isNotAssigned = false;
           for (Order order : unAssignedOrders) {
              String customerName = (order.customer == null) ? "Unknown" : order.customer.name;
@@ -54,7 +48,6 @@ final class DeliveryAgent extends Person {
      }
 
      public void getAssignedOrders(DataBase db) throws SQLException {
-
          ArrayList<Order> assignedOrders = db.getOrderByAgentId(this.deliveryAgentId);
 
           if(assignedOrders.isEmpty()){
@@ -93,8 +86,8 @@ final class DeliveryAgent extends Person {
                    orders.remove(order);
                }
 
-               if(comppletedOrders != null){
-                   comppletedOrders.add(order);
+               if(completedOrders != null){
+                   completedOrders.add(order);
                }
 
                DeliveryAgent updatedAgent = db.getDeliveryAgentById(deliveryAgentId);
@@ -126,7 +119,7 @@ final class DeliveryAgent extends Person {
 
           for (Order o : allOrders) {
               if (o.orderStatus.equalsIgnoreCase("DELIVERED")) {
-                  System.out.println(o.orderDetails());
+                  System.out.println(o.displayDetails());
                   totalAmount += (int) o.totalAmount;
                   isCompleted = true;
               }
@@ -149,8 +142,6 @@ final class DeliveryAgent extends Person {
               totalEarnings = d.totalEarnings;
           }
 
-         System.out.println(d.totalEarnings);
-
-          return "Agent Id : "+deliveryAgentId+" "+this.viewProfile()+greenColor+" Total Earnings : "+totalEarnings+resetColor;
+          return greenColor+"Your Total Earnings is "+totalEarnings+resetColor;
      }
 }

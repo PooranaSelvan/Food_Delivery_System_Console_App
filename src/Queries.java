@@ -42,8 +42,8 @@ public class Queries {
     public final static String insertOrder = "INSERT INTO orders (customerId, hotelId, totalAmount) VALUES (?, ?, ?)";
     public final static String selectOrders = "SELECT o.*, oda.agentId, oda.orderStatus FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId";
     public final static String selectOrderById = "SELECT o.*, oa.agentId, oa.orderStatus FROM orders o LEFT JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE o.orderId = ?";
-    public final static String selectUnassignedOrders = "SELECT o.* FROM orders o LEFT JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE oa.agentId IS NULL";
-    public final static String selectOrdersByAgentId = "SELECT o.*, oa.orderStatus FROM orders o JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE oa.agentId = ?";
+    public final static String selectUnassignedOrders = "SELECT o.* FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId IS NULL";
+    public final static String selectOrdersByAgentId = "SELECT o.*, oda.orderStatus FROM orders o JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId = ?";
     public final static String selectOrderByCusId = "SELECT orderId FROM orders WHERE customerId = ?";
 
 

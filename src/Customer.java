@@ -2,18 +2,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-final class Customer extends Person {
+final class Customer extends Person implements Display{
      int customerId;
      String address;
      ArrayList<Item> cart = new ArrayList<>();
      static Scanner input = new Scanner(System.in);
      Hotel hotel;
+     Logger logger = LogManager.getLogger("Customer");
 
      // Text Formatting & Decorations
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
@@ -36,7 +38,7 @@ final class Customer extends Person {
           System.out.println(greenColor+textBold+"All Hotels : "+resetColor+"\n");
           for (Hotel value : hotels) {
               if (value != null) {
-                 System.out.println(value.getHotelDetails());
+                 System.out.println(value.displayDetails());
               }
           }
           System.out.println("\n=============================================================================");
@@ -49,7 +51,6 @@ final class Customer extends Person {
           }
 
           System.out.println(greenColor+"Welcome to Hotel : "+hotel.hotelName+resetColor);
-
           hotel.displayMenu();
      }
 
@@ -64,7 +65,7 @@ final class Customer extends Person {
           System.out.println(greenColor+"Your Cart Items : "+resetColor+"\n");
           for(Item item : cart){
              if(item != null){
-                 System.out.println(item.displayItemInfo());
+                 System.out.println(item.displayDetails());
                  totalAmount += (int) (item.itemPrice * item.quantity);
              }
           }
@@ -89,6 +90,7 @@ final class Customer extends Person {
      
                               break;
                          } catch (InputMismatchException e) {
+                              logger.error(e.getMessage());
                               System.out.println(invalidInputMessage);
                               input.nextLine();
                          }
@@ -138,6 +140,7 @@ final class Customer extends Person {
 
                     break;
                } catch (InputMismatchException e) {
+                    logger.error(e.getMessage());
                     System.out.println(invalidInputMessage);
                     input.nextLine();
                }
@@ -166,7 +169,7 @@ final class Customer extends Person {
           // System.out.println(cart.size());
 
           System.out.println("\n"+greenColor+item.itemName+((item.quantity > 1) ? "×"+item.quantity : "")+resetColor+" has been Added to Cart!"+"\n");
-
+          logger.info("{} has Added a Item to Cart!", name);
           return true;
      }
 
@@ -203,6 +206,7 @@ final class Customer extends Person {
 
               cart.clear();
               this.hotel = null;
+              logger.info("{} has Placed a New Order!", name);
           } else {
               System.out.println(redColor + "Order is Not Placed!" + resetColor);
           }
@@ -246,18 +250,19 @@ final class Customer extends Person {
           System.out.println(greenColor+"Order History : "+resetColor);
 
           int totalAmount = 0;
-         for (Order customerOrder : customerOrders) {
-             if (customerOrder != null) {
-                 System.out.println(customerOrder.orderDetails());
-                 totalAmount += (int) customerOrder.totalAmount;
-             }
-         }
+          for (Order customerOrder : customerOrders) {
+              if (customerOrder != null) {
+                  System.out.println(customerOrder.displayDetails());
+                  totalAmount += (int) customerOrder.totalAmount;
+              }
+          }
 
           System.out.println(greenColor+"Total Amount : ₹"+totalAmount+resetColor);
           System.out.println("=============================================================");
      }
 
-     public String displayCustomerDetails(){
-          return "Customer Id : "+customerId+" "+this.viewProfile();
+     @Override
+     public String displayDetails(){
+         return "Customer Id : "+customerId+" "+this.viewProfile();
      }
 }
