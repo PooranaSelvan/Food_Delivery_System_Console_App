@@ -13,7 +13,6 @@ final class DeliveryAgent extends Person {
      String resetColor = "\u001B[0m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
-     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
      DeliveryAgent(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location);

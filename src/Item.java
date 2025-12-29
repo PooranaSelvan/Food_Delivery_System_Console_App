@@ -7,11 +7,8 @@ class Item implements Display{
      int quantity;
 
      // Text Formatting & Decorations
-     String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
-     String textBold = "\u001B[1m";
 
      Item(String itemName, double itemPrice, String itemCategory, String description){
           this.itemName = itemName;

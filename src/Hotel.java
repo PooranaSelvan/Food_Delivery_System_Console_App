@@ -11,13 +11,11 @@ class Hotel implements Display{
      double rating;
      boolean isOpen;
      ArrayList<Item> menu  = new ArrayList<>();
-     ArrayList<Order> orders = new ArrayList<>();
      Scanner input = new Scanner(System.in);
 
      // Text Formatting & Decorations
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
-     String cyanColor = "\u001B[96m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
      String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;

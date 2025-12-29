@@ -190,3 +190,59 @@
 2025-12-29 14:13:50,771 [FoodDeliveryApp] INFO ragulragul Logged Out!
 2025-12-29 14:13:50,771 [FoodDeliveryApp] INFO User Tried to Login!
 2025-12-29 14:13:52,215 [FoodDeliveryApp] INFO Application Closed!
+2025-12-29 15:00:10,451 [DBConnection] INFO Connected to the Database!
+2025-12-29 15:00:10,453 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-29 15:00:10,453 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-29 15:00:10,453 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:00:20,751 [Database] INFO Getting User By Email!
+2025-12-29 15:00:20,752 [Database] INFO Getting Customer By Id!
+2025-12-29 15:00:20,753 [FoodDeliveryApp] INFO vijay r : Customer Logged In!
+2025-12-29 15:00:21,721 [Database] INFO Getting Hotel Items!
+2025-12-29 15:00:21,722 [Database] INFO Getting All Hotels!
+2025-12-29 15:00:21,725 [FoodDeliveryApp] INFO vijay r Viewed All Hotels!
+2025-12-29 15:00:24,246 [FoodDeliveryApp] INFO vijay r Logged Out!
+2025-12-29 15:00:24,246 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:00:25,534 [FoodDeliveryApp] INFO Application Closed!
+2025-12-29 15:01:26,771 [DBConnection] INFO Connected to the Database!
+2025-12-29 15:01:26,773 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-29 15:01:26,773 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-29 15:01:26,774 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:58:30,488 [DBConnection] INFO Connected to the Database!
+2025-12-29 15:58:30,490 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-29 15:58:30,491 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-29 15:58:30,493 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:58:38,354 [Database] INFO Getting User By Email!
+2025-12-29 15:58:38,357 [Database] INFO Getting Customer By Id!
+2025-12-29 15:58:38,359 [FoodDeliveryApp] INFO vijay r : Customer Logged In!
+2025-12-29 15:58:39,421 [Database] INFO Getting Hotel Items!
+2025-12-29 15:58:39,421 [Database] INFO Getting All Hotels!
+2025-12-29 15:58:39,429 [FoodDeliveryApp] INFO vijay r Viewed All Hotels!
+2025-12-29 15:58:45,944 [FoodDeliveryApp] INFO vijay r Logged Out!
+2025-12-29 15:58:45,944 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:58:53,611 [Database] INFO Getting User By Email!
+2025-12-29 15:58:53,614 [Database] INFO Getting Admin By Email!
+2025-12-29 15:58:53,614 [FoodDeliveryApp] INFO poorana selvan : Admin Logged In!
+2025-12-29 15:59:01,443 [Database] INFO Getting Hotel Items!
+2025-12-29 15:59:01,443 [Database] INFO Getting All Hotels!
+2025-12-29 15:59:02,872 [Database] INFO Getting Hotel Items!
+2025-12-29 15:59:02,873 [Database] INFO Getting a Hotel By Id!
+2025-12-29 15:59:04,590 [Database] INFO Getting a Item By its Id!
+2025-12-29 15:59:08,066 [FoodDeliveryApp] INFO poorana selvan Viewed Hotel Menu!
+2025-12-29 15:59:09,521 [FoodDeliveryApp] INFO poorana selvan Logged Out!
+2025-12-29 15:59:09,521 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:59:14,919 [FoodDeliveryApp] INFO Application Closed!
+2025-12-29 15:59:40,335 [DBConnection] INFO Connected to the Database!
+2025-12-29 15:59:40,337 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-29 15:59:40,337 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-29 15:59:40,338 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-29 15:59:53,693 [Database] INFO Getting User By Email!
+2025-12-29 15:59:53,694 [Database] INFO Getting Admin By Email!
+2025-12-29 15:59:53,696 [FoodDeliveryApp] INFO poorana selvan : Admin Logged In!
+2025-12-29 16:00:01,217 [Database] INFO Getting All Customers!
+2025-12-29 16:00:03,168 [Database] INFO Deleted Customer & User!
+2025-12-29 16:00:03,168 [Admin] INFO Removed a Customer
+2025-12-29 16:00:03,168 [FoodDeliveryApp] INFO poorana selvan Removed a Customer!
+2025-12-29 16:00:16,924 [Database] INFO Getting All Customers!
+2025-12-29 16:00:17,913 [Database] INFO Deleted Customer & User!
+2025-12-29 16:00:17,913 [Admin] INFO Removed a Customer
+2025-12-29 16:00:17,913 [FoodDeliveryApp] INFO poorana selvan Removed a Customer!

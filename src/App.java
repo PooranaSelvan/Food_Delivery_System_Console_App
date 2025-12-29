@@ -58,6 +58,7 @@ public class App{
 
                          break;
                     } catch (InputMismatchException e) {
+                         app.logger.error(e.getMessage());
                          System.out.println(app.invalidInputMessage);
                          input.nextLine();
                          userChoice = 0;
@@ -83,6 +84,7 @@ public class App{
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   app.logger.error(e.getMessage());
                                    System.out.println(app.invalidInputMessage);
                                    input.nextLine();
                               }
@@ -337,6 +339,7 @@ public class App{
 
                          break;
                     } catch (InputMismatchException e) {
+                         logger.error(e.getMessage());
                          System.out.println(invalidInputMessage);
                          input.nextLine();
                          userChoice = 0;
@@ -860,6 +863,7 @@ public class App{
 
                                    break;
                               } catch (InputMismatchException e) {
+                                   logger.error(e.getMessage());
                                    System.out.println(invalidInputMessage);
                                    input.nextLine();
                               }

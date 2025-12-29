@@ -12,7 +12,6 @@ final class Admin extends Person {
      String resetColor = "\u001B[0m";
      String greenColor = "\u001B[92m";
      String textBold = "\u001B[1m";
-     String invalidInputMessage = redColor+textBold+"\nInvalid Input!\n"+resetColor;
 
      Admin(String name, String password, String phone, String email){
           super(name, password, phone, email, "None");
