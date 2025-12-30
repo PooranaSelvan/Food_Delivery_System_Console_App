@@ -120,21 +120,21 @@ public class App{
                             case "customer":
                                 Customer c = app.db.getCustomerById(p.userId);
                                 if(c != null){
-                                    app.logger.info("{} : Customer Logged In!", c.name);
+                                    app.logger.info("{} : Customer Logged In!", c.customerId);
                                     app.showCustomerMenu(c);
                                 }
                                 break;
                             case "deliveryagent":
                                 DeliveryAgent d = app.db.getDeliveryAgentById(p.userId);
                                 if(d != null){
-                                    app.logger.info("{} : DeliveryAgent Logged In!", d.name);
+                                    app.logger.info("{} : DeliveryAgent Logged In!", d.deliveryAgentId);
                                     app.showDeliveryAgentMenu(d);
                                 }
                                 break;
                             case "admin":
                                 Admin a = app.db.getAdminByEmail(p.email);
                                 if(a != null){
-                                    app.logger.info("{} : Admin Logged In!", a.name);
+                                    app.logger.info("{} : Admin Logged In!", a.adminId);
                                     app.showAdminMenu(a);
                                 }
                                 break;
@@ -297,7 +297,7 @@ public class App{
                          Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
 
                          app.db.saveCustomer(newCustomer);
-                         app.logger.info("{} : new Customer Signed Up!", newCustomer.name);
+                         app.logger.info("{} : new Customer Signed Up!", newCustomer.customerId);
 
                          // Welcome Message
                          System.out.println(
@@ -351,43 +351,43 @@ public class App{
                     case 1:
                          System.out.println();
                          customer.viewHotels(db);
-                         logger.info("{} Viewed All Hotels!", customer.name);
+                         logger.info("{} Viewed All Hotels!", customer.customerId);
                          System.out.println();
                          break;
                     case 2:
                          System.out.println();
                          showMenu(customer);
-                         logger.info("{} Viewed a Hotel Menu!", customer.name);
+                         logger.info("{} Viewed a Hotel Menu!", customer.customerId);
                          System.out.println();
                          break;
                     case 3:
                          System.out.println();
                          addToCart(customer, isOrder);
-                         logger.info("{} Added a Menu in Cart!", customer.name);
+                         logger.info("{} Added a Menu in Cart!", customer.customerId);
                          System.out.println();
                          break;
                     case 4:
                          System.out.println();
                          customer.viewCart();
-                         logger.info("{} Viewed a Cart!", customer.name);
+                         logger.info("{} Viewed a Cart!", customer.customerId);
                          System.out.println();
                          break;
                     case 5:
                          System.out.println();
                          customer.placeOrder(db);
-                         logger.info("{} Placed a New Order!", customer.name);
+                         logger.info("{} Placed a New Order!", customer.customerId);
                          System.out.println();
                          break;
                     case 6:
                          System.out.println();
                          customer.trackOrder(db);
-                         logger.info("{} Tracked Their Order!", customer.name);
+                         logger.info("{} Tracked Their Order!", customer.customerId);
                          System.out.println();
                          break;
                     case 7:
                          System.out.println();
                          customer.viewOrderHistory(db);
-                         logger.info("{} Viewed Order History!", customer.name);
+                         logger.info("{} Viewed Order History!", customer.customerId);
                          System.out.println();
                          break;
                     case 8:
@@ -433,7 +433,7 @@ public class App{
                          }
 
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
-                         logger.info(customer.name+" Logged Out!");
+                         logger.info(customer.customerId+" Logged Out!");
                          System.out.println();
                          return;
                     default:
@@ -592,43 +592,43 @@ public class App{
                     case 1:
                          System.out.println();
                          deliveryAgent.getUnassignedOrders(db);
-                         logger.info("{} Viewed Unassigned Orders!", deliveryAgent.name);
+                         logger.info("{} Viewed Unassigned Orders!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 2:
                          System.out.println();
                          deliveryAgent.getAssignedOrders(db);
-                         logger.info("{} Viewed Assigned Orders!", deliveryAgent.name);
+                         logger.info("{} Viewed Assigned Orders!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 3:
                          System.out.println();
                          acceptOrder(deliveryAgent);
-                         logger.info("{} Accepted a New Order!", deliveryAgent.name);
+                         logger.info("{} Accepted a New Order!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 4:
                          System.out.println();
                          updateOrder(deliveryAgent);
-                         logger.info("{} Updated an Order!", deliveryAgent.name);
+                         logger.info("{} Updated an Order!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 5:
                          System.out.println();
                          System.out.println(deliveryAgent.getTotalEarnings(db));
-                         logger.info("{} Viewed Total Earnings!", deliveryAgent.name);
+                         logger.info("{} Viewed Total Earnings!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 6:
                          System.out.println();
                          deliveryAgent.checkCompletedOrders(db);
-                         logger.info("{} Viewed Completed Orders!", deliveryAgent.name);
+                         logger.info("{} Viewed Completed Orders!", deliveryAgent.deliveryAgentId);
                          System.out.println();
                          break;
                     case 7:
                          System.out.println();
                          System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
-                         logger.info(deliveryAgent.name+" Logged Out!");
+                         logger.info(deliveryAgent.deliveryAgentId+" Logged Out!");
                          System.out.println();
                          return;
                     default:
@@ -639,7 +639,11 @@ public class App{
      }
 
      public void acceptOrder(DeliveryAgent deliveryAgent) throws SQLException {
-          deliveryAgent.getUnassignedOrders(db);
+          boolean isOrderAvailable = deliveryAgent.getUnassignedOrders(db);
+
+          if(!isOrderAvailable){
+              return;
+          }
 
           int orderId;
           while (true) {
@@ -674,7 +678,11 @@ public class App{
      }
 
      public void updateOrder(DeliveryAgent deliveryAgent) throws SQLException {
-          deliveryAgent.getAssignedOrders(db);
+          boolean isOrderAvailable = deliveryAgent.getAssignedOrders(db);
+
+          if(!isOrderAvailable){
+              return;
+          }
 
           int orderId;
           while (true) {
@@ -726,7 +734,7 @@ public class App{
                               orderStatus = "ON_THE_WAY";
                          } else if (userInput == 2) {
                               orderStatus = "DELIVERED";
-                              logger.info("{} Delivered a New Order!", deliveryAgent.name);
+                              logger.info("{} Delivered a New Order!", deliveryAgent.deliveryAgentId);
                          } else {
                               System.out.println(invalidInputMessage);
                          }
@@ -751,13 +759,13 @@ public class App{
 
           int userChoice = 0;
 
-          while (userChoice != 4) {
+          while (userChoice != 5) {
                System.out.println("\n╔═════════════════╗\n║   Admin Menu    ║\n╚═════════════════╝\n");
                
                while (true) {
                     try {
                          System.out.print(cyanColor + "┌─────────────────────┐\n"
-                                                    + "│ 1. Hotels           │\n│ 2. Delivery Agents  │\n│ 3. Customers        │\n│ 4. Logout           │\n"
+                                                    + "│ 1. Hotels           │\n│ 2. Delivery Agents  │\n│ 3. Customers        │\n│ 4. Show Revenue     │\n│ 5. Logout           │\n"
                                                     + "└─────────────────────┘\n" + resetColor);
                          System.out.print("Enter your Choice : ");
                          userChoice = input.nextInt();
@@ -775,22 +783,27 @@ public class App{
                switch (userChoice) {
                     case 1:
                          adminHotelMenu(admin);
-                         logger.info("{} Viewed Hotel Menu!", admin.name);
+                         logger.info("{} Viewed Hotel Menu!", admin.adminId);
                          break;
                     case 2:
                          adminDeliveryAgentMenu(admin);
-                         logger.info("{} Viewed DeliveryAgent Menu!", admin.name);
+                         logger.info("{} Viewed DeliveryAgent Menu!", admin.adminId);
                          break;
                     case 3:
                          adminCustomerMenu(admin);
-                         logger.info("{} Viewed Customer Menu!", admin.name);
+                         logger.info("{} Viewed Customer Menu!", admin.adminId);
                          break;
                     case 4:
                          System.out.println();
-                         System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
-                         logger.info(admin.name+" Logged Out!");
+                         admin.showRevenue(db);
                          System.out.println();
-                         return;
+                         break;
+                    case 5:
+                         System.out.println();
+                         System.out.println(greenColor + "Thank You !\nVisit Again !" + resetColor);
+                         logger.info(admin.adminId+" Logged Out!");
+                         System.out.println();
+                         break;
                     default:
                          System.out.println(redColor + "Enter the Valid Option Number!" + resetColor);
                }
@@ -839,7 +852,7 @@ public class App{
                          System.out.println("==========================================================");
                          System.out.println(greenColor + "All Customers : " + resetColor);
                          admin.displayAllCustomers(db);
-                         logger.info("{} Viewed All Customers!", admin.name);
+                         logger.info("{} Viewed All Customers!", admin.adminId);
                          System.out.println("==========================================================");
                          System.out.println();
                          break;
@@ -872,8 +885,8 @@ public class App{
 
                          admin.removeCustomer(db, customerId);
 
-                         System.out.println(greenColor+"Customer has been Successfully removed as Customer" + resetColor);
-                         logger.info("{} Removed a Customer!", admin.name);
+                         System.out.println(greenColor+"Customer has been Successfully Removed!" + resetColor);
+                         logger.info("{} Removed a Customer!", admin.adminId);
                          System.out.println();
                          break;
                     case 3:
@@ -914,7 +927,7 @@ public class App{
                     case 1:
                          System.out.println();
                          admin.displayAllDeliveryAgents(db);
-                         logger.info("{} Viewed All Delivery Agents!", admin.name);
+                         logger.info("{} Viewed All Delivery Agents!", admin.adminId);
                          System.out.println();
                          break;
                     case 2:
@@ -1035,7 +1048,7 @@ public class App{
                          admin.addDeliveryAgent(db, d);
 
                          System.out.print(greenColor + dName + " has Successfully Added as Delivery Agent!" + resetColor);
-                         logger.info("{} Added new Delivery Agent!", admin.name);
+                         logger.info("{} Added new Delivery Agent!", admin.adminId);
                          System.out.println();
                          break;
                     case 3:
@@ -1064,8 +1077,8 @@ public class App{
 
                          admin.removeDeliveryAgent(db, deliveryAgentId);
 
-                         System.out.println(greenColor +"Delivery Agent has Successfully Removed !" + resetColor);
-                         logger.info("{} Removed a Delivery Agent!", admin.name);
+                         System.out.println(greenColor +"Delivery Agent has Successfully Removed!" + resetColor);
+                         logger.info("{} Removed a Delivery Agent!", admin.adminId);
                          System.out.println();
                          break;
                     case 4:
@@ -1110,7 +1123,7 @@ public class App{
                          System.out.println("==========================================================");
                          System.out.println(greenColor + "All Hotels : " + resetColor);
                          admin.displayAllHotels(db);
-                         logger.info("{} Viewed a Hotel!", admin.name);
+                         logger.info("{} Viewed a Hotel!", admin.adminId);
                          System.out.println("==========================================================");
                          System.out.println();
                          break;
@@ -1144,7 +1157,7 @@ public class App{
                          System.out.println(greenColor + "All Menu of Hotel " + showMenuHotel.hotelName + resetColor);
                          admin.displayAllMenu(showMenuHotel);
                          System.out.println("==========================================================");
-                         logger.info("{} Viewed a Hotel : {} Menu", admin.name, showMenuHotel.hotelName);
+                         logger.info("{} Viewed a Hotel : {} Menu", admin.adminId, showMenuHotel.hotelName);
                          System.out.println();
                          break;
                     case 3:
@@ -1193,7 +1206,7 @@ public class App{
                          admin.addHotel(db, hotel);
 
                          System.out.println(greenColor + "Hotel Added Successfully!" + resetColor);
-                         logger.info("{} Added New Hotel!", admin.name);
+                         logger.info("{} Added New Hotel!", admin.adminId);
                          System.out.println();
                          break;
                     case 4:
@@ -1341,7 +1354,7 @@ public class App{
                                              continue;
                                         }
 
-                                        if(itemDescription.length() > 20){
+                                        if(itemDescription.length() > 50){
                                              System.out.println(redColor+"Maximum 20 Letters for Description!\nGive a Short Description!"+resetColor);
                                              continue;
                                         }
@@ -1361,7 +1374,7 @@ public class App{
                               System.out.println(greenColor + itemName + " has been Successfully Added to Hotel : "+menuHotel.hotelName + resetColor);
                          }
 
-                         logger.info(admin.name+"Added New Menu for a Hotel!");
+                         logger.info(admin.adminId+"Added New Menu for a Hotel!");
                          System.out.println();
                          break;
                     case 5:
@@ -1403,7 +1416,7 @@ public class App{
                          admin.removeHotel(db, removingHotel.hotelId);
 
                          System.out.println(greenColor + removingHotel.hotelName + " has Successfully Removed from Hotels"+ resetColor);
-                         logger.info("{} Removed a Hotel!", admin.name);
+                         logger.info("{} Removed a Hotel!", admin.adminId);
                          System.out.println();
                          break;
                     case 6:
@@ -1463,7 +1476,7 @@ public class App{
                          db.deleteItem(removeMenuId);
 
                          System.out.println(removeHotelMenu.itemName+" has removed Successfully from Hotel "+removeMenuHotel.hotelName);
-                         logger.info("{} Removed a Hotel Menu!", admin.name);
+                         logger.info("{} Removed a Hotel Menu!", admin.adminId);
                          System.out.println();
                          break;
                     case 7:

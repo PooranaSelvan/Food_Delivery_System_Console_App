@@ -1,5 +1,6 @@
 import java.security.interfaces.DSAKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class Order implements Display {
      int orderId;
@@ -9,6 +10,7 @@ class Order implements Display {
      ArrayList<Item> items = new ArrayList<>();
      double totalAmount;
      String orderStatus;
+     String createdAt;
 
 
      Order(Customer customer, Hotel hotel, ArrayList<Item> items){
@@ -36,7 +38,18 @@ class Order implements Display {
           String customerName = (customer == null) ? "Unknown" : customer.name;
           String hotelName = (hotel == null) ? "Unknown" : hotel.hotelName;
           String deliveryAgentName = (deliveryAgent == null) ? "Not Assigned" : deliveryAgent.name;
+          String date = getDate(this.createdAt);
 
-          return "| Order Id : "+orderId+" | Customer Name : "+customerName+" | Hotel Name : "+hotelName+" | Delivery Agent : "+deliveryAgentName+" | Order Status : "+orderStatus+" | Total Amount : "+totalAmount+" |";
+          return "| Order Id : "+orderId+" | Customer Name : "+customerName+" | Hotel Name : "+hotelName+" | Delivery Agent : "+deliveryAgentName+" | Order Status : "+orderStatus+" | Total Amount : "+totalAmount+" | Date : "+date+" |";
+     }
+
+     private String getDate(String createdAt){
+         if(createdAt == null || createdAt.isEmpty()){
+             return "Not Found";
+         }
+
+         String[] date = createdAt.split(" ")[0].split("-");
+
+         return date[2] + "/" + date[1] + "/" + date[0];
      }
 }

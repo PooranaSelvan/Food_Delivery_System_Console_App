@@ -21,14 +21,14 @@ final class DeliveryAgent extends Person {
      }
 
 
-     public void getUnassignedOrders(DataBase db) throws SQLException {
+     public boolean getUnassignedOrders(DataBase db) throws SQLException {
           ArrayList<Order> unAssignedOrders = db.getUnassignedOrders();
 
 //         System.out.println("Total Unassigned Orders : "+unAssignedOrders.size());
 
           if(unAssignedOrders.isEmpty()){
                System.out.println(redColor+"No Orders Found!"+resetColor);
-               return;
+               return false;
           }
 
           boolean isNotAssigned = false;
@@ -43,15 +43,18 @@ final class DeliveryAgent extends Person {
 
           if(!isNotAssigned){
                System.out.println(redColor+"There is No UnAssigned Orders!"+resetColor);
+               return false;
           }
+
+          return true;
      }
 
-     public void getAssignedOrders(DataBase db) throws SQLException {
+     public boolean getAssignedOrders(DataBase db) throws SQLException {
          ArrayList<Order> assignedOrders = db.getOrderByAgentId(this.deliveryAgentId);
 
           if(assignedOrders.isEmpty()){
                System.out.println(redColor+"No Orders Found!"+resetColor);
-               return;
+               return false;
           }
           
           boolean isAssigned = false;
@@ -64,7 +67,10 @@ final class DeliveryAgent extends Person {
 
           if(!isAssigned){
                System.out.println(redColor+"There is No Assigned Orders!"+resetColor);
+               return false;
           }
+
+          return true;
      }
 
      public void updateDeliveryStatus(Order order, String orderStatus, DataBase db) throws SQLException {

@@ -61,7 +61,7 @@ final class Admin extends Person {
           System.out.println("==========================================================");
           System.out.println(greenColor + "All Delivery Agents : " + resetColor);
           for (DeliveryAgent d : deliveryAgents) {
-               System.out.println(d.getTotalEarnings(db));
+               System.out.println(d.viewProfile());
           }
           System.out.println("==========================================================");
      }
@@ -88,5 +88,13 @@ final class Admin extends Person {
      public void removeCustomer(DataBase db, int customerId) throws SQLException {
          db.deleteCustomer(customerId);
          logger.info("Removed a Customer");
+     }
+
+     public void showRevenue(DataBase db){
+         int totalRevenue = db.calculateRevenue();
+
+         System.out.println(greenColor+"╭───────────────────────────────────────╮");
+         System.out.println("         Total Revenue is ₹"+totalRevenue);
+         System.out.println("╰───────────────────────────────────────╯"+resetColor);
      }
 }

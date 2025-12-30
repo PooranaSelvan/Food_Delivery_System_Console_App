@@ -538,6 +538,30 @@ class DataBase {
         return a;
     }
 
+    public int calculateRevenue(){
+        int totalRevenue = 0;
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement(Queries.calculateRevenue);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                totalRevenue = rs.getInt("revenue");
+            }
+            ps.close();
+
+            logger.info("Calculated Revenue Successfully!");
+        } catch (SQLException e) {
+            logger.error("Error Calculating Revenue : {}", String.valueOf(e));
+            throw new RuntimeException(e);
+        }
+
+
+        return totalRevenue;
+    }
+
 
 //    Hotel
     public void saveHotel(Hotel h) {
@@ -840,6 +864,7 @@ class DataBase {
             if(rs.next()){
                 orderId = rs.getInt(1);
                 o.orderId = orderId;
+                o.createdAt = getOrderCreatedAt(orderId);
             }
 
 
@@ -854,6 +879,30 @@ class DataBase {
         }
 
         return orderId;
+    }
+
+    public String getOrderCreatedAt(int orderId){
+        PreparedStatement ps = null;
+        String createdAt = "";
+
+        try {
+            ps = connection.prepareStatement(Queries.selectOrderById);
+            ps.setInt(1, orderId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                createdAt = rs.getString("createdAt");
+            }
+
+            ps.close();
+
+            logger.info("Getting Order CreatedAt");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return createdAt;
     }
 
     public void saveOrderItems(int orderId, Item item) {
@@ -891,6 +940,7 @@ class DataBase {
                 double totalAmount = rs.getDouble("totalAmount");
                 int agentId = rs.getInt("agentId");
                 String orderStatus = rs.getString("orderStatus");
+                String createdAt = rs.getString("createdAt");
 
                 Customer c = getCustomerById(customerId);
                 Hotel h = getHotelById(hotelId);
@@ -900,6 +950,7 @@ class DataBase {
                     order.orderId = orderId;
                     order.totalAmount = totalAmount;
                     order.orderStatus = orderStatus != null ? orderStatus : "ORDERED";
+                    order.createdAt = createdAt;
 
                     if(agentId > 0) {
                         order.deliveryAgent = getDeliveryAgentById(agentId);
@@ -950,8 +1001,7 @@ class DataBase {
 
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement(Queries.selectOrderByCusId);
-
+            ps = connection.prepareStatement(Queries.selectOrdersByCusId);
             ps.setInt(1, customerId);
             ResultSet rs = ps.executeQuery();
 
@@ -1081,11 +1131,13 @@ class DataBase {
                 double totalAmount = rs.getDouble("totalAmount");
                 int agentId = rs.getInt("agentId");
                 String orderStatus = rs.getString("orderStatus");
+                String createdAt = rs.getString("createdAt");
 
                 o = new Order(getCustomerById(customerId), getHotelById(hotelId), getOrderItems(orderId));
                 o.totalAmount = totalAmount;
                 o.orderId = orderId;
                 o.orderStatus = orderStatus != null ? orderStatus : "ORDERED";
+                o.createdAt = createdAt;
 
                 if(agentId > 0){
                     o.deliveryAgent = getDeliveryAgentById(agentId);

@@ -24,6 +24,7 @@ public class Queries {
     public final static String insertAdmin = "INSERT INTO admins (adminId) VALUES (?)";
     public final static String selectAdmins = "SELECT u.*, a.adminId FROM users u JOIN admins a on u.userId = a.adminId";
     public final static String selectAdminByEmail = "SELECT u.* FROM users u JOIN admins a ON u.userId = a.adminId WHERE u.email = ?";
+    public final static String calculateRevenue = "SELECT SUM(totalAmount) as revenue FROM orders";
 
 //    Hotel
     public final static String insertHotel = "INSERT INTO hotels (name, location, rating, isOpen) VALUES (?, ?, ?, ?)";
@@ -43,8 +44,8 @@ public class Queries {
     public final static String selectOrders = "SELECT o.*, oda.agentId, oda.orderStatus FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId";
     public final static String selectOrderById = "SELECT o.*, oa.agentId, oa.orderStatus FROM orders o LEFT JOIN order_delivery_agents oa ON o.orderId = oa.orderId WHERE o.orderId = ?";
     public final static String selectUnassignedOrders = "SELECT o.* FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId IS NULL";
-    public final static String selectOrdersByAgentId = "SELECT o.*, oda.orderStatus FROM orders o JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId = ?";
-    public final static String selectOrderByCusId = "SELECT orderId FROM orders WHERE customerId = ?";
+    public final static String selectOrdersByAgentId = "SELECT o.*, oda.orderStatus FROM orders o JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId = ? ORDER BY o.createdAt DESC";
+    public final static String selectOrdersByCusId = "SELECT * FROM orders WHERE customerId = ? ORDER BY createdAt DESC";
 
 
 //    Order Items
