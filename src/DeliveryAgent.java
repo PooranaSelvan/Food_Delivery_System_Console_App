@@ -12,7 +12,6 @@ final class DeliveryAgent extends Person {
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
      String greenColor = "\u001B[92m";
-     String textBold = "\u001B[1m";
 
      DeliveryAgent(String name, String password, String phone, String email, String location){
           super(name, password, phone, email, location);
@@ -98,7 +97,8 @@ final class DeliveryAgent extends Person {
                DeliveryAgent updatedAgent = db.getDeliveryAgentById(deliveryAgentId);
 
                if(updatedAgent != null){
-                  totalEarnings = updatedAgent.totalEarnings;
+                   double taxAmount = calculateTax(order.totalAmount);
+                   totalEarnings = (updatedAgent.totalEarnings - taxAmount);
                }
 
                System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
@@ -119,13 +119,11 @@ final class DeliveryAgent extends Person {
           System.out.println("=============================================================================");
           System.out.println(greenColor+"Completed Orders\n"+resetColor);
 
-          int totalAmount = 0;
           boolean isCompleted = false;
 
           for (Order o : allOrders) {
               if (o.orderStatus.equalsIgnoreCase("DELIVERED")) {
-                  System.out.println(o.displayDetails());
-                  totalAmount += (int) o.totalAmount;
+                  System.out.println("| Hotel Name : "+o.hotel.hotelName+" | Order Status : "+o.orderStatus+" | Total Amount : "+(o.totalAmount - calculateTax(o.totalAmount))+" | Date : "+o.getDate(o.createdAt)+" |");
                   isCompleted = true;
               }
           }
@@ -136,7 +134,6 @@ final class DeliveryAgent extends Person {
               return;
           }
 
-          System.out.println(greenColor+"\nTotal Amount : ₹"+totalAmount+resetColor);
           System.out.println("=============================================================================");
      }
 
@@ -148,5 +145,17 @@ final class DeliveryAgent extends Person {
           }
 
           return greenColor+"Your Total Earnings is "+totalEarnings+resetColor;
+     }
+
+     private double calculateTax(double totalAmount){
+            double tax = 0.10;
+
+            if(totalAmount < 100){
+                tax = 0.05;
+            } else if(totalAmount > 500){
+                tax = 0.15;
+            }
+
+            return totalAmount * tax;
      }
 }

@@ -1367,3 +1367,398 @@
 2025-12-30 21:10:22,779 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
 2025-12-30 21:11:30,122 [FoodDeliveryApp] INFO 4 Logged Out!
 2025-12-30 21:11:30,122 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:39:32,723 [DBConnection] INFO Connected to the Database!
+2025-12-31 11:39:32,725 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 11:39:32,725 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 11:39:32,725 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:40:06,664 [Database] INFO Getting User By Email!
+2025-12-31 11:40:06,666 [Database] INFO Getting Customer By Id!
+2025-12-31 11:40:06,667 [FoodDeliveryApp] INFO 1 : Customer Logged In!
+2025-12-31 11:40:09,743 [Database] INFO Getting Customer By Id!
+2025-12-31 11:40:09,749 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:09,749 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:40:09,751 [Database] INFO Getting Items for a Order!
+2025-12-31 11:40:09,752 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:40:09,752 [Database] INFO Getting an Order By Id!
+2025-12-31 11:40:09,754 [Database] INFO Getting Customer By Id!
+2025-12-31 11:40:09,756 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:09,756 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:40:09,757 [Database] INFO Getting Items for a Order!
+2025-12-31 11:40:09,758 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:40:09,758 [Database] INFO Getting an Order By Id!
+2025-12-31 11:40:09,759 [Database] INFO Getting Customer By Id!
+2025-12-31 11:40:09,760 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:09,760 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:40:09,761 [Database] INFO Getting Items for a Order!
+2025-12-31 11:40:09,762 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:40:09,762 [Database] INFO Getting an Order By Id!
+2025-12-31 11:40:09,762 [Database] INFO Getting Orders Based ON Customer!
+2025-12-31 11:40:09,768 [FoodDeliveryApp] INFO 1 Viewed Order History!
+2025-12-31 11:40:33,933 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:33,935 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:33,935 [Database] INFO Getting All Hotels!
+2025-12-31 11:40:35,659 [Database] INFO Getting Hotel Items!
+2025-12-31 11:40:35,659 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:40:42,819 [Customer] INFO vijay r has Added a Item to Cart!
+2025-12-31 11:40:44,670 [FoodDeliveryApp] INFO 1 Added a Menu in Cart!
+2025-12-31 11:40:45,271 [FoodDeliveryApp] INFO 1 Viewed a Cart!
+2025-12-31 11:40:49,774 [Database] INFO Getting Order CreatedAt
+2025-12-31 11:40:49,791 [Database] INFO Saved New Order Items!
+2025-12-31 11:40:49,792 [Database] INFO Saved New Order!
+2025-12-31 11:40:49,795 [Customer] INFO vijay r has Placed a New Order!
+2025-12-31 11:40:49,795 [FoodDeliveryApp] INFO 1 Placed a New Order!
+2025-12-31 11:41:00,599 [FoodDeliveryApp] INFO 1 Logged Out!
+2025-12-31 11:41:00,599 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:41:07,356 [Database] INFO Getting User By Email!
+2025-12-31 11:41:07,357 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:07,357 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:41:12,774 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:12,776 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:12,776 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:12,777 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:12,777 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:12,777 [Database] INFO Getting All UnAssigned Orders for DeliveryAgent!
+2025-12-31 11:41:12,779 [FoodDeliveryApp] INFO 4 Viewed Unassigned Orders!
+2025-12-31 11:41:14,834 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:14,836 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:14,836 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:14,837 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:14,837 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:14,837 [Database] INFO Getting All UnAssigned Orders for DeliveryAgent!
+2025-12-31 11:41:20,125 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:20,127 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:20,127 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:20,127 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:20,128 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:20,143 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:20,156 [Database] INFO Updated Delivery Agents's Status!
+2025-12-31 11:41:20,156 [Database] INFO Assigned a New Order for a DeliveryAgent!
+2025-12-31 11:41:20,157 [FoodDeliveryApp] INFO 4 Accepted a New Order!
+2025-12-31 11:41:25,139 [FoodDeliveryApp] INFO 4 Logged Out!
+2025-12-31 11:41:25,139 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:41:40,703 [Database] INFO Getting User By Email!
+2025-12-31 11:41:40,704 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:40,704 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:41:43,210 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:43,212 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:43,212 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:43,213 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,214 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,214 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:43,214 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,215 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,216 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:43,218 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:43,218 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:43,219 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,219 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,219 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:43,220 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,220 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,222 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:43,223 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:43,223 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:43,223 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,224 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,224 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:43,224 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,225 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,226 [Database] INFO Getting Customer By Id!
+2025-12-31 11:41:43,227 [Database] INFO Getting Hotel Items!
+2025-12-31 11:41:43,227 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:41:43,227 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,228 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,228 [Database] INFO Getting an Order By Id!
+2025-12-31 11:41:43,228 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:43,229 [Database] INFO Getting Items for a Order!
+2025-12-31 11:41:43,229 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:41:43,230 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:41:52,149 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:41:52,150 [FoodDeliveryApp] INFO 4 Viewed Total Earnings!
+2025-12-31 11:42:56,758 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:56,760 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:56,760 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:56,761 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,762 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,762 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:56,762 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,762 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,764 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:56,765 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:56,765 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:56,765 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,766 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,766 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:56,766 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,767 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,768 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:56,769 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:56,769 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:56,770 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,770 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,770 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:56,771 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,772 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,773 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:56,774 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:56,774 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:56,775 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,775 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,775 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:56,776 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:56,776 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:56,777 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:42:58,217 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:58,219 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:58,219 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:58,220 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:58,220 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:58,220 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:59,337 [FoodDeliveryApp] INFO 4 Delivered a New Order!
+2025-12-31 11:42:59,339 [Database] INFO Getting DeliveryAgent By Order Id!
+2025-12-31 11:42:59,340 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:59,354 [Database] INFO Updated Delivery Agents's Status!
+2025-12-31 11:42:59,356 [Database] INFO Getting Customer By Id!
+2025-12-31 11:42:59,358 [Database] INFO Getting Hotel Items!
+2025-12-31 11:42:59,358 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:42:59,358 [Database] INFO Getting Items for a Order!
+2025-12-31 11:42:59,359 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:59,359 [Database] INFO Getting an Order By Id!
+2025-12-31 11:42:59,359 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:59,359 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:59,379 [Database] INFO Updated DeliveryAgent's Earnings!
+2025-12-31 11:42:59,393 [Database] INFO updated an Order Status!
+2025-12-31 11:42:59,394 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:42:59,394 [FoodDeliveryApp] INFO 4 Updated an Order!
+2025-12-31 11:43:23,100 [Database] INFO Getting Customer By Id!
+2025-12-31 11:43:23,102 [Database] INFO Getting Hotel Items!
+2025-12-31 11:43:23,102 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:43:23,103 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,103 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,103 [Database] INFO Getting an Order By Id!
+2025-12-31 11:43:23,104 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,104 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,105 [Database] INFO Getting Customer By Id!
+2025-12-31 11:43:23,106 [Database] INFO Getting Hotel Items!
+2025-12-31 11:43:23,106 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:43:23,107 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,107 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,107 [Database] INFO Getting an Order By Id!
+2025-12-31 11:43:23,108 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,108 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,109 [Database] INFO Getting Customer By Id!
+2025-12-31 11:43:23,110 [Database] INFO Getting Hotel Items!
+2025-12-31 11:43:23,110 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:43:23,110 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,111 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,111 [Database] INFO Getting an Order By Id!
+2025-12-31 11:43:23,111 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,111 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,112 [Database] INFO Getting Customer By Id!
+2025-12-31 11:43:23,113 [Database] INFO Getting Hotel Items!
+2025-12-31 11:43:23,113 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:43:23,113 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,114 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,114 [Database] INFO Getting an Order By Id!
+2025-12-31 11:43:23,114 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:43:23,115 [Database] INFO Getting Items for a Order!
+2025-12-31 11:43:23,115 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:43:23,116 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:43:48,173 [FoodDeliveryApp] INFO 4 Logged Out!
+2025-12-31 11:43:48,173 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:43:49,057 [FoodDeliveryApp] INFO Application Closed!
+2025-12-31 11:49:22,715 [DBConnection] INFO Connected to the Database!
+2025-12-31 11:49:22,717 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 11:49:22,717 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 11:49:22,717 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:49:37,969 [Database] INFO Getting User By Email!
+2025-12-31 11:49:37,971 [Database] INFO Getting Customer By Id!
+2025-12-31 11:49:37,972 [FoodDeliveryApp] INFO 1 : Customer Logged In!
+2025-12-31 11:49:42,856 [FoodDeliveryApp] INFO 1 Logged Out!
+2025-12-31 11:49:42,856 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:49:50,250 [Database] INFO Getting User By Email!
+2025-12-31 11:49:50,252 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:50,252 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:49:51,986 [Database] INFO Getting Customer By Id!
+2025-12-31 11:49:51,989 [Database] INFO Getting Hotel Items!
+2025-12-31 11:49:51,989 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:49:51,991 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:51,992 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:51,992 [Database] INFO Getting an Order By Id!
+2025-12-31 11:49:51,992 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:51,993 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:51,995 [Database] INFO Getting Customer By Id!
+2025-12-31 11:49:51,996 [Database] INFO Getting Hotel Items!
+2025-12-31 11:49:51,996 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:49:51,997 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:51,997 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:51,998 [Database] INFO Getting an Order By Id!
+2025-12-31 11:49:51,998 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:51,999 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:52,001 [Database] INFO Getting Customer By Id!
+2025-12-31 11:49:52,002 [Database] INFO Getting Hotel Items!
+2025-12-31 11:49:52,002 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:49:52,003 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:52,003 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:52,003 [Database] INFO Getting an Order By Id!
+2025-12-31 11:49:52,004 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:52,004 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:52,006 [Database] INFO Getting Customer By Id!
+2025-12-31 11:49:52,007 [Database] INFO Getting Hotel Items!
+2025-12-31 11:49:52,007 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:49:52,008 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:52,008 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:52,008 [Database] INFO Getting an Order By Id!
+2025-12-31 11:49:52,009 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:49:52,010 [Database] INFO Getting Items for a Order!
+2025-12-31 11:49:52,010 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:49:52,014 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:51:00,444 [DBConnection] INFO Connected to the Database!
+2025-12-31 11:51:00,445 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 11:51:00,445 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 11:51:00,445 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:51:08,733 [Database] INFO Getting User By Email!
+2025-12-31 11:51:08,734 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:08,735 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:51:10,651 [Database] INFO Getting Customer By Id!
+2025-12-31 11:51:10,654 [Database] INFO Getting Hotel Items!
+2025-12-31 11:51:10,654 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:51:10,655 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,656 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,656 [Database] INFO Getting an Order By Id!
+2025-12-31 11:51:10,657 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,657 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,659 [Database] INFO Getting Customer By Id!
+2025-12-31 11:51:10,660 [Database] INFO Getting Hotel Items!
+2025-12-31 11:51:10,660 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:51:10,661 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,661 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,661 [Database] INFO Getting an Order By Id!
+2025-12-31 11:51:10,662 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,662 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,663 [Database] INFO Getting Customer By Id!
+2025-12-31 11:51:10,665 [Database] INFO Getting Hotel Items!
+2025-12-31 11:51:10,665 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:51:10,666 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,667 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,667 [Database] INFO Getting an Order By Id!
+2025-12-31 11:51:10,667 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,668 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,669 [Database] INFO Getting Customer By Id!
+2025-12-31 11:51:10,670 [Database] INFO Getting Hotel Items!
+2025-12-31 11:51:10,670 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:51:10,671 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,671 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,671 [Database] INFO Getting an Order By Id!
+2025-12-31 11:51:10,672 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:51:10,673 [Database] INFO Getting Items for a Order!
+2025-12-31 11:51:10,673 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:51:10,676 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:53:30,838 [DBConnection] INFO Connected to the Database!
+2025-12-31 11:53:30,839 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 11:53:30,839 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 11:53:30,839 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:53:37,916 [Database] INFO Getting User By Email!
+2025-12-31 11:53:37,916 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:53:46,277 [Database] INFO Getting User By Email!
+2025-12-31 11:53:46,279 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:46,280 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:53:48,427 [Database] INFO Getting Customer By Id!
+2025-12-31 11:53:48,430 [Database] INFO Getting Hotel Items!
+2025-12-31 11:53:48,430 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:53:48,431 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,432 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,432 [Database] INFO Getting an Order By Id!
+2025-12-31 11:53:48,433 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,433 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,434 [Database] INFO Getting Customer By Id!
+2025-12-31 11:53:48,436 [Database] INFO Getting Hotel Items!
+2025-12-31 11:53:48,436 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:53:48,436 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,437 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,437 [Database] INFO Getting an Order By Id!
+2025-12-31 11:53:48,437 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,438 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,439 [Database] INFO Getting Customer By Id!
+2025-12-31 11:53:48,440 [Database] INFO Getting Hotel Items!
+2025-12-31 11:53:48,440 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:53:48,441 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,441 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,441 [Database] INFO Getting an Order By Id!
+2025-12-31 11:53:48,442 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,442 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,443 [Database] INFO Getting Customer By Id!
+2025-12-31 11:53:48,445 [Database] INFO Getting Hotel Items!
+2025-12-31 11:53:48,445 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:53:48,445 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,446 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,446 [Database] INFO Getting an Order By Id!
+2025-12-31 11:53:48,446 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:53:48,447 [Database] INFO Getting Items for a Order!
+2025-12-31 11:53:48,447 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:53:48,451 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:54:19,978 [DBConnection] INFO Connected to the Database!
+2025-12-31 11:54:19,980 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 11:54:19,981 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 11:54:19,981 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:55:26,941 [Database] INFO Getting User By Email!
+2025-12-31 11:55:26,942 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:26,944 [FoodDeliveryApp] INFO 4 : DeliveryAgent Logged In!
+2025-12-31 11:55:28,466 [Database] INFO Getting Customer By Id!
+2025-12-31 11:55:28,469 [Database] INFO Getting Hotel Items!
+2025-12-31 11:55:28,469 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:55:28,469 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,470 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,470 [Database] INFO Getting an Order By Id!
+2025-12-31 11:55:28,471 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,471 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,473 [Database] INFO Getting Customer By Id!
+2025-12-31 11:55:28,474 [Database] INFO Getting Hotel Items!
+2025-12-31 11:55:28,474 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:55:28,475 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,475 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,475 [Database] INFO Getting an Order By Id!
+2025-12-31 11:55:28,476 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,476 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,478 [Database] INFO Getting Customer By Id!
+2025-12-31 11:55:28,480 [Database] INFO Getting Hotel Items!
+2025-12-31 11:55:28,480 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:55:28,480 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,481 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,481 [Database] INFO Getting an Order By Id!
+2025-12-31 11:55:28,481 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,482 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,483 [Database] INFO Getting Customer By Id!
+2025-12-31 11:55:28,484 [Database] INFO Getting Hotel Items!
+2025-12-31 11:55:28,485 [Database] INFO Getting a Hotel By Id!
+2025-12-31 11:55:28,485 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,486 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,486 [Database] INFO Getting an Order By Id!
+2025-12-31 11:55:28,486 [Database] INFO Getting DeliveryAgent By Id!
+2025-12-31 11:55:28,487 [Database] INFO Getting Items for a Order!
+2025-12-31 11:55:28,487 [Database] INFO Getting Order By DeliveryAgentId!
+2025-12-31 11:55:28,490 [FoodDeliveryApp] INFO 4 Viewed Completed Orders!
+2025-12-31 11:57:24,978 [FoodDeliveryApp] INFO 4 Logged Out!
+2025-12-31 11:57:24,978 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 11:57:26,475 [FoodDeliveryApp] INFO Application Closed!
+2025-12-31 12:11:24,832 [DBConnection] INFO Connected to the Database!
+2025-12-31 12:11:24,833 [FoodDeliveryApp] INFO Connected to The DataBase!
+2025-12-31 12:11:24,834 [FoodDeliveryApp] INFO Starting the Application!
+2025-12-31 12:11:24,834 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 12:11:36,554 [Database] INFO Getting User By Email!
+2025-12-31 12:11:36,555 [Database] INFO Getting Admin By Email!
+2025-12-31 12:11:36,557 [FoodDeliveryApp] INFO 3 : Admin Logged In!
+2025-12-31 12:11:40,804 [Database] INFO Getting Hotel Items!
+2025-12-31 12:11:40,805 [Database] INFO Getting Hotel Items!
+2025-12-31 12:11:40,805 [Database] INFO Getting All Hotels!
+2025-12-31 12:11:42,715 [Database] INFO Getting Hotel Items!
+2025-12-31 12:11:42,715 [Database] INFO Getting a Hotel By Id!
+2025-12-31 12:11:45,715 [FoodDeliveryApp] INFO Deleting Hotel is Cancelled
+2025-12-31 12:11:49,303 [Database] INFO Getting Hotel Items!
+2025-12-31 12:11:49,305 [Database] INFO Getting Hotel Items!
+2025-12-31 12:11:49,305 [Database] INFO Getting All Hotels!
+2025-12-31 12:11:49,305 [FoodDeliveryApp] INFO 3 Viewed a Hotel!
+2025-12-31 12:11:51,250 [FoodDeliveryApp] INFO 3 Viewed Hotel Menu!
+2025-12-31 12:11:52,754 [FoodDeliveryApp] INFO 3 Logged Out!
+2025-12-31 12:11:52,755 [FoodDeliveryApp] INFO User Tried to Login!
+2025-12-31 12:11:53,961 [FoodDeliveryApp] INFO Application Closed!

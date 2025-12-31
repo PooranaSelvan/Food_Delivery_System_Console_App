@@ -43,7 +43,7 @@ class Order implements Display {
           return "| Order Id : "+orderId+" | Customer Name : "+customerName+" | Hotel Name : "+hotelName+" | Delivery Agent : "+deliveryAgentName+" | Order Status : "+orderStatus+" | Total Amount : "+totalAmount+" | Date : "+date+" |";
      }
 
-     private String getDate(String createdAt){
+     public String getDate(String createdAt){
          if(createdAt == null || createdAt.isEmpty()){
              return "Not Found";
          }

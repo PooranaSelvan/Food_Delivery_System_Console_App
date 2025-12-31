@@ -883,6 +883,34 @@ public class App{
                          }
                          input.nextLine();
 
+                         boolean confirmDelete = true;
+
+                         while (true){
+                             try {
+                                 System.out.print("Are You sure Want to Delete this Customer? [y/n] : ");
+                                 String deleteCustomerChoice = input.nextLine();
+
+                                 if(deleteCustomerChoice.equalsIgnoreCase("n")){
+                                     confirmDelete = false;
+                                 } else {
+                                     System.out.println(invalidInputMessage);
+                                     continue;
+                                 }
+
+                                 break;
+                             } catch (InputMismatchException e){
+                                 logger.error(e.getMessage());
+                                 System.out.println(invalidInputMessage);
+                                 input.nextLine();
+                             }
+                         }
+
+                         if(!confirmDelete){
+                             System.out.println(redColor+"Customer Deletion Cancelled!"+resetColor);
+                             logger.info("Deleting Customer is Cancelled");
+                             break;
+                         }
+
                          admin.removeCustomer(db, customerId);
 
                          System.out.println(greenColor+"Customer has been Successfully Removed!" + resetColor);
@@ -1074,6 +1102,34 @@ public class App{
                               }
                          }
                          input.nextLine();
+
+                         boolean confirmDelete = true;
+
+                         while (true){
+                             try {
+                                 System.out.print("Are You sure Want to Delete this DeliveryAgent? [y/n] : ");
+                                 String deleteAgentChoice = input.nextLine();
+
+                                 if(deleteAgentChoice.equalsIgnoreCase("n")){
+                                     confirmDelete = false;
+                                 } else {
+                                     System.out.println(invalidInputMessage);
+                                     continue;
+                                 }
+
+                                 break;
+                             } catch (InputMismatchException e){
+                                 logger.error(e.getMessage());
+                                 System.out.println(invalidInputMessage);
+                                 input.nextLine();
+                             }
+                         }
+
+                         if(!confirmDelete){
+                             System.out.println(redColor+"DeliveryAgent Deletion Cancelled!"+resetColor);
+                             logger.info("Deleting DeliveryAgent is Cancelled");
+                             break;
+                         }
 
                          admin.removeDeliveryAgent(db, deliveryAgentId);
 
@@ -1413,6 +1469,34 @@ public class App{
                               return;
                          }
 
+                         boolean confirmDelete = true;
+
+                         while (true){
+                             try {
+                                 System.out.print("Are You sure Want to Delete this Hotel? [y/n] : ");
+                                 String deleteHotelChoice = input.nextLine();
+
+                                 if(deleteHotelChoice.equalsIgnoreCase("n")){
+                                     confirmDelete = false;
+                                 } else {
+                                     System.out.println(invalidInputMessage);
+                                     continue;
+                                 }
+
+                                 break;
+                             } catch (InputMismatchException e){
+                                 logger.error(e.getMessage());
+                                 System.out.println(invalidInputMessage);
+                                 input.nextLine();
+                             }
+                         }
+
+                         if(!confirmDelete){
+                             System.out.println(redColor+"Hotel Deletion Cancelled!"+resetColor);
+                             logger.info("Deleting Hotel is Cancelled");
+                             break;
+                         }
+
                          admin.removeHotel(db, removingHotel.hotelId);
 
                          System.out.println(greenColor + removingHotel.hotelName + " has Successfully Removed from Hotels"+ resetColor);
@@ -1471,6 +1555,34 @@ public class App{
                               System.out.println(redColor + "Menu Item with ID " + removeMenuId + " not found!" + resetColor);
                               break;
                          }
+
+                        boolean confirmMenuDelete = true;
+
+                        while (true){
+                            try {
+                                System.out.print("Are You sure Want to Delete this Hotel? [y/n] : ");
+                                String deleteHotelMenuChoice = input.nextLine();
+
+                                if(deleteHotelMenuChoice.equalsIgnoreCase("n")){
+                                    confirmMenuDelete = false;
+                                } else {
+                                    System.out.println(invalidInputMessage);
+                                    continue;
+                                }
+
+                                break;
+                            } catch (InputMismatchException e){
+                                logger.error(e.getMessage());
+                                System.out.println(invalidInputMessage);
+                                input.nextLine();
+                            }
+                        }
+
+                        if(!confirmMenuDelete){
+                            System.out.println(redColor+"Hotel Menu Deletion Cancelled!"+resetColor);
+                            logger.info("Deleting Hotel Menu is Cancelled");
+                            break;
+                        }
 
                          removeMenuHotel.removeFoodItem(removeHotelMenu);
                          db.deleteItem(removeMenuId);

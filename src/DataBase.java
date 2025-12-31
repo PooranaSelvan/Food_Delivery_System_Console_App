@@ -1093,7 +1093,9 @@ class DataBase {
                         DeliveryAgent d = getDeliveryAgentById(agentId);
 
                         if(d != null){
-                            d.totalEarnings += o.totalAmount;
+                            double taxAmount = calculateTax(o.totalAmount);
+
+                            d.totalEarnings += (o.totalAmount - taxAmount);
                             updateDeliveryAgentEarnings(agentId, d.totalEarnings);
                         }
                     }
@@ -1232,6 +1234,18 @@ class DataBase {
         }
 
         return "unknown";
+    }
+
+    private double calculateTax(double totalAmount){
+        double tax = 0.10;
+
+        if(totalAmount < 100){
+            tax = 0.05;
+        } else if(totalAmount > 500){
+            tax = 0.15;
+        }
+
+        return totalAmount * tax;
     }
 }
 
