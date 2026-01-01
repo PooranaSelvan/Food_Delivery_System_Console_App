@@ -33,11 +33,13 @@ public class Queries {
     public final static String deleteHotel = "DELETE FROM hotels WHERE hotelId = ?";
 
 //    Items
-    public final static String insertItem = "INSERT INTO items (hotelId, name, price, category, description) VALUES (?, ?, ?, ?, ?)";
+    public final static String insertItem = "INSERT INTO items (hotelId, name, category, description) VALUES (?, ?, ?, ?)";
     public final static String selectItemsByHotelId = "SELECT * FROM items WHERE hotelId = ?";
     public final static String deleteItemsByHotelId = "DELETE FROM items WHERE hotelId = ?";
     public final static String deleteItems = "DELETE FROM items where itemId = ?";
     public final static String selectItemById = "SELECT * FROM items WHERE itemId = ?";
+    public final static String insertItemRelation = "INSERT INTO items_relations (itemId, itemPrice) values (?, ?)";
+    public final static String selectItemRelationPrice = "SELECT itemPrice from items_relations where itemId = ?";
 
 //    Order
     public final static String insertOrder = "INSERT INTO orders (customerId, hotelId, totalAmount) VALUES (?, ?, ?)";
@@ -46,7 +48,6 @@ public class Queries {
     public final static String selectUnassignedOrders = "SELECT o.* FROM orders o LEFT JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId IS NULL";
     public final static String selectOrdersByAgentId = "SELECT o.*, oda.orderStatus FROM orders o JOIN order_delivery_agents oda ON o.orderId = oda.orderId WHERE oda.agentId = ? ORDER BY o.createdAt DESC";
     public final static String selectOrdersByCusId = "SELECT * FROM orders WHERE customerId = ? ORDER BY createdAt DESC";
-
 
 //    Order Items
     public final static String insertOrderItem = "INSERT INTO order_items (orderId, itemId, quantity, price) VALUES (?, ?, ?, ?)";

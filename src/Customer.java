@@ -29,19 +29,18 @@ final class Customer extends Person implements Display{
      public void viewHotels(DataBase db) throws SQLException {
          ArrayList<Hotel> hotels = db.getHotels();
 
-          if (hotels == null || hotels.isEmpty()) {
-               System.out.println(redColor+"No hotels available!"+resetColor);
-               return;
-          }
+         if(hotels.isEmpty()){
+             System.out.println(redColor+"There is No Hotels to Display!"+resetColor);
+             return;
+         }
 
-          System.out.println("\n=============================================================================");
-          System.out.println(greenColor+textBold+"All Hotels : "+resetColor+"\n");
-          for (Hotel value : hotels) {
-              if (value != null) {
-                 System.out.println(value.displayDetails());
-              }
-          }
-          System.out.println("\n=============================================================================");
+         System.out.println("╔══════════════════════════════════════════════════════════╗");
+         System.out.println("║                       ALL HOTELS                         ║");
+         System.out.println("╠══════════════════════════════════════════════════════════╣");
+         for (Hotel h : hotels) {
+             System.out.println(h.displayDetails());
+         }
+         System.out.println("╚══════════════════════════════════════════════════════════╝");
      }
 
      public void viewMenu(Hotel hotel){
@@ -50,7 +49,6 @@ final class Customer extends Person implements Display{
                return;
           }
 
-          System.out.println(greenColor+"Welcome to Hotel : "+hotel.hotelName+resetColor);
           hotel.displayMenu();
      }
 
@@ -61,7 +59,7 @@ final class Customer extends Person implements Display{
           }
 
           int totalAmount = 0;
-          System.out.println("\n==========================================");
+          System.out.println("\n╔══════════════════════════════════════════════════════════╗");
           System.out.println(greenColor+"Your Cart Items : "+resetColor+"\n");
           for(Item item : cart){
              if(item != null){
@@ -70,7 +68,7 @@ final class Customer extends Person implements Display{
              }
           }
           System.out.println(greenColor+"\nYour Total Amount is : ₹"+totalAmount+resetColor);
-          System.out.println("==========================================\n");
+          System.out.println("╚══════════════════════════════════════════════════════════╝\n");
      }
 
      public boolean addToCart(Item item, Hotel hotel){
@@ -246,19 +244,18 @@ final class Customer extends Person implements Display{
                return;
           }
 
-          System.out.println("=============================================================");
-          System.out.println(greenColor+"Order History : "+resetColor);
+          System.out.println("╔══════════════════════════════════════════════════════════╗");
+          System.out.println("║                       ORDER HISTORY                      ║");
+          System.out.println("╠══════════════════════════════════════════════════════════╣");
 
-          int totalAmount = 0;
           for (Order customerOrder : customerOrders) {
               if (customerOrder != null) {
-                  System.out.println(customerOrder.displayDetails());
-                  totalAmount += (int) customerOrder.totalAmount;
+                  if(customerOrder.orderStatus.equalsIgnoreCase("DELIVERED")){
+                      System.out.println("║ Hotel Name : "+customerOrder.hotel.hotelName + " | Delivery Agent : " + customerOrder.deliveryAgent.name + " | Total Amount : " + customerOrder.totalAmount + " | Date : " + customerOrder.getDate(customerOrder.createdAt));
+                  }
               }
           }
-
-          System.out.println(greenColor+"Total Amount : ₹"+totalAmount+resetColor);
-          System.out.println("=============================================================");
+          System.out.println("╚══════════════════════════════════════════════════════════╝"+resetColor);
      }
 
      @Override

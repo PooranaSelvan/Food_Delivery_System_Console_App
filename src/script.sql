@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS order_delivery_agents;
 DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS items_relations;
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS hotels;
 DROP TABLE IF EXISTS admins;
@@ -73,4 +74,11 @@ CREATE TABLE order_items(id int primary key auto_increment NOT NULL,
                     price int NOT NULL,
 
                     FOREIGN KEY(orderId) REFERENCES orders(orderId) ON DELETE CASCADE ON UPDATE CASCADE,
+                    FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE);
+
+CREATE TABLE items_relations(id int primary key auto_increment NOT NULL ,
+                    itemId int NOT NULL,
+                    itemPrice int NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
                     FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE);

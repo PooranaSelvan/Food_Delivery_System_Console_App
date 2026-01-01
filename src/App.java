@@ -15,9 +15,6 @@ public class App{
      String cyanColor = "\n\u001B[96m";
      String greenColor = "\n\u001B[92m";
      String yellowColor = "\n\u001B[93m";
-     String topLine = "┌──────────────────────────────────────────────────┐";
-     String bottomLine = "└──────────────────────────────────────────────────┘";
-     String sideLine = "│";
      String textBold = "\u001B[1m";
 
      // Error Messages
@@ -849,11 +846,12 @@ public class App{
                               break;
                          }
 
-                         System.out.println("==========================================================");
-                         System.out.println(greenColor + "All Customers : " + resetColor);
+                        System.out.println("╔══════════════════════════════════════════════════════════╗");
+                        System.out.println("║                     ALL CUSTOMERS                        ║");
+                        System.out.println("╠══════════════════════════════════════════════════════════╣");
                          admin.displayAllCustomers(db);
                          logger.info("{} Viewed All Customers!", admin.adminId);
-                         System.out.println("==========================================================");
+                         System.out.println("╚══════════════════════════════════════════════════════════╝");
                          System.out.println();
                          break;
                     case 2:
@@ -873,6 +871,22 @@ public class App{
                               try {
                                    System.out.print("Enter the Customer Id to Remove : ");
                                    customerId = input.nextInt();
+
+
+                                   boolean customerExists = false;
+
+                                   for (Customer c : customers){
+                                       if(c.customerId == customerId){
+                                           customerExists = true;
+                                           break;
+                                       }
+                                   }
+
+                                   if(!customerExists){
+                                       System.out.println(redColor+"Customer Id : "+customerId+"Not Found!"+resetColor);
+                                       logger.error("Customer Not Found!");
+                                       continue;
+                                   }
 
                                    break;
                               } catch (InputMismatchException e) {
@@ -1085,7 +1099,7 @@ public class App{
                         ArrayList<DeliveryAgent> deliveryAgents = db.getDeliveryAgents();
 
                          for (DeliveryAgent da : deliveryAgents) {
-                              System.out.println(da.getTotalEarnings(db));
+                              System.out.println(da.viewProfile());
                          }
 
                          int deliveryAgentId;
@@ -1093,6 +1107,21 @@ public class App{
                               try {
                                    System.out.print("Enter the Delivery Agent Id to Remove : ");
                                    deliveryAgentId = input.nextInt();
+
+                                   boolean agentExists = false;
+
+                                   for (DeliveryAgent da : deliveryAgents){
+                                       if(da.deliveryAgentId == deliveryAgentId){
+                                           agentExists = true;
+                                           break;
+                                       }
+                                   }
+
+                                   if(!agentExists){
+                                       System.out.println(redColor+"DeliveryAgent Id : "+deliveryAgentId+"Not Found!"+resetColor);
+                                       logger.error("DeliveryAgent Not Found!");
+                                       continue;
+                                   }
 
                                    break;
                               } catch (InputMismatchException e) {
@@ -1175,17 +1204,17 @@ public class App{
                switch (userChoice) {
                     case 1:
                          System.out.println();
-
-                         System.out.println("==========================================================");
-                         System.out.println(greenColor + "All Hotels : " + resetColor);
                          admin.displayAllHotels(db);
                          logger.info("{} Viewed a Hotel!", admin.adminId);
-                         System.out.println("==========================================================");
                          System.out.println();
                          break;
                     case 2:
                          System.out.println();
-                         admin.displayAllHotels(db);
+                         boolean isTHereHotel = admin.displayAllHotels(db);
+
+                         if(!isTHereHotel){
+                             break;
+                         }
 
                          int showMenuHotelId;
                          while (true) {
@@ -1209,10 +1238,11 @@ public class App{
                               break;
                          }
 
-                         System.out.println("==========================================================");
-                         System.out.println(greenColor + "All Menu of Hotel " + showMenuHotel.hotelName + resetColor);
+                         System.out.println("╔══════════════════════════════════════════════════════════╗");
+                         System.out.println("║                         ALL MENU                         ║");
+                         System.out.println("╠══════════════════════════════════════════════════════════╣");
                          admin.displayAllMenu(showMenuHotel);
-                         System.out.println("==========================================================");
+                         System.out.println("╚══════════════════════════════════════════════════════════╝");
                          logger.info("{} Viewed a Hotel : {} Menu", admin.adminId, showMenuHotel.hotelName);
                          System.out.println();
                          break;
@@ -1505,7 +1535,11 @@ public class App{
                          break;
                     case 6:
                          System.out.println();
-                         admin.displayAllHotels(db);
+                         boolean isThereHotel = admin.displayAllHotels(db);
+
+                         if(!isThereHotel){
+                             break;
+                         }
 
                          int removeMenuHotelId;
                          while (true) {

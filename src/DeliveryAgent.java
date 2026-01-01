@@ -99,9 +99,21 @@ final class DeliveryAgent extends Person {
                if(updatedAgent != null){
                    double taxAmount = calculateTax(order.totalAmount);
                    totalEarnings = (updatedAgent.totalEarnings - taxAmount);
-               }
+                   double finalEarnings = order.totalAmount - taxAmount;
 
-               System.out.println(greenColor+"Order has Been Successfully Delivered and You have Earned total "+order.totalAmount+resetColor);
+                   System.out.println("\n" + greenColor);
+                   System.out.println("╔══════════════════════════════════════╗");
+                   System.out.println("║          DELIVERY COMPLETE           ║");
+                   System.out.println("╠══════════════════════════════════════╣");
+                   System.out.println("║  Order Id: " + order.orderId);
+                   System.out.println("║  Initial Amount:    ₹" + order.totalAmount);
+                   System.out.println("║  Tax Reduced:      -₹" + taxAmount);
+                   System.out.println("╠══════════════════════════════════════╣");
+                   System.out.println("║                                      ║");
+                   System.out.println("║  Final Earnings:    ₹" + finalEarnings);
+                   System.out.println("╚══════════════════════════════════════╝");
+                   System.out.println(greenColor + "\nThank you for your delivery!" + resetColor);
+               }
                return;
           }
 
@@ -116,25 +128,32 @@ final class DeliveryAgent extends Person {
                return;
           }
 
-          System.out.println("=============================================================================");
-          System.out.println(greenColor+"Completed Orders\n"+resetColor);
+          System.out.println("╔══════════════════════════════════════════════════════════════════╗");
+          System.out.println("║                        COMPLETED ORDERS                          ║");
+          System.out.println("╠══════════════════════════════════════════════════════════════════╣");
 
           boolean isCompleted = false;
 
           for (Order o : allOrders) {
               if (o.orderStatus.equalsIgnoreCase("DELIVERED")) {
-                  System.out.println("| Hotel Name : "+o.hotel.hotelName+" | Order Status : "+o.orderStatus+" | Total Amount : "+(o.totalAmount - calculateTax(o.totalAmount))+" | Date : "+o.getDate(o.createdAt)+" |");
+                  double finalEarnings = o.totalAmount - calculateTax(o.totalAmount);
+                  System.out.println("║   Hotel:    " + o.hotel.hotelName);
+                  System.out.println("║   Status:   " + o.orderStatus);
+                  System.out.println("║   Amount:   $" + finalEarnings);
+                  System.out.println("║   Date:     " + o.getDate(o.createdAt));
                   isCompleted = true;
               }
           }
 
           if (!isCompleted) {
-              System.out.println(redColor+"No Orders Completed!\nStart Your First Order Now!"+resetColor);
-              System.out.println("=============================================================================");
+              System.out.println("║   " + redColor + "No Orders Completed!");
+              System.out.println("║   Start Your First Order Now!");
+              System.out.println("║                                                                  ");
+              System.out.println("╚══════════════════════════════════════════════════════════════════╝" + resetColor);
               return;
           }
 
-          System.out.println("=============================================================================");
+         System.out.println("╚══════════════════════════════════════════════════════════════════╝" + resetColor);
      }
 
      public String getTotalEarnings(DataBase db) throws SQLException {

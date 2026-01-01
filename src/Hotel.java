@@ -29,12 +29,12 @@ class Hotel implements Display{
      }
      
      public void displayMenu(){
-          System.out.println("\n=====================================================");
-          System.out.println("\n"+greenColor+"Menu Of Hotel : "+hotelName+resetColor+"\n");
+          System.out.println("\n╔══════════════════════════════════════════════════════════╗");
+          System.out.println(greenColor+"Menu Of Hotel : "+hotelName+resetColor);
           for (Item item : menu) {
               System.out.println(item.displayDetails());
           }
-          System.out.println("=====================================================\n");
+          System.out.println("╚══════════════════════════════════════════════════════════╝\n");
      }
 
      public void addFoodItem(Item item){
@@ -81,9 +81,9 @@ class Hotel implements Display{
                     item.itemName = name;
 
 
-                    System.out.println(greenColor+"\n==========================");
+                    System.out.println(greenColor+"\n╔══════════════════════════════════════════════════════════╗");
                     System.out.println("Name Changed Successfully!");
-                    System.out.println("==========================\n"+resetColor);
+                    System.out.println("╚══════════════════════════════════════════════════════════╝\n"+resetColor);
                     break;
                case 2:
                     System.out.println();
@@ -103,9 +103,9 @@ class Hotel implements Display{
                     item.itemPrice = price;
 
 
-                    System.out.println(greenColor+"\n===========================");
+                    System.out.println(greenColor+"\n╔══════════════════════════════════════════════════════════╗");
                     System.out.println("Price Changed Successfully!");
-                    System.out.println("===========================\n"+resetColor);
+                    System.out.println("╚══════════════════════════════════════════════════════════╝\n"+resetColor);
                     break;
                case 3:
                     System.out.println();
@@ -125,9 +125,9 @@ class Hotel implements Display{
                     item.itemCategory = categoryName;
 
 
-                    System.out.println(greenColor+"\n====================================");
+                    System.out.println(greenColor+"\n╔══════════════════════════════════════════════════════════╗");
                     System.out.println("Category Name Changed Successfully!");
-                    System.out.println("====================================\n"+resetColor);
+                    System.out.println("╚══════════════════════════════════════════════════════════╝\n"+resetColor);
                     break;
                case 4:
                     System.out.println();
@@ -147,18 +147,18 @@ class Hotel implements Display{
                     item.description = description;
 
 
-                    System.out.println(greenColor+"\n==================================");
+                    System.out.println(greenColor+"\n╔══════════════════════════════════════════════════════════╗");
                     System.out.println("Description Changed Successfully!");
-                    System.out.println("==================================\n"+resetColor);
+                    System.out.println("╚══════════════════════════════════════════════════════════╝\n"+resetColor);
                     break;
                default:
                     System.out.println("\nEnter the Valid Option Number!\n");
           }
 
           System.out.println(greenColor+"After Changed"+resetColor);
-          System.out.println("===================================================");
+          System.out.println("╔══════════════════════════════════════════════════════════╗");
           System.out.println(item.displayDetails());
-          System.out.println("===================================================");
+          System.out.println("╚══════════════════════════════════════════════════════════╝");
      }
 
      @Override

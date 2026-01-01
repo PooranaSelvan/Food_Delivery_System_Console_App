@@ -11,7 +11,6 @@ final class Admin extends Person {
      String redColor = "\u001B[91m";
      String resetColor = "\u001B[0m";
      String greenColor = "\u001B[92m";
-     String textBold = "\u001B[1m";
 
      Admin(String name, String password, String phone, String email){
           super(name, password, phone, email, "None");
@@ -58,31 +57,35 @@ final class Admin extends Person {
                return;
           }
 
-          System.out.println("==========================================================");
-          System.out.println(greenColor + "All Delivery Agents : " + resetColor);
+          System.out.println("╔══════════════════════════════════════════════════════════╗");
+          System.out.println("║                    ALL DELIVERY AGENTS                   ║");
+          System.out.println("╠══════════════════════════════════════════════════════════╣");
           for (DeliveryAgent d : deliveryAgents) {
-               System.out.println(d.viewProfile());
+               System.out.println(d.viewProfile() + " Total Earnings : "+d.totalEarnings+" |");
           }
-          System.out.println("==========================================================");
+          System.out.println("╚══════════════════════════════════════════════════════════╝");
      }
 
-     public void displayAllHotels(DataBase db) throws SQLException {
-         ArrayList<Hotel> hotels = db.getHotels();
+     public boolean displayAllHotels(DataBase db) throws SQLException {
+          ArrayList<Hotel> hotels = db.getHotels();
 
           if(hotels.isEmpty()){
                System.out.println(redColor+"There is No Hotels to Display!"+resetColor);
-               return;
+               return false;
           }
 
+          System.out.println("╔══════════════════════════════════════════════════════════╗");
+          System.out.println("║                       ALL HOTELS                         ║");
+          System.out.println("╠══════════════════════════════════════════════════════════╣");
           for (Hotel h : hotels) {
                System.out.println(h.displayDetails());
           }
+          System.out.println("╚══════════════════════════════════════════════════════════╝");
+          return true;
      }
 
      public void displayAllMenu(Hotel hotel){
-          for(int i = 0; i < hotel.menu.size(); i++){
-               System.out.println(hotel.menu.get(i).displayDetails());
-          }
+          hotel.displayMenu();
      }
 
      public void removeCustomer(DataBase db, int customerId) throws SQLException {

@@ -698,7 +698,7 @@ class DataBase {
 
             ps.setInt(1, hotelId);
             ps.setString(2, item.itemName);
-            ps.setDouble(3, item.itemPrice);
+//            Price
             ITEM_CATEGORIES i = switch (item.itemCategory){
                 case "VEG" -> ITEM_CATEGORIES.VEG;
                 case "NON_VEG" -> ITEM_CATEGORIES.NON_VEG;
@@ -706,8 +706,8 @@ class DataBase {
                 case "SNACKS" -> ITEM_CATEGORIES.SNACKS;
                 default -> ITEM_CATEGORIES.VEG;
             };
-            ps.setString(4, i.name());
-            ps.setString(5, item.description);
+            ps.setString(3, i.name());
+            ps.setString(4, item.description);
 
             int res = ps.executeUpdate();
 
@@ -721,12 +721,59 @@ class DataBase {
                 item.itemId = rs.getInt(1);
             }
 
+            insertItemRelations(item.itemId, item.itemPrice);
+
             ps.close();
             logger.info("Saved New Item!");
         } catch (SQLException e) {
             logger.error("Error Saving Items : {}", String.valueOf(e));
             throw new RuntimeException(e);
         }
+    }
+
+    public void insertItemRelations(int itemId, double itemPrice) {
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement(Queries.insertItemRelation);
+            ps.setInt(1, itemId);
+            ps.setDouble(2, itemPrice);
+
+            int res = ps.executeUpdate();
+
+            if(res == 0){
+                logger.error("Error Inserting the Item Relation!");
+                return;
+            }
+
+            logger.info("Saved new Item Relation!");
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Error Inserting the Item Relation");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public double selectItemRelation(int itemId){
+        PreparedStatement ps = null;
+        double itemPrice = 0;
+
+        try {
+            ps = connection.prepareStatement(Queries.selectItemRelationPrice);
+            ps.setInt(1, itemId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                itemPrice = rs.getDouble("itemPrice");
+            }
+
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return itemPrice;
     }
 
     public ArrayList<Item> getHotelItems(int hotelId) {
@@ -742,11 +789,11 @@ class DataBase {
             while (rs.next()){
                 int id = rs.getInt("itemId");
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
                 String category = rs.getString("category");
                 String description = rs.getString("description");
+                double itemPrice = selectItemRelation(id);
 
-                Item item = new Item(name, price, category, description);
+                Item item = new Item(name, itemPrice, category, description);
                 item.itemId = id;
 
                 items.add(item);
@@ -774,12 +821,12 @@ class DataBase {
             while (rs.next()){
                 int id = rs.getInt("itemId");
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
                 String category = rs.getString("category");
                 String description = rs.getString("description");
                 int quantity = rs.getInt("quantity");
+                double itemPrice = selectItemRelation(id);
 
-                Item item = new Item(name, price, category, description);
+                Item item = new Item(name, itemPrice, category, description);
                 item.itemId = id;
                 item.quantity = quantity;
 
@@ -808,11 +855,11 @@ class DataBase {
 
             if(rs.next()){
                 String name = rs.getString("name");
-                double price = rs.getDouble("price");
                 String category = rs.getString("category");
                 String description = rs.getString("description");
+                double itemPrice = selectItemRelation(itemId);
 
-                item = new Item(name, price, category, description);
+                item = new Item(name, itemPrice, category, description);
                 item.itemId = itemId;
             }
             ps.close();
