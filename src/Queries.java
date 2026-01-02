@@ -33,12 +33,14 @@ public class Queries {
     public final static String deleteHotel = "DELETE FROM hotels WHERE hotelId = ?";
 
 //    Items
-    public final static String insertItem = "INSERT INTO items (hotelId, name, category, description) VALUES (?, ?, ?, ?)";
-    public final static String selectItemsByHotelId = "SELECT * FROM items WHERE hotelId = ?";
-    public final static String deleteItemsByHotelId = "DELETE FROM items WHERE hotelId = ?";
-    public final static String deleteItems = "DELETE FROM items where itemId = ?";
+    public final static String insertItem = "INSERT INTO items (name, category, description) VALUES (?, ?, ?)";
+//    public final static String selectItemsByHotelId = "SELECT * FROM items WHERE hotelId = ?";
+    public final static String selectItemsByHotelId = "SELECT i.*, ir.itemPrice FROM items i LEFT JOIN items_relations ir ON i.itemId = ir.itemId WHERE hotelId = ?";
+    public final static String deleteItemsByHotelId = "DELETE FROM items_relations WHERE hotelId = ?";
+    public final static String deleteItems = "DELETE FROM items_relations where itemId = ? and hotelId = ?";
     public final static String selectItemById = "SELECT * FROM items WHERE itemId = ?";
-    public final static String insertItemRelation = "INSERT INTO items_relations (itemId, itemPrice) values (?, ?)";
+    public final static String selectItemByName = "SELECT * FROM items WHERE name = ?";
+    public final static String insertItemRelation = "INSERT INTO items_relations (itemId, hotelId, itemPrice) values (?, ?, ?)";
     public final static String selectItemRelationPrice = "SELECT itemPrice from items_relations where itemId = ?";
 
 //    Order

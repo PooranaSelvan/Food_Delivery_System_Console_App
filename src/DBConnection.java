@@ -19,6 +19,7 @@ public class DBConnection {
             logger.info("Connected to the Database!");
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error Connecting Database {}", String.valueOf(e));
         }
     }
 

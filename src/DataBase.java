@@ -691,28 +691,34 @@ class DataBase {
 
 
 //    Items
-    public void saveItem(Item item, int hotelId) {
+    public boolean saveItem(Item item, int hotelId) {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement(Queries.insertItem, Statement.RETURN_GENERATED_KEYS);
+//            System.out.println(checkItemName(item.itemName));
+            int existingItemId = getItemByName(checkItemName(item.itemName));
 
-            ps.setInt(1, hotelId);
-            ps.setString(2, item.itemName);
-//            Price
+            if(existingItemId > 0){
+                insertItemRelations(hotelId, existingItemId, item.itemPrice);
+                logger.info("Saved New Item!");
+                return false;
+            }
+
+            ps = connection.prepareStatement(Queries.insertItem, Statement.RETURN_GENERATED_KEYS);
+            String convertedName = checkItemName(item.itemName);
+            ps.setString(1, convertedName);
             ITEM_CATEGORIES i = switch (item.itemCategory){
-                case "VEG" -> ITEM_CATEGORIES.VEG;
                 case "NON_VEG" -> ITEM_CATEGORIES.NON_VEG;
                 case "DRINKS" -> ITEM_CATEGORIES.DRINKS;
                 case "SNACKS" -> ITEM_CATEGORIES.SNACKS;
                 default -> ITEM_CATEGORIES.VEG;
             };
-            ps.setString(3, i.name());
-            ps.setString(4, item.description);
+            ps.setString(2, i.name());
+            ps.setString(3, item.description);
 
             int res = ps.executeUpdate();
 
             if(res == 0){
-                return;
+                return false;
             }
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -721,23 +727,62 @@ class DataBase {
                 item.itemId = rs.getInt(1);
             }
 
-            insertItemRelations(item.itemId, item.itemPrice);
+            insertItemRelations(hotelId, item.itemId, item.itemPrice);
 
             ps.close();
             logger.info("Saved New Item!");
+            return true;
         } catch (SQLException e) {
             logger.error("Error Saving Items : {}", String.valueOf(e));
             throw new RuntimeException(e);
         }
     }
 
-    public void insertItemRelations(int itemId, double itemPrice) {
+    public int getItemByName(String name){
         PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement(Queries.selectItemByName);
+            ps.setString(1, name);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("itemId");
+            }
+
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return 0;
+    }
+
+    public void insertItemRelations(int hotelId, int itemId, double itemPrice) {
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement("SELECT * from items_relations WHERE itemId = ? and hotelId = ?");
+            ps.setInt(1, itemId);
+            ps.setInt(2, hotelId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                System.out.println("\nItem with Same Name Already Exists!");
+                logger.error("Adding Same Item Again!");
+                return;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             ps = connection.prepareStatement(Queries.insertItemRelation);
             ps.setInt(1, itemId);
-            ps.setDouble(2, itemPrice);
+            ps.setInt(2, hotelId);
+            ps.setDouble(3, itemPrice);
 
             int res = ps.executeUpdate();
 
@@ -749,6 +794,7 @@ class DataBase {
             logger.info("Saved new Item Relation!");
             ps.close();
         } catch (SQLException e) {
+            logger.error("Error On Inserting Item Relation : ", e);
             logger.error("Error Inserting the Item Relation");
             throw new RuntimeException(e);
         }
@@ -791,9 +837,9 @@ class DataBase {
                 String name = rs.getString("name");
                 String category = rs.getString("category");
                 String description = rs.getString("description");
-                double itemPrice = selectItemRelation(id);
+                double itemPrice = rs.getDouble("itemPrice");
 
-                Item item = new Item(name, itemPrice, category, description);
+                Item item = new Item(convertToName(name), itemPrice, category, description);
                 item.itemId = id;
 
                 items.add(item);
@@ -826,7 +872,7 @@ class DataBase {
                 int quantity = rs.getInt("quantity");
                 double itemPrice = selectItemRelation(id);
 
-                Item item = new Item(name, itemPrice, category, description);
+                Item item = new Item(convertToName(name), itemPrice, category, description);
                 item.itemId = id;
                 item.quantity = quantity;
 
@@ -859,7 +905,7 @@ class DataBase {
                 String description = rs.getString("description");
                 double itemPrice = selectItemRelation(itemId);
 
-                item = new Item(name, itemPrice, category, description);
+                item = new Item(convertToName(name), itemPrice, category, description);
                 item.itemId = itemId;
             }
             ps.close();
@@ -872,12 +918,13 @@ class DataBase {
         return item;
     }
 
-    public void deleteItem(int itemId) {
+    public void deleteItem(int itemId, int hotelId) {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(Queries.deleteItems);
-
             ps.setInt(1, itemId);
+            ps.setInt(2, hotelId);
+
             ps.executeUpdate();
             ps.close();
             logger.info("Deleted a Item!");
@@ -1293,6 +1340,21 @@ class DataBase {
         }
 
         return totalAmount * tax;
+    }
+
+    private String checkItemName(String name){
+        return name.toLowerCase().trim().replaceAll("[^a-z0-9\\s]", "").replaceAll("\\s+"," ");
+    }
+
+    private String convertToName(String name){
+        StringBuilder res = new StringBuilder();
+        String[] arr = name.split(" ");
+
+        for (String s : arr) {
+            res.append(s.substring(0, 1).toUpperCase()).append(s.substring(1)).append(" ");
+        }
+
+        return res.toString().trim();
     }
 }
 

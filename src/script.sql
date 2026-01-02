@@ -39,13 +39,28 @@ CREATE TABLE hotels(hotelId int primary key auto_increment,
                     isOpen boolean NOT NULL);
 
 
-CREATE TABLE items(itemId int primary key auto_increment NOT NULL, 
-                    hotelId int NOT NULL,
+CREATE TABLE items(itemId int primary key auto_increment NOT NULL,
                     name varchar(100) NOT NULL,
-                    price int NOT NULL,
                     category ENUM('SNACKS','DRINKS','VEG','NON-VEG') NOT NULL,
-                    description varchar(100) NOT NULL,
+                    description varchar(100) NOT NULL);
 
+
+CREATE TABLE order_items(id int primary key auto_increment NOT NULL,
+                    orderId int NOT NULL,
+                    itemId int NOT NULL,
+                    quantity int NOT NULL,
+                    price int NOT NULL,
+
+                    FOREIGN KEY(orderId) REFERENCES orders(orderId) ON DELETE CASCADE ON UPDATE CASCADE,
+                    FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE);
+
+CREATE TABLE items_relations(id int primary key auto_increment NOT NULL ,
+                    itemId int NOT NULL,
+                    hotelId int NOT NULL,
+                    itemPrice int NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                    FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE,
                     FOREIGN KEY(hotelId) REFERENCES hotels(hotelId) ON DELETE CASCADE ON UPDATE CASCADE);
 
 
@@ -66,19 +81,3 @@ CREATE TABLE order_delivery_agents(id int primary key auto_increment NOT NULL,
 
                     FOREIGN KEY(agentId) REFERENCES deliveryAgents(agentId) ON DELETE CASCADE ON UPDATE CASCADE,
                     FOREIGN KEY(orderId) REFERENCES orders(orderId) ON DELETE CASCADE ON UPDATE CASCADE);
-
-CREATE TABLE order_items(id int primary key auto_increment NOT NULL, 
-                    orderId int NOT NULL,
-                    itemId int NOT NULL,
-                    quantity int NOT NULL,
-                    price int NOT NULL,
-
-                    FOREIGN KEY(orderId) REFERENCES orders(orderId) ON DELETE CASCADE ON UPDATE CASCADE,
-                    FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE);
-
-CREATE TABLE items_relations(id int primary key auto_increment NOT NULL ,
-                    itemId int NOT NULL,
-                    itemPrice int NOT NULL,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-                    FOREIGN KEY(itemId) REFERENCES items(itemId) ON DELETE CASCADE ON UPDATE CASCADE);

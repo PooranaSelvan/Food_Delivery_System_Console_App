@@ -10,5 +10,6 @@
     <orderEntry type="library" name="mysql-connector-j-8.0.31 1" level="project" />
     <orderEntry type="library" name="log4j-core-2.17.2" level="project" />
     <orderEntry type="library" name="log4j-api-2.17.2" level="project" />
+    <orderEntry type="library" name="jbcrypt-0.4" level="project" />
   </component>
 </module>

@@ -1455,9 +1455,11 @@ public class App{
 
                               Item newItem = new Item(itemName, itemPrice, itemCategory, itemDescription);
                               menuHotel.addFoodItem(newItem);
-                              db.saveItem(newItem, menuHotelId);
+                              boolean isMenuSaved = db.saveItem(newItem, menuHotelId);
 
-                              System.out.println(greenColor + itemName + " has been Successfully Added to Hotel : "+menuHotel.hotelName + resetColor);
+                              if(isMenuSaved){
+                                  System.out.println(greenColor + itemName + " has been Successfully Added to Hotel : "+menuHotel.hotelName + resetColor);
+                              }
                          }
 
                          logger.info(admin.adminId+"Added New Menu for a Hotel!");
@@ -1508,7 +1510,10 @@ public class App{
 
                                  if(deleteHotelChoice.equalsIgnoreCase("n")){
                                      confirmDelete = false;
-                                 } else {
+                                 } else if(deleteHotelChoice.equalsIgnoreCase("y")){
+                                     confirmDelete = true;
+                                 }
+                                 else {
                                      System.out.println(invalidInputMessage);
                                      continue;
                                  }
@@ -1582,6 +1587,7 @@ public class App{
                                  input.nextLine();
                              }
                          }
+                         input.nextLine();
 
                          Item removeHotelMenu = db.getItemById(removeMenuId);
 
@@ -1599,7 +1605,10 @@ public class App{
 
                                 if(deleteHotelMenuChoice.equalsIgnoreCase("n")){
                                     confirmMenuDelete = false;
-                                } else {
+                                } else if(deleteHotelMenuChoice.equalsIgnoreCase("y")){
+                                    confirmMenuDelete = true;
+                                }
+                                else {
                                     System.out.println(invalidInputMessage);
                                     continue;
                                 }
@@ -1619,7 +1628,7 @@ public class App{
                         }
 
                          removeMenuHotel.removeFoodItem(removeHotelMenu);
-                         db.deleteItem(removeMenuId);
+                         db.deleteItem(removeMenuId, removeMenuHotelId);
 
                          System.out.println(removeHotelMenu.itemName+" has removed Successfully from Hotel "+removeMenuHotel.hotelName);
                          logger.info("{} Removed a Hotel Menu!", admin.adminId);
