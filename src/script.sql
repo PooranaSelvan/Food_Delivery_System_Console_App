@@ -14,7 +14,8 @@ CREATE TABLE users(userId int primary key auto_increment NOT NULL,
                     name varchar(100) NOT NULL, 
                     password varchar(255) NOT NULL, 
                     phone varchar(15) UNIQUE NOT NULL, 
-                    email varchar(50) UNIQUE NOT NULL);
+                    email varchar(50) UNIQUE NOT NULL
+                    location varchar(100) NOT NULL);
 
 
 CREATE TABLE customers(customerId INT PRIMARY KEY NOT NULL,
@@ -24,6 +25,7 @@ CREATE TABLE customers(customerId INT PRIMARY KEY NOT NULL,
 
 CREATE TABLE deliveryAgents(agentId INT PRIMARY KEY NOT NULL,
                     totalEarnings int DEFAULT 0 NOT NULL,
+                    isAvailable boolean NOT NULL,
 
                     FOREIGN KEY(agentId) REFERENCES users(userId) ON DELETE CASCADE ON UPDATE CASCADE);
 

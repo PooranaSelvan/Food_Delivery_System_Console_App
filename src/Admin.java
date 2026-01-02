@@ -13,7 +13,7 @@ final class Admin extends Person {
      String greenColor = "\u001B[92m";
 
      Admin(String name, String password, String phone, String email){
-          super(name, password, phone, email, "None");
+         super(name, password, phone, email, "None");
      }
 
      public void addHotel(DataBase db, Hotel hotel) throws SQLException {

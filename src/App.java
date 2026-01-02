@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class App{
      static Scanner input = new Scanner(System.in);
@@ -16,8 +17,6 @@ public class App{
      String greenColor = "\n\u001B[92m";
      String yellowColor = "\n\u001B[93m";
      String textBold = "\u001B[1m";
-
-     // Error Messages
      String invalidInputMessage = redColor + textBold + "\nInvalid Input!\n" + resetColor;
 
      Logger logger = LogManager.getLogger("FoodDeliveryApp");
@@ -107,7 +106,8 @@ public class App{
                             continue;
                         }
 
-                        if(!p.password.equals(password)){
+
+                        if(!BCrypt.checkpw(password, p.password)){
                             System.out.println(app.redColor + "Invalid Email Or Password!" + app.resetColor);
                             continue;
                         }
@@ -291,7 +291,7 @@ public class App{
                               }
                          }
 
-                         Customer newCustomer = new Customer(cusName, cusPassword, cusPhoneNum, cusEmail, cusLocation, cusAddress);
+                         Customer newCustomer = new Customer(cusName, BCrypt.hashpw(cusPassword, BCrypt.gensalt(12)), cusPhoneNum, cusEmail, cusLocation, cusAddress);
 
                          app.db.saveCustomer(newCustomer);
                          app.logger.info("{} : new Customer Signed Up!", newCustomer.customerId);
@@ -1086,7 +1086,7 @@ public class App{
 
 
 
-                         DeliveryAgent d = new DeliveryAgent(dName, dPass, dPhone, dEmail, dLocation);
+                         DeliveryAgent d = new DeliveryAgent(dName, BCrypt.hashpw(dPass, BCrypt.gensalt(12)), dPhone, dEmail, dLocation);
                          admin.addDeliveryAgent(db, d);
 
                          System.out.print(greenColor + dName + " has Successfully Added as Delivery Agent!" + resetColor);

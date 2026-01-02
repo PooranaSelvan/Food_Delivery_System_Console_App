@@ -139,7 +139,7 @@ final class DeliveryAgent extends Person {
                   double finalEarnings = o.totalAmount - calculateTax(o.totalAmount);
                   System.out.println("║   Hotel:    " + o.hotel.hotelName);
                   System.out.println("║   Status:   " + o.orderStatus);
-                  System.out.println("║   Amount:   $" + finalEarnings);
+                  System.out.println("║   Amount:   ₹" + finalEarnings);
                   System.out.println("║   Date:     " + o.getDate(o.createdAt));
                   isCompleted = true;
               }
